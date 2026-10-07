@@ -1,201 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <title>
-            Social Sciences Recorded Lectures | Digital Classroom
-        </title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-        <link rel="stylesheet" href="learning.css">
-        <link rel="stylesheet" href="recorded-subject.css">
-        <!-- Standard Favicon for Browser Tabs & Chrome Shortcuts -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    
-    <!-- Apple/Safari Specific Icon (For pinned tabs or home screen shortcuts) -->
-    <link rel="apple-touch-icon" href="favicon.ico">
-    </head>
-    <body data-subject="social-sciences">
-        <div class="dashboard-container">
-            <aside class="sidebar">
-                <div class="school-brand">
-                    <img src="images/logo.png" alt="BCC Logo">
-                    <h2>
-                        BRILLIANT
-                        <span>
-                            COACHING CENTRE
-                        </span>
-                    </h2>
-                    <p class="established">
-                        Established in 2009
-                    </p>
-                    <p class="address">
-                        Kairi Birpur, Po- Bishanpur
-                        <br>
-                        Dist- Kishanganj
-                        <br>
-                        <span>
-                            BIHAR
-                        </span>
-                    </p>
-                </div>
-                <p class="menu-title">
-                    Learning Center
-                </p>
-                <nav class="sidebar-menu">
-                    <a href="learning.html" class="active">
-                        <i class="fa-solid fa-chalkboard-user">
-                        </i>
-                        <span>
-                            Lectures
-                        </span>
-                    </a>
-                    <a href="notes.html">
-                        <i class="fa-solid fa-book-open">
-                        </i>
-                        <span>
-                            Notes
-                        </span>
-                    </a>
-                    <a href="homework.html">
-                        <i class="fa-solid fa-file-pen"></i>
-                        </i>
-                        <span>
-                            Homework
-                        </span>
-                    </a>
-                    <a href="quizzes.html">
-                        <i class="fa-solid fa-clipboard-question">
-                        </i>
-                        <span>
-                            Quizzes
-                        </span>
-                    </a>
 
-                    <a href="leaderboard.html"><i class="fa-solid fa-ranking-star"></i><span>Leaderboard</span></a>
-                </nav>
-                <div class="sidebar-bottom">
-                    <a href="dashboard.html" class="back-dashboard">
-                        <i class="fa-solid fa-arrow-left">
-                        </i>
-                        <span>
-                            Back to Dashboard
-                        </span>
-                    </a>
-                </div>
-            </aside>
-            <main class="main-content">
-                <header class="top-header">
-                    <div class="page-heading">
-                        <small>
-                            Digital Classroom
-                        </small>
-                        <h1 id="subjectName">
-                            Social Sciences
-                        </h1>
-                        <p id="subjectDescription">
-                            Latest recorded lectures for this subject.
-                        </p>
-                    </div>
-                    <div class="header-actions">
-                        <button class="notification-btn" id="notificationBtn" aria-label="Notifications">
-                            <i class="fa-solid fa-bell">
-                            </i>
-                        </button>
-                        <div class="profile-mini">
-                            <img src="images/student.jpg" alt="Student">
-                            <span>
-                                Student
-                            </span>
-                        </div>
-                    </div>
-                </header>
-                <a class="subject-back" href="recorded-lectures.html">
-                    <i class="fa-solid fa-arrow-left">
-                    </i>
-                    Back to All Subjects
-                </a>
-                <section>
-                    <div class="subject-hero">
-                        <div>
-                            <span class="section-kicker" style="color:#ffe600">
-                                RECORDED LECTURES
-                            </span>
-                            <h2>
-                                Latest Social Sciences Classes
-                            </h2>
-                            <p>
-                                Lectures are organised chapter-wise. The newest available lectures appear first.
-                            </p>
-                        </div>
-                        <div class="subject-hero-icon">
-                            <i id="subjectIcon" class="fa-solid fa-landmark">
-                            </i>
-                        </div>
-                    </div>
-                    <div class="subject-toolbar">
-                        <div class="section-count">
-                            <i class="fa-solid fa-video">
-                            </i>
-                            <span id="subjectCount">
-                                0 Lectures
-                            </span>
-                        </div>
-                        <input id="subjectSearch" type="search" placeholder="Search chapter or lecture…" aria-label="Search lectures">
-                    </div>
-                    <div id="subjectLectureList">
-                    </div>
-                    <div class="empty-list-state" id="subjectEmpty">
-                        <i class="fa-regular fa-folder-open">
-                        </i>
-                        <span>
-                            No recorded lectures are available for this subject yet.
-                        </span>
-                    </div>
-                </section>
-                <footer class="page-footer">
-                    © 2026 Brilliant Coaching Centre. All Rights Reserved.
-                </footer>
-            </main>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>
+    Social Sciences Recorded Lectures | Digital Classroom
+  </title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="learning.css">
+  <link rel="stylesheet" href="recorded-subject.css">
+  <!-- BCC favicon + app icons -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#fff000">
+</head>
+
+<body data-subject="social-sciences">
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <div class="school-brand">
+        <img src="images/logo.png" alt="BCC Logo">
+        <h2>
+          BRILLIANT
+          <span>
+            COACHING CENTRE
+          </span>
+        </h2>
+        <p class="established">
+          Established in 2009
+        </p>
+        <p class="address">
+          Kairi Birpur, Po- Bishanpur
+          <br>
+          Dist- Kishanganj
+          <br>
+          <span>
+            BIHAR
+          </span>
+        </p>
+      </div>
+      <p class="menu-title">
+        Learning Center
+      </p>
+      <nav class="sidebar-menu">
+        <a href="learning.html" class="active">
+          <i class="fa-solid fa-chalkboard-user">
+          </i>
+          <span>
+            Lectures
+          </span>
+        </a>
+        <a href="notes.html">
+          <i class="fa-solid fa-book-open">
+          </i>
+          <span>
+            Notes
+          </span>
+        </a>
+        <a href="homework.html">
+          <i class="fa-solid fa-file-pen"></i>
+          </i>
+          <span>
+            Homework
+          </span>
+        </a>
+        <a href="quizzes.html">
+          <i class="fa-solid fa-clipboard-question">
+          </i>
+          <span>
+            Quizzes
+          </span>
+        </a>
+
+        <a href="leaderboard.html"><i class="fa-solid fa-ranking-star"></i><span>Leaderboard</span></a>
+      </nav>
+      <div class="sidebar-bottom">
+        <a href="dashboard.html" class="back-dashboard">
+          <i class="fa-solid fa-arrow-left">
+          </i>
+          <span>
+            Back to Dashboard
+          </span>
+        </a>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="top-header">
+        <div class="page-heading">
+          <small>
+            Digital Classroom
+          </small>
+          <h1 id="subjectName">
+            Social Sciences
+          </h1>
+          <p id="subjectDescription">
+            Latest recorded lectures for this subject.
+          </p>
         </div>
-        <div class="notification-message" id="notificationMessage">
+        <div class="header-actions">
+          <button class="notification-btn" id="notificationBtn" aria-label="Notifications">
             <i class="fa-solid fa-bell">
             </i>
+          </button>
+          <div class="profile-mini">
+            <img src="images/student.jpg" alt="Student">
             <span>
+              Student
             </span>
+          </div>
         </div>
-        <div class="subject-video-modal" id="subjectVideoModal" aria-hidden="true">
-            <div class="subject-video-box" role="dialog" aria-modal="true">
-                <div class="subject-video-header">
-                    <h3 id="subjectVideoTitle">
-                        Recorded Lecture
-                    </h3>
-                    <button type="button" class="modal-close-btn" id="closeSubjectVideo" aria-label="Close">
-                        <i class="fa-solid fa-xmark">
-                        </i>
-                    </button>
-                </div>
-                <div class="subject-video-frame" id="subjectVideoFrame">
-                    <div id="subjectYoutubePlayer">
-                    </div>
-                    <button type="button" class="subject-fullscreen" id="subjectFullscreen" title="Fullscreen" aria-label="Fullscreen">
-                        <i class="fa-solid fa-expand">
-                        </i>
-                    </button>
-                    <span class="subject-esc" id="subjectEsc">
-                        ESC to close
-                    </span>
-                </div>
-            </div>
+      </header>
+      <a class="subject-back" href="recorded-lectures.html">
+        <i class="fa-solid fa-arrow-left">
+        </i>
+        Back to All Subjects
+      </a>
+      <section>
+        <div class="subject-hero">
+          <div>
+            <span class="section-kicker" style="color:#ffe600">
+              RECORDED LECTURES
+            </span>
+            <h2>
+              Latest Social Sciences Classes
+            </h2>
+            <p>
+              Lectures are organised chapter-wise. The newest available lectures appear first.
+            </p>
+          </div>
+          <div class="subject-hero-icon">
+            <i id="subjectIcon" class="fa-solid fa-landmark">
+            </i>
+          </div>
         </div>
-        <script src="lecture-data.js">
-        
-        </script>
-        <script src="recorded-subject.js">
-        
-        </script>
-    </body>
+        <div class="subject-toolbar">
+          <div class="section-count">
+            <i class="fa-solid fa-video">
+            </i>
+            <span id="subjectCount">
+              0 Lectures
+            </span>
+          </div>
+          <input id="subjectSearch" type="search" placeholder="Search chapter or lecture…" aria-label="Search lectures">
+        </div>
+        <div id="subjectLectureList">
+        </div>
+        <div class="empty-list-state" id="subjectEmpty">
+          <i class="fa-regular fa-folder-open">
+          </i>
+          <span>
+            No recorded lectures are available for this subject yet.
+          </span>
+        </div>
+      </section>
+      <footer class="page-footer">
+        © 2026 Brilliant Coaching Centre. All Rights Reserved.
+      </footer>
+    </main>
+  </div>
+  <div class="notification-message" id="notificationMessage">
+    <i class="fa-solid fa-bell">
+    </i>
+    <span>
+    </span>
+  </div>
+  <div class="subject-video-modal" id="subjectVideoModal" aria-hidden="true">
+    <div class="subject-video-box" role="dialog" aria-modal="true">
+      <div class="subject-video-header">
+        <h3 id="subjectVideoTitle">
+          Recorded Lecture
+        </h3>
+        <button type="button" class="modal-close-btn" id="closeSubjectVideo" aria-label="Close">
+          <i class="fa-solid fa-xmark">
+          </i>
+        </button>
+      </div>
+      <div class="subject-video-frame" id="subjectVideoFrame">
+        <div id="subjectYoutubePlayer">
+        </div>
+        <button type="button" class="subject-fullscreen" id="subjectFullscreen" title="Fullscreen"
+          aria-label="Fullscreen">
+          <i class="fa-solid fa-expand">
+          </i>
+        </button>
+        <span class="subject-esc" id="subjectEsc">
+          ESC to close
+        </span>
+      </div>
+    </div>
+  </div>
+  <script src="lecture-data.js">
+
+  </script>
+  <script src="recorded-subject.js">
+
+  </script>
+</body>
+
 </html>

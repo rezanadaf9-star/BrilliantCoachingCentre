@@ -1,231 +1,234 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Settings</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+  <title>Settings</title>
 
-    <!-- Font Awesome -->
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
 
-    <link rel="stylesheet" href="settings.css" />
+  <!-- Font Awesome -->
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
-    <!-- Standard Favicon for Browser Tabs & Chrome Shortcuts -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="stylesheet" href="settings.css" />
 
-    <!-- Apple/Safari Specific Icon (For pinned tabs or home screen shortcuts) -->
-    <link rel="apple-touch-icon" href="favicon.ico" />
-  </head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <!-- BCC favicon + app icons -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
 
-  <body>
-    <div class="container">
-      <!-- Sidebar -->
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
-      <aside class="sidebar">
-        <div class="logo">
-          <img src="images/logo.png" />
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#fff000">
+</head>
 
-          <div class="logo-text">
-            <h2>BRILLIANT</h2>
-            <h3>COACHING CENTRE</h3>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
 
-            <p>Established in 2009</p>
-            <p>Kairi Birpur, Dist- Kishanganj</p>
-            <p>BIHAR</p>
-          </div>
+    <aside class="sidebar">
+      <div class="logo">
+        <img src="images/logo.png" />
+
+        <div class="logo-text">
+          <h2>BRILLIANT</h2>
+          <h3>COACHING CENTRE</h3>
+
+          <p>Established in 2009</p>
+          <p>Kairi Birpur, Dist- Kishanganj</p>
+          <p>BIHAR</p>
+        </div>
+      </div>
+
+      <ul>
+        <li onclick="location.href = 'dashboard.html'">
+          <i class="fa-solid fa-house"></i> Dashboard
+        </li>
+
+        <li onclick="location.href = 'profile.html'">
+          <i class="fa-solid fa-user"></i> Profile
+        </li>
+
+        <li onclick="location.href = 'marks.html'">
+          <i class="fa-solid fa-chart-column"></i> Academic Performance
+        </li>
+
+        <li onclick="location.href = 'attendance.html'">
+          <i class="fa-solid fa-calendar-check"></i> Attendance
+        </li>
+
+        <li onclick="location.href = 'fees.html'">
+          <i class="fa-solid fa-indian-rupee-sign"></i>
+          <span>Fees & Payments</span>
+        </li>
+
+        <li onclick="location.href = 'notices.html'">
+          <i class="fa-solid fa-bell"></i> Announcements
+        </li>
+
+        <li onclick="location.href = 'timetable.html'">
+          <i class="fa-solid fa-clock"></i> Class Schedule
+        </li>
+
+        <li onclick="location.href = 'teachers.html'">
+          <i class="fa-solid fa-chalkboard-user"></i>
+          Faculty & Mentors
+        </li>
+
+        <li onclick="location.href = 'answer-sheet.html'">
+          <i class="fa-solid fa-file-pen"></i>
+          Answer Sheets
+        </li>
+
+        <li onclick="location.href = 'alumni.html'">
+          <i class="fa-solid fa-user-graduate"></i>
+          Alumni Network
+        </li>
+
+        <li onclick="location.href = 'results.html'">
+          <i class="fa-solid fa-poll"></i>
+          <span>Board Results</span>
+        </li>
+
+        <li class="active">
+          <i class="fa-solid fa-gear"></i>
+          Settings
+        </li>
+
+        <li class="logout-btn"
+          onclick="localStorage.removeItem('bccStudentSession'); window.location.replace('index.html');">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Logout
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main -->
+
+    <main class="main">
+      <header>
+        <div>
+          <h1>Settings</h1>
+
+          <p>Manage your account and preferences</p>
         </div>
 
-        <ul>
-          <li onclick="location.href = 'dashboard.html'">
-            <i class="fa-solid fa-house"></i> Dashboard
-          </li>
+        <div class="profile-box" onclick="location.href = 'profile.html'">
+          <img src="images/student.jpg" />
 
-          <li onclick="location.href = 'profile.html'">
-            <i class="fa-solid fa-user"></i> Profile
-          </li>
-
-          <li onclick="location.href = 'marks.html'">
-            <i class="fa-solid fa-chart-column"></i> Academic Performance
-          </li>
-
-          <li onclick="location.href = 'attendance.html'">
-            <i class="fa-solid fa-calendar-check"></i> Attendance
-          </li>
-
-          <li onclick="location.href = 'fees.html'">
-            <i class="fa-solid fa-indian-rupee-sign"></i>
-            <span>Fees & Payments</span>
-          </li>
-
-          <li onclick="location.href = 'notices.html'">
-            <i class="fa-solid fa-bell"></i> Announcements
-          </li>
-
-          <li onclick="location.href = 'timetable.html'">
-            <i class="fa-solid fa-clock"></i> Class Schedule
-          </li>
-
-          <li onclick="location.href = 'teachers.html'">
-            <i class="fa-solid fa-chalkboard-user"></i>
-            Faculty & Mentors
-          </li>
-
-          <li onclick="location.href = 'answer-sheet.html'">
-            <i class="fa-solid fa-file-pen"></i>
-            Answer Sheets
-          </li>
-
-          <li onclick="location.href = 'alumni.html'">
-            <i class="fa-solid fa-user-graduate"></i>
-            Alumni Network
-          </li>
-
-          <li onclick="location.href = 'results.html'">
-            <i class="fa-solid fa-poll"></i>
-            <span>Board Results</span>
-          </li>
-
-          <li class="active">
-            <i class="fa-solid fa-gear"></i>
-            Settings
-          </li>
-
-          <li class="logout-btn" onclick="window.location.href = 'index.html'">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            Logout
-          </li>
-        </ul>
-      </aside>
-
-      <!-- Main -->
-
-      <main class="main">
-        <header>
           <div>
-            <h1>Settings</h1>
+            <h3>Meezan Alam</h3>
 
-            <p>Manage your account and preferences</p>
+            <span>Class X • Roll No. 01</span>
           </div>
-
-          <div class="profile-box" onclick="location.href = 'profile.html'">
-            <img src="images/student.jpg" />
-
-            <div>
-              <h3>Meezan Alam</h3>
-
-              <span>Class X • Roll No. 01</span>
-            </div>
-          </div>
-        </header>
-
-        <!-- Personal Information -->
-
-        <section class="setting-card">
-          <h2><i class="fa-solid fa-user"></i> Personal Information</h2>
-
-          <div class="form-group">
-            <label>Student Name</label>
-
-            <input type="text" value="Meezan Alam" />
-          </div>
-
-          <div class="form-group">
-            <label>Phone Number</label>
-
-            <input type="text" value="XXXXXX8374" />
-          </div>
-
-          <div class="form-group">
-            <label>Email</label>
-
-            <input type="email" value="mixan@gmail.com" />
-          </div>
-        </section>
-
-        <!-- Password -->
-
-        <section class="setting-card">
-          <h2><i class="fa-solid fa-lock"></i> Change Password</h2>
-
-          <div class="form-group">
-            <label>Current Password</label>
-
-            <input type="password" />
-          </div>
-
-          <div class="form-group">
-            <label>New Password</label>
-
-            <input type="password" />
-          </div>
-
-          <div class="form-group">
-            <label>Confirm Password</label>
-
-            <input type="password" />
-          </div>
-        </section>
-
-        <!-- Preferences -->
-
-        <section class="setting-card">
-          <h2><i class="fa-solid fa-sliders"></i> Preferences</h2>
-
-          <div class="toggle">
-            <span>Email Notifications</span>
-
-            <input type="checkbox" checked />
-          </div>
-
-          <div class="toggle">
-            <span>SMS Notifications</span>
-
-            <input type="checkbox" checked />
-          </div>
-
-          <div class="toggle">
-            <span>Dark Mode</span>
-
-            <input type="checkbox" />
-          </div>
-        </section>
-
-        <!-- Buttons -->
-
-        <div class="button-section">
-          <button class="save-btn">
-            <i class="fa-solid fa-floppy-disk"></i>
-
-            Save Changes
-          </button>
-
-          <button class="reset-btn">
-            <i class="fa-solid fa-rotate-left"></i>
-
-            Reset
-          </button>
-
-          <button class="back-btn" onclick="location.href = 'index.html'">
-            <i class="fa-solid fa-arrow-left"></i>
-
-            Dashboard
-          </button>
         </div>
-      </main>
-    </div>
+      </header>
 
-    <script src="settings.js"></script>
-    <script src="common.js"></script>
-  </body>
+      <!-- Personal Information -->
+
+      <section class="setting-card">
+        <h2><i class="fa-solid fa-user"></i> Personal Information</h2>
+
+        <div class="form-group">
+          <label>Student Name</label>
+
+          <input type="text" value="Meezan Alam" />
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number</label>
+
+          <input type="text" value="XXXXXX8374" />
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+
+          <input type="email" value="mixan@gmail.com" />
+        </div>
+      </section>
+
+      <!-- Password -->
+
+      <section class="setting-card">
+        <h2><i class="fa-solid fa-lock"></i> Change Password</h2>
+
+        <div class="form-group">
+          <label>Current Password</label>
+
+          <input type="password" />
+        </div>
+
+        <div class="form-group">
+          <label>New Password</label>
+
+          <input type="password" />
+        </div>
+
+        <div class="form-group">
+          <label>Confirm Password</label>
+
+          <input type="password" />
+        </div>
+      </section>
+
+      <!-- Preferences -->
+
+      <section class="setting-card">
+        <h2><i class="fa-solid fa-sliders"></i> Preferences</h2>
+
+        <div class="toggle">
+          <span>Email Notifications</span>
+
+          <input type="checkbox" checked />
+        </div>
+
+        <div class="toggle">
+          <span>SMS Notifications</span>
+
+          <input type="checkbox" checked />
+        </div>
+
+        <div class="toggle">
+          <span>Dark Mode</span>
+
+          <input type="checkbox" />
+        </div>
+      </section>
+
+      <!-- Buttons -->
+
+      <div class="button-section">
+        <button class="save-btn">
+          <i class="fa-solid fa-floppy-disk"></i>
+
+          Save Changes
+        </button>
+
+        <button class="reset-btn">
+          <i class="fa-solid fa-rotate-left"></i>
+
+          Reset
+        </button>
+
+        <button class="back-btn" onclick="location.href = 'index.html'">
+          <i class="fa-solid fa-arrow-left"></i>
+
+          Dashboard
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <script src="settings.js"></script>
+  <script src="common.js"></script>
+</body>
+
 </html>

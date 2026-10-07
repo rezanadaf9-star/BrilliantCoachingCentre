@@ -2424,10 +2424,10 @@ if (
   if (
     message.includes("शहरों के विकास की पृष्ठभूमि एवं प्रक्रिया पर प्रकाश डालें।") ||
     message.includes("शहरों के विकास की पृष्ठभूमि एवं प्रक्रिया पर प्रकाश डालें") ||
-    message.includes("shaharon ke vikas ki prishthbhoomi evam prakriya par prakash dalein.") ||
+    message.includes("shaharon ke vikas ki prishthbhoomi evam prakriya par prakash dalein") ||
     message.includes("saharon ke vikas ki pristhbumi evam prakriya par prakas dalein") ||
-    message.includes("shaharon ke vikas ki prishthbhoomi evam prakriya par prakash dalein.") ||
-    message.includes("shaharon ke vikas ki prishthboomi evam prakriya par prakash daalein.")
+    message.includes("shaharon ke vikas ki prishthbhoomi evam prakriya par prakash dalein") ||
+    message.includes("shaharon ke vikas ki prishthboomi evam prakriya par prakash daalein")
   ) {
     return `
   <h3>प्राचीन तथा मध्यकालीन नगर</h3><p>कृषि उत्पाद और सामान बेचने के लिए हाट और गंज विकसित हुए। इनके आसपास कस्बे और आगे शहर, नगर तथा महानगर बने।</p><h3>आधुनिक नगर</h3><p>औद्योगिक क्रांति के बाद कारखाने स्थापित हुए और रोजगार के लिए ग्रामीण आबादी शहरों की ओर आने लगी।</p><h3>मुख्य तत्व</h3><ol><li>औद्योगिक पूँजीवाद</li><li>उपनिवेशवाद</li><li>लोकतांत्रिक आदर्शों का विकास</li></ol>
@@ -2440,9 +2440,9 @@ if (
   if (
     message.includes("औद्योगीकरण के परिणाम क्या थे?") ||
     message.includes("औद्योगीकरण के परिणाम क्या थे") ||
-    message.includes("audyogikaran ke parinaam kya the?") ||
+    message.includes("audyogikaran ke parinaam kya the") ||
     message.includes("audyogikaran ke parinam kya te") ||
-    message.includes("audyogikaran ke parinam kya the?")
+    message.includes("audyogikaran ke parinam kya the")
   ) {
     return `
   <ol><li>कारखानेदारी प्रथा का विकास।</li><li>पूँजीपति वर्ग का विकास।</li><li>श्रमिक वर्ग का उदय।</li><li>श्रमिक आंदोलनों का विकास।</li><li>स्लम पद्धति की शुरुआत।</li></ol>

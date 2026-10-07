@@ -1,125 +1,104 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Material | Super 15</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="ptm.css" />
-    <link rel="stylesheet" href="super-nav.css" />
-    <link rel="stylesheet" href="super-content.css" />
 
-    <!-- Standard Favicon for Browser Tabs & Chrome Shortcuts -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Material | Super 15</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <link rel="stylesheet" href="ptm.css" />
+  <link rel="stylesheet" href="super-nav.css" />
+  <link rel="stylesheet" href="super-content.css" />
 
-    <!-- Apple/Safari Specific Icon (For pinned tabs or home screen shortcuts) -->
-    <link rel="apple-touch-icon" href="favicon.ico" />
-  </head>
-  <body>
-    <div class="dashboard-container">
-      <aside class="sidebar">
-        <div class="school-brand">
-          <img src="images/logo.png" alt="Welcome Public School Logo" />
-          <h2><span>BRILLIANT</span><span>COACHING CENTRE</span></h2>
-          <div class="established">Established in 2009</div>
-          <div class="address">
-            Kairi Birpur, Po- Bishanpur<br />Dist- Kishanganj<br /><span
-              >BIHAR</span
-            >
+  <!-- BCC favicon + app icons -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#fff000">
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <div class="school-brand">
+        <img src="images/logo.png" alt="Welcome Public School Logo" />
+        <h2><span>BRILLIANT</span><span>COACHING CENTRE</span></h2>
+        <div class="established">Established in 2009</div>
+        <div class="address">
+          Kairi Birpur, Po- Bishanpur<br />Dist- Kishanganj<br /><span>BIHAR</span>
+        </div>
+      </div>
+      <div class="menu-title">Learning Center</div>
+      <nav class="sidebar-menu">
+        <a href="ptm.html"><i class="fa-solid fa-users"></i><span>PTM</span></a>
+        <a href="ai-tutor.html"><i class="fa-solid fa-robot"></i><span>AI Tutor</span></a>
+        <a href="motivational.html"><i class="fa-solid fa-fire"></i><span>Motivational Sessions</span></a>
+        <a href="super.html" class="active super-parent" id="super15MenuToggle"><i
+            class="fa-solid fa-star"></i><span>Super 15</span></a>
+        <div class="super-submenu" id="super15Submenu">
+          <a href="super.html"><i class="fa-solid fa-video"></i><span>Meeting</span></a>
+          <a href="group-discussion.html"><i class="fa-solid fa-comments"></i><span>Group Discussion</span></a>
+          <a href="material.html" class="submenu-active"><i
+              class="fa-solid fa-folder-open"></i><span>Material</span></a>
+        </div>
+        <a href="learning.html"><i class="fa-solid fa-chalkboard-user"></i><span>Digital Classroom</span></a>
+      </nav>
+      <div class="sidebar-bottom">
+        <a href="dashboard.html" class="back-dashboard"><i class="fa-solid fa-arrow-left"></i><span>Back to
+            Dashboard</span></a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-header">
+        <div class="page-heading">
+          <small>Super 15</small>
+          <h1>Material</h1>
+          <p>
+            Practice material, PDFs, images and lecture links shared for Super
+            15.
+          </p>
+        </div>
+        <div class="header-actions">
+          <button class="notification-btn" type="button">
+            <i class="fa-regular fa-bell"></i>
+          </button>
+          <div class="profile-mini">
+            <img src="images/student.jpg" alt="Student" /><span>Student</span>
           </div>
         </div>
-        <div class="menu-title">Learning Center</div>
-        <nav class="sidebar-menu">
-          <a href="ptm.html"
-            ><i class="fa-solid fa-users"></i><span>PTM</span></a
-          >
-          <a href="ai-tutor.html"
-            ><i class="fa-solid fa-robot"></i><span>AI Tutor</span></a
-          >
-          <a href="motivational.html"
-            ><i class="fa-solid fa-fire"></i
-            ><span>Motivational Sessions</span></a
-          >
-          <a
-            href="super.html"
-            class="active super-parent"
-            id="super15MenuToggle"
-            ><i class="fa-solid fa-star"></i><span>Super 15</span></a
-          >
-          <div class="super-submenu" id="super15Submenu">
-            <a href="super.html"
-              ><i class="fa-solid fa-video"></i><span>Meeting</span></a
-            >
-            <a href="group-discussion.html"
-              ><i class="fa-solid fa-comments"></i
-              ><span>Group Discussion</span></a
-            >
-            <a href="material.html" class="submenu-active"
-              ><i class="fa-solid fa-folder-open"></i><span>Material</span></a
-            >
+      </header>
+
+      <section class="content-panel">
+        <div class="content-panel-heading">
+          <div class="content-icon">
+            <i class="fa-solid fa-folder-open"></i>
           </div>
-          <a href="learning.html"
-            ><i class="fa-solid fa-chalkboard-user"></i
-            ><span>Digital Classroom</span></a
-          >
-        </nav>
-        <div class="sidebar-bottom">
-          <a href="dashboard.html" class="back-dashboard"
-            ><i class="fa-solid fa-arrow-left"></i
-            ><span>Back to Dashboard</span></a
-          >
+          <div>
+            <h2>Super 15 Material</h2>
+            <p>Materials added by the admin or teacher will appear here.</p>
+          </div>
         </div>
-      </aside>
+        <div class="material-grid" id="materialGrid"></div>
+      </section>
+      <footer class="page-footer">
+        © 2009 Brilliant Coaching Center. All Rights Reserved.
+      </footer>
+    </main>
+  </div>
+  <script src="login.js"></script>
+  <script src="super-nav.js"></script>
+  <script src="super15-material-data.js"></script>
+  <script src="material.js"></script>
+</body>
 
-      <main class="main-content">
-        <header class="top-header">
-          <div class="page-heading">
-            <small>Super 15</small>
-            <h1>Material</h1>
-            <p>
-              Practice material, PDFs, images and lecture links shared for Super
-              15.
-            </p>
-          </div>
-          <div class="header-actions">
-            <button class="notification-btn" type="button">
-              <i class="fa-regular fa-bell"></i>
-            </button>
-            <div class="profile-mini">
-              <img src="images/student.jpg" alt="Student" /><span>Student</span>
-            </div>
-          </div>
-        </header>
-
-        <section class="content-panel">
-          <div class="content-panel-heading">
-            <div class="content-icon">
-              <i class="fa-solid fa-folder-open"></i>
-            </div>
-            <div>
-              <h2>Super 15 Material</h2>
-              <p>Materials added by the admin or teacher will appear here.</p>
-            </div>
-          </div>
-          <div class="material-grid" id="materialGrid"></div>
-        </section>
-        <footer class="page-footer">
-          © 2009 Brilliant Coaching Center. All Rights Reserved.
-        </footer>
-      </main>
-    </div>
-    <script src="login.js"></script>
-    <script src="super-nav.js"></script>
-    <script src="super15-material-data.js"></script>
-    <script src="material.js"></script>
-  </body>
 </html>

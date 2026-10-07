@@ -1,192 +1,148 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Super 15 | BCC</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    />
-    <script src="https://meet.jit.si/external_api.js"></script>
-    <link rel="stylesheet" href="ptm.css" />
-    <link rel="stylesheet" href="super-nav.css" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Super 15 | BCC</title>
 
-    <!-- Standard Favicon for Browser Tabs & Chrome Shortcuts -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <script src="https://meet.jit.si/external_api.js"></script>
+  <link rel="stylesheet" href="ptm.css" />
+  <link rel="stylesheet" href="super-nav.css" />
 
-    <!-- Apple/Safari Specific Icon (For pinned tabs or home screen shortcuts) -->
-    <link rel="apple-touch-icon" href="favicon.ico" />
-  </head>
+  <!-- BCC favicon + app icons -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
 
-  <body>
-    <div class="dashboard-container">
-      <aside class="sidebar">
-        <div class="school-brand">
-          <img src="images/logo.png" alt="Welcome Public School Logo" />
-          <h2><span>BRILLIANT</span><span>COACHING CENTRE</span></h2>
-          <div class="established">Established in 2009</div>
-          <div class="address">
-            Kairi Birpur, Po- Bishanpur<br />Dist- Kishanganj<br /><span
-              >BIHAR</span
-            >
-          </div>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#fff000">
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <div class="school-brand">
+        <img src="images/logo.png" alt="Welcome Public School Logo" />
+        <h2><span>BRILLIANT</span><span>COACHING CENTRE</span></h2>
+        <div class="established">Established in 2009</div>
+        <div class="address">
+          Kairi Birpur, Po- Bishanpur<br />Dist- Kishanganj<br /><span>BIHAR</span>
+        </div>
+      </div>
+
+      <div class="menu-title">Learning Center</div>
+      <nav class="sidebar-menu">
+        <a href="ptm.html"><i class="fa-solid fa-users"></i><span>PTM</span></a>
+        <a href="ai-tutor.html"><i class="fa-solid fa-robot"></i><span>AI Tutor</span></a>
+        <a href="motivational.html"><i class="fa-solid fa-fire"></i><span>Motivational Sessions</span></a>
+
+        <a href="super.html" class="active super-parent" id="super15MenuToggle">
+          <i class="fa-solid fa-star"></i><span>Super 15</span>
+        </a>
+
+        <div class="super-submenu" id="super15Submenu">
+          <a href="super.html" class="submenu-active"><i class="fa-solid fa-video"></i><span>Meeting</span></a>
+          <a href="group-discussion.html"><i class="fa-solid fa-comments"></i><span>Group Discussion</span></a>
+          <a href="material.html"><i class="fa-solid fa-folder-open"></i><span>Material</span></a>
         </div>
 
-        <div class="menu-title">Learning Center</div>
-        <nav class="sidebar-menu">
-          <a href="ptm.html"
-            ><i class="fa-solid fa-users"></i><span>PTM</span></a
-          >
-          <a href="ai-tutor.html"
-            ><i class="fa-solid fa-robot"></i><span>AI Tutor</span></a
-          >
-          <a href="motivational.html"
-            ><i class="fa-solid fa-fire"></i
-            ><span>Motivational Sessions</span></a
-          >
+        <a href="learning.html"><i class="fa-solid fa-chalkboard-user"></i><span>Digital Classroom</span></a>
+      </nav>
 
-          <a
-            href="super.html"
-            class="active super-parent"
-            id="super15MenuToggle"
-          >
-            <i class="fa-solid fa-star"></i><span>Super 15</span>
-          </a>
+      <div class="sidebar-bottom">
+        <a href="dashboard.html" class="back-dashboard"><i class="fa-solid fa-arrow-left"></i><span>Back to
+            Dashboard</span></a>
+      </div>
+    </aside>
 
-          <div class="super-submenu" id="super15Submenu">
-            <a href="super.html" class="submenu-active"
-              ><i class="fa-solid fa-video"></i><span>Meeting</span></a
-            >
-            <a href="group-discussion.html"
-              ><i class="fa-solid fa-comments"></i
-              ><span>Group Discussion</span></a
-            >
-            <a href="material.html"
-              ><i class="fa-solid fa-folder-open"></i><span>Material</span></a
-            >
-          </div>
-
-          <a href="learning.html"
-            ><i class="fa-solid fa-chalkboard-user"></i
-            ><span>Digital Classroom</span></a
-          >
-        </nav>
-
-        <div class="sidebar-bottom">
-          <a href="dashboard.html" class="back-dashboard"
-            ><i class="fa-solid fa-arrow-left"></i
-            ><span>Back to Dashboard</span></a
-          >
+    <main class="main-content">
+      <header class="top-header">
+        <div class="page-heading">
+          <small>Special Student Programme</small>
+          <h1>Super 15</h1>
+          <p>Teacher-led live motivation and guidance sessions.</p>
         </div>
-      </aside>
-
-      <main class="main-content">
-        <header class="top-header">
-          <div class="page-heading">
-            <small>Special Student Programme</small>
-            <h1>Super 15</h1>
-            <p>Teacher-led live motivation and guidance sessions.</p>
+        <div class="header-actions">
+          <button class="notification-btn" type="button" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+          </button>
+          <div class="profile-mini">
+            <img src="images/student.jpg" alt="Student" /><span id="studentNameMini">Student</span>
           </div>
-          <div class="header-actions">
-            <button
-              class="notification-btn"
-              type="button"
-              aria-label="Notifications"
-            >
-              <i class="fa-regular fa-bell"></i>
-            </button>
-            <div class="profile-mini">
-              <img src="images/student.jpg" alt="Student" /><span
-                id="studentNameMini"
-                >Student</span
-              >
-            </div>
-          </div>
-        </header>
+        </div>
+      </header>
 
-        <section class="ptm-section" id="super15Meeting">
-          <div class="section-heading">
-            <div>
-              <span class="section-kicker">SUPER 15 • MEETING</span>
-              <h2>Teacher Motivation Session</h2>
-              <p>Join your teacher's live session directly from this page.</p>
-            </div>
-            <span class="live-badge" id="super15Badge"><span></span>LIVE</span>
+      <section class="ptm-section" id="super15Meeting">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">SUPER 15 • MEETING</span>
+            <h2>Teacher Motivation Session</h2>
+            <p>Join your teacher's live session directly from this page.</p>
           </div>
+          <span class="live-badge" id="super15Badge"><span></span>LIVE</span>
+        </div>
 
-          <div class="jitsi-wrapper" id="super15MeetingWindow">
-            <div class="jitsi-header">
-              <div class="meeting-title">
-                <span class="meeting-live-dot"></span>
-                <div>
-                  <strong id="super15MeetingTitle"
-                    >Super 15 Teacher Session</strong
-                  >
-                  <small id="super15Teacher"
-                    >Teacher-led motivation and guidance</small
-                  >
-                </div>
-              </div>
-              <div class="meeting-header-actions">
-                <div class="meeting-status" id="super15MeetingStatus">
-                  Not joined
-                </div>
-                <button
-                  type="button"
-                  class="meeting-icon-btn"
-                  id="super15FullscreenBtn"
-                  aria-label="Full screen"
-                  title="Full screen"
-                >
-                  <i class="fa-solid fa-expand"></i>
-                </button>
-                <button
-                  type="button"
-                  class="meeting-icon-btn"
-                  id="super15CloseBtn"
-                  aria-label="Close meeting"
-                  title="Close meeting"
-                >
-                  <i class="fa-solid fa-xmark"></i>
-                </button>
+        <div class="jitsi-wrapper" id="super15MeetingWindow">
+          <div class="jitsi-header">
+            <div class="meeting-title">
+              <span class="meeting-live-dot"></span>
+              <div>
+                <strong id="super15MeetingTitle">Super 15 Teacher Session</strong>
+                <small id="super15Teacher">Teacher-led motivation and guidance</small>
               </div>
             </div>
-
-            <div id="super15JitsiContainer"></div>
-
-            <div class="jitsi-placeholder" id="super15Placeholder">
-              <div class="placeholder-icon">
-                <i class="fa-solid fa-chalkboard-user"></i>
+            <div class="meeting-header-actions">
+              <div class="meeting-status" id="super15MeetingStatus">
+                Not joined
               </div>
-              <h3>Ready to join your teacher?</h3>
-              <p>
-                Join the live teacher-led motivation session when it is active.
-              </p>
-              <button class="join-ptm-btn" id="joinSuper15Btn" type="button">
-                <i class="fa-solid fa-video"></i>Join Session
+              <button type="button" class="meeting-icon-btn" id="super15FullscreenBtn" aria-label="Full screen"
+                title="Full screen">
+                <i class="fa-solid fa-expand"></i>
+              </button>
+              <button type="button" class="meeting-icon-btn" id="super15CloseBtn" aria-label="Close meeting"
+                title="Close meeting">
+                <i class="fa-solid fa-xmark"></i>
               </button>
             </div>
           </div>
-        </section>
 
-        <footer class="page-footer">
-          © 2009 Brilliant Coaching Center. All Rights Reserved.
-        </footer>
-      </main>
-    </div>
+          <div id="super15JitsiContainer"></div>
 
-    <script src="login.js"></script>
-    <script src="super15-data.js"></script>
-    <script src="meeting-common.js"></script>
-    <script src="super.js"></script>
-    <script src="super-nav.js"></script>
-  </body>
+          <div class="jitsi-placeholder" id="super15Placeholder">
+            <div class="placeholder-icon">
+              <i class="fa-solid fa-chalkboard-user"></i>
+            </div>
+            <h3>Ready to join your teacher?</h3>
+            <p>
+              Join the live teacher-led motivation session when it is active.
+            </p>
+            <button class="join-ptm-btn" id="joinSuper15Btn" type="button">
+              <i class="fa-solid fa-video"></i>Join Session
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        © 2009 Brilliant Coaching Center. All Rights Reserved.
+      </footer>
+    </main>
+  </div>
+
+  <script src="login.js"></script>
+  <script src="super15-data.js"></script>
+  <script src="meeting-common.js"></script>
+  <script src="super.js"></script>
+  <script src="super-nav.js"></script>
+</body>
+
 </html>

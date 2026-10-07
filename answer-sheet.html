@@ -17,13 +17,16 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  <!-- Standard Favicon for Browser Tabs & Chrome Shortcuts -->
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- BCC favicon + app icons -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
 
-  <!-- Apple/Safari Specific Icon (For pinned tabs or home screen shortcuts) -->
-  <link rel="apple-touch-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
-
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#fff000">
   <style>
     /* =========================================================
    WELCOME PUBLIC SCHOOL - ANSWER SHEETS
@@ -1443,64 +1446,64 @@
    Applies only above 800px
    ========================================================= */
 
-@media (min-width: 801px) {
+    @media (min-width: 801px) {
 
-  header {
-    position: fixed !important;
-    top: 0;
-    left: 300px;
-    right: 0;
+      header {
+        position: fixed !important;
+        top: 0;
+        left: 300px;
+        right: 0;
 
-    width: auto;
-    height: 80px;
+        width: auto;
+        height: 80px;
 
-    margin: 0 !important;
-    padding-left: 30px;
-    padding-right: 30px;
+        margin: 0 !important;
+        padding-left: 30px;
+        padding-right: 30px;
 
-    background: #fff9a6;
+        background: #fff9a6;
 
-    z-index: 1500;
+        z-index: 1500;
 
-    box-sizing: border-box;
-  }
+        box-sizing: border-box;
+      }
 
-  /* Sidebar stays above the header */
-  ul {
-    z-index: 2000 !important;
-  }
+      /* Sidebar stays above the header */
+      ul {
+        z-index: 2000 !important;
+      }
 
-  /* Keep page content below the fixed header */
-  .main {
-    position: relative;
-    z-index: 1;
-    padding-top: 110px;
-  }
-}
+      /* Keep page content below the fixed header */
+      .main {
+        position: relative;
+        z-index: 1;
+        padding-top: 110px;
+      }
+    }
 
 
-/* =========================================================
+    /* =========================================================
    801px - 1050px
    Sidebar becomes an off-canvas menu
    Header spans the full screen
    ========================================================= */
 
-@media (min-width: 801px) and (max-width: 1050px) {
+    @media (min-width: 801px) and (max-width: 1050px) {
 
-  header {
-    left: 0;
-    right: 0;
-    width: 100%;
-  }
+      header {
+        left: 0;
+        right: 0;
+        width: 100%;
+      }
 
-  .main {
-    padding-top: 110px;
-  }
+      .main {
+        padding-top: 110px;
+      }
 
-  ul {
-    z-index: 2000 !important;
-  }
-}
+      ul {
+        z-index: 2000 !important;
+      }
+    }
   </style>
 
 </head>
@@ -1624,7 +1627,8 @@
         </li>
 
 
-        <li class="logout-btn" onclick="logoutUser()">
+        <li class="logout-btn"
+          onclick="localStorage.removeItem('bccStudentSession'); window.location.replace('index.html');">
 
           <i class="fa-solid fa-right-from-bracket"></i>
 

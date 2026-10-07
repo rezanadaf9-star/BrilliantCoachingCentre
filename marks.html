@@ -113,7 +113,8 @@
           <span>Settings</span>
         </li>
 
-        <li class="logout-btn" onclick="window.location.href='index.html'">
+        <li class="logout-btn"
+          onclick="localStorage.removeItem('bccStudentSession'); window.location.replace('index.html');">
           <i class="fa-solid fa-right-from-bracket"></i>
           Logout
         </li>

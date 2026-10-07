@@ -1,239 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <title>
-            Subject Notes | BCC
-        </title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-        <link rel="stylesheet" href="learning.css">
-        <link rel="stylesheet" href="notes.css">
 
-        <!-- Standard Favicon for Browser Tabs & Chrome Shortcuts -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    
-    <!-- Apple/Safari Specific Icon (For pinned tabs or home screen shortcuts) -->
-    <link rel="apple-touch-icon" href="favicon.ico">
-        <style>
-        .subject-library {
-        display:grid;
-        gap:14px
-        }
-        .subject-note-list {
-        display:flex;
-        align-items:center;
-        gap:14px;
-        padding:15px 17px;
-        border:1px solid var(--border);
-        border-radius:15px;
-        background:#fff;
-        box-shadow:0 4px 14px #0000000b
-        }
-        .subject-note-list:hover {
-        box-shadow:0 8px 20px #1b14641a
-        }
-        .subject-note-list .pdf-icon {
-        width:42px;
-        height:42px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        border-radius:11px;
-        background:var(--primary);
-        color:var(--secondary)
-        }
-        .subject-note-list .info {
-        flex:1
-        }
-        .subject-note-list h3 {
-        font-size:13px;
-        color:var(--primary)
-        }
-        .subject-note-list p {
-        margin-top:3px;
-        font-size:9px;
-        color:var(--grey)
-        }
-        .subject-note-list .actions {
-        display:flex;
-        gap:7px
-        }
-        .subject-note-list button {
-        border:0
-        }
-        .back-link {
-        display:inline-flex;
-        align-items:center;
-        gap:7px;
-        margin-bottom:18px;
-        color:var(--primary);
-        font-size:11px;
-        font-weight:700
-        }
-        @media(max-width:650px) {
-        .subject-note-list {
-        align-items:flex-start;
-        flex-wrap:wrap
-        }
-        .subject-note-list .actions {
-        width:100%
-        }
-        .subject-note-list .actions button {
-        flex:1
-        }
-        }
-        </style>
-    </head>
-    <body>
-        <div class="dashboard-container">
-            <aside class="sidebar">
-                <div class="school-brand">
-                    <img src="images/logo.png" alt="BCC Logo">
-                    <h2>
-                        BRILLIANT
-                        <span>
-                            COACHING CENTRE
-                        </span>
-                    </h2>
-                    <p class="established">
-                        Established in 2009
-                    </p>
-                    <p class="address">
-                        Kairi Birpur, Po- Bishanpur
-                        <br>
-                        Dist- Kishanganj
-                        <br>
-                        <span>
-                            BIHAR
-                        </span>
-                    </p>
-                </div>
-                <p class="menu-title">
-                    Learning Center
-                </p>
-                <nav class="sidebar-menu">
-                    <a href="learning.html">
-                        <i class="fa-solid fa-chalkboard-user">
-                        </i>
-                        <span>
-                            Lectures
-                        </span>
-                    </a>
-                    <a href="notes.html" class="active">
-                        <i class="fa-solid fa-book-open">
-                        </i>
-                        <span>
-                            Notes
-                        </span>
-                    </a>
-                    <a href="homework.html">
-                        <i class="fa-solid fa-file-pen"></i>
-                        </i>
-                        <span>
-                            Homework
-                        </span>
-                    </a>
-                    <a href="quizzes.html">
-                        <i class="fa-solid fa-clipboard-question">
-                        </i>
-                        <span>
-                            Quizzes
-                        </span>
-                    </a>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>
+    Subject Notes | BCC
+  </title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="learning.css">
+  <link rel="stylesheet" href="notes.css">
 
-                    <a href="leaderboard.html"><i class="fa-solid fa-ranking-star"></i><span>Leaderboard</span></a>
-                </nav>
-                <div class="sidebar-bottom">
-                    <a href="dashboard.html" class="back-dashboard">
-                        <i class="fa-solid fa-arrow-left">
-                        </i>
-                        <span>
-                            Back to Dashboard
-                        </span>
-                    </a>
-                </div>
-            </aside>
-            <main class="main-content">
-                <header class="top-header">
-                    <div class="page-heading">
-                        <small>
-                            Subject Library
-                        </small>
-                        <h1 id="subjectTitle">
-                            Subject Notes
-                        </h1>
-                        <p id="subjectDescription">
-                            Lecture notes organised by chapter and latest date.
-                        </p>
-                    </div>
-                    <div class="header-actions">
-                        <div class="profile-mini">
-                            <img src="images/student.jpg" alt="Student">
-                            <span>
-                                Student
-                            </span>
-                        </div>
-                    </div>
-                </header>
-                <a class="back-link" href="notes.html">
-                    <i class="fa-solid fa-arrow-left">
-                    </i>
-                    Back to Notes
-                </a>
-                <section>
-                    <div class="section-heading">
-                        <div>
-                            <span class="section-kicker">
-                                Lecture Notes
-                            </span>
-                            <h2>
-                                All Notes
-                            </h2>
-                            <p>
-                                Latest notes appear first.
-                            </p>
-                        </div>
-                        <div class="section-count" id="subjectCount">
-                            0 Notes
-                        </div>
-                    </div>
-                    <div class="subject-library" id="subjectLibrary">
-                    </div>
-                    <div class="empty-list-state" id="subjectEmpty">
-                        <i class="fa-regular fa-folder-open">
-                        </i>
-                        <span>
-                            No notes are available for this subject.
-                        </span>
-                    </div>
-                </section>
-                <footer class="page-footer">
-                    © 2026 Brilliant Coaching Centre. All Rights Reserved.
-                </footer>
-            </main>
+  <!-- BCC favicon + app icons -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#fff000">
+  <style>
+    .subject-library {
+      display: grid;
+      gap: 14px
+    }
+
+    .subject-note-list {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 17px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: #fff;
+      box-shadow: 0 4px 14px #0000000b
+    }
+
+    .subject-note-list:hover {
+      box-shadow: 0 8px 20px #1b14641a
+    }
+
+    .subject-note-list .pdf-icon {
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 11px;
+      background: var(--primary);
+      color: var(--secondary)
+    }
+
+    .subject-note-list .info {
+      flex: 1
+    }
+
+    .subject-note-list h3 {
+      font-size: 13px;
+      color: var(--primary)
+    }
+
+    .subject-note-list p {
+      margin-top: 3px;
+      font-size: 9px;
+      color: var(--grey)
+    }
+
+    .subject-note-list .actions {
+      display: flex;
+      gap: 7px
+    }
+
+    .subject-note-list button {
+      border: 0
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 18px;
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 700
+    }
+
+    @media(max-width:650px) {
+      .subject-note-list {
+        align-items: flex-start;
+        flex-wrap: wrap
+      }
+
+      .subject-note-list .actions {
+        width: 100%
+      }
+
+      .subject-note-list .actions button {
+        flex: 1
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <div class="school-brand">
+        <img src="images/logo.png" alt="BCC Logo">
+        <h2>
+          BRILLIANT
+          <span>
+            COACHING CENTRE
+          </span>
+        </h2>
+        <p class="established">
+          Established in 2009
+        </p>
+        <p class="address">
+          Kairi Birpur, Po- Bishanpur
+          <br>
+          Dist- Kishanganj
+          <br>
+          <span>
+            BIHAR
+          </span>
+        </p>
+      </div>
+      <p class="menu-title">
+        Learning Center
+      </p>
+      <nav class="sidebar-menu">
+        <a href="learning.html">
+          <i class="fa-solid fa-chalkboard-user">
+          </i>
+          <span>
+            Lectures
+          </span>
+        </a>
+        <a href="notes.html" class="active">
+          <i class="fa-solid fa-book-open">
+          </i>
+          <span>
+            Notes
+          </span>
+        </a>
+        <a href="homework.html">
+          <i class="fa-solid fa-file-pen"></i>
+          </i>
+          <span>
+            Homework
+          </span>
+        </a>
+        <a href="quizzes.html">
+          <i class="fa-solid fa-clipboard-question">
+          </i>
+          <span>
+            Quizzes
+          </span>
+        </a>
+
+        <a href="leaderboard.html"><i class="fa-solid fa-ranking-star"></i><span>Leaderboard</span></a>
+      </nav>
+      <div class="sidebar-bottom">
+        <a href="dashboard.html" class="back-dashboard">
+          <i class="fa-solid fa-arrow-left">
+          </i>
+          <span>
+            Back to Dashboard
+          </span>
+        </a>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="top-header">
+        <div class="page-heading">
+          <small>
+            Subject Library
+          </small>
+          <h1 id="subjectTitle">
+            Subject Notes
+          </h1>
+          <p id="subjectDescription">
+            Lecture notes organised by chapter and latest date.
+          </p>
         </div>
-        <script src="lecture-data.js">
-        
-        </script>
-        <script src="notes-data.js">
-        
-        </script>
-        <script>
-        (() => {
-        const p=new URLSearchParams(location.search), subject=p.get("subject")||"Subject", all=window.NOTES_DATA||[], root=document.getElementById("subjectLibrary"), empty=document.getElementById("subjectEmpty"), count=document.getElementById("subjectCount"), title=document.getElementById("subjectTitle");
-        title.textContent=subject;
-        const list=all.filter(n=>(n.subject||"").toLowerCase()===subject.toLowerCase()).sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
-        count.textContent=`${list.length} Note${list.length===1?"":"s"}`; empty.style.display=list.length?"none":"flex";
-        list.forEach(n=> {
-        const row=document.createElement("article"); row.className="subject-note-list"; row.innerHTML=`<div class="pdf-icon"><i class="fa-solid fa-file-pdf"></i></div><div class="info"><h3>${String(n.lecture||"Lecture Notes").replace(/[<>&"]/g,"")}</h3><p>${String(n.chapter||"General")} • ${String(n.date||"")}</p></div><div class="actions"><button class="secondary-btn"><i class="fa-regular fa-eye"></i> View</button><button class="primary-btn"><i class="fa-solid fa-download"></i> Download</button></div>`; const [v,d]=row.querySelectorAll("button"); v.onclick=()=>window.open(n.pdf,"_blank","noopener"); d.onclick=()=> {
-        const a=document.createElement("a"); a.href=n.pdf; a.download=`${(n.lecture||"notes").replace(/[^\w-]+/g,"-")}.pdf`; a.click()
+        <div class="header-actions">
+          <div class="profile-mini">
+            <img src="images/student.jpg" alt="Student">
+            <span>
+              Student
+            </span>
+          </div>
+        </div>
+      </header>
+      <a class="back-link" href="notes.html">
+        <i class="fa-solid fa-arrow-left">
+        </i>
+        Back to Notes
+      </a>
+      <section>
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">
+              Lecture Notes
+            </span>
+            <h2>
+              All Notes
+            </h2>
+            <p>
+              Latest notes appear first.
+            </p>
+          </div>
+          <div class="section-count" id="subjectCount">
+            0 Notes
+          </div>
+        </div>
+        <div class="subject-library" id="subjectLibrary">
+        </div>
+        <div class="empty-list-state" id="subjectEmpty">
+          <i class="fa-regular fa-folder-open">
+          </i>
+          <span>
+            No notes are available for this subject.
+          </span>
+        </div>
+      </section>
+      <footer class="page-footer">
+        © 2026 Brilliant Coaching Centre. All Rights Reserved.
+      </footer>
+    </main>
+  </div>
+  <script src="lecture-data.js">
+
+  </script>
+  <script src="notes-data.js">
+
+  </script>
+  <script>
+    (() => {
+      const p = new URLSearchParams(location.search), subject = p.get("subject") || "Subject", all = window.NOTES_DATA || [], root = document.getElementById("subjectLibrary"), empty = document.getElementById("subjectEmpty"), count = document.getElementById("subjectCount"), title = document.getElementById("subjectTitle");
+      title.textContent = subject;
+      const list = all.filter(n => (n.subject || "").toLowerCase() === subject.toLowerCase()).sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+      count.textContent = `${list.length} Note${list.length === 1 ? "" : "s"}`; empty.style.display = list.length ? "none" : "flex";
+      list.forEach(n => {
+        const row = document.createElement("article"); row.className = "subject-note-list"; row.innerHTML = `<div class="pdf-icon"><i class="fa-solid fa-file-pdf"></i></div><div class="info"><h3>${String(n.lecture || "Lecture Notes").replace(/[<>&"]/g, "")}</h3><p>${String(n.chapter || "General")} • ${String(n.date || "")}</p></div><div class="actions"><button class="secondary-btn"><i class="fa-regular fa-eye"></i> View</button><button class="primary-btn"><i class="fa-solid fa-download"></i> Download</button></div>`; const [v, d] = row.querySelectorAll("button"); v.onclick = () => window.open(n.pdf, "_blank", "noopener"); d.onclick = () => {
+          const a = document.createElement("a"); a.href = n.pdf; a.download = `${(n.lecture || "notes").replace(/[^\w-]+/g, "-")}.pdf`; a.click()
         }; root.appendChild(row)
-        });
-        })();
-        </script>
-    </body>
+      });
+    })();
+  </script>
+</body>
+
 </html>

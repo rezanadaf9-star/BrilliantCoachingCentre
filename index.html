@@ -1,316 +1,576 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
+  <script>
+    // Frontend session check: skip the public welcome page for a logged-in student.
+    (function () {
+      const rawSession = localStorage.getItem("bccStudentSession");
+      if (!rawSession) return;
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      try {
+        const session = JSON.parse(rawSession);
+        if (session && session.loggedIn === true) {
+          window.location.replace("dashboard.html");
+        }
+      } catch (error) {
+        localStorage.removeItem("bccStudentSession");
+      }
+    })();
+  </script>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="#061d49" name="theme-color" />
+  <title>Brilliant Coaching Centre</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  <link href="style.css" rel="stylesheet" />
 
-  <title>Login | BCC</title>
+  <!-- BCC favicon + app icons -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
 
-  <!-- Google Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
-
-  <!-- Standard Favicon for Browser Tabs & Chrome Shortcuts -->
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-
-  <!-- Apple/Safari Specific Icon (For pinned tabs or home screen shortcuts) -->
-  <link rel="apple-touch-icon" href="favicon.ico">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#fff000">
 </head>
 
 <body>
-<!-- =====================================================
-         LOGIN PAGE
-         ===================================================== -->
-
-  <main class="login-page">
-
-
-    <!-- =================================================
-             SCHOOL BRANDING
-             No background / no card
-             ================================================= -->
-
-    <section class="school-branding">
-
-      <div class="logo-wrapper">
-
-        <img src="images/logo.png" alt="School Logo" class="school-logo">
-
+  <header class="site-header">
+    <a aria-label="Brilliant Coaching Centre home" class="brand" href="#home">
+      <img alt="Brilliant Coaching Centre logo" src="assets/logo.png" />
+      <span class="brand-copy">
+        <strong>BRILLIANT</strong>
+        <span>COACHING CENTRE</span>
+      </span>
+    </a>
+    <button aria-expanded="false" aria-label="Open menu" class="menu-toggle">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav">
+      <a class="active" href="#home">Home</a>
+      <a href="#about">About Us</a>
+      <a href="#faculty">Our Faculty</a>
+      <a href="#facilities">Facilities</a>
+      <a href="#results">Results</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="portal-btn header-portal" data-open-login="true" href="#login-modal">Login</a>
+  </header>
+  <main id="home">
+    <section class="hero">
+      <div aria-label="Campus images" class="hero-slides">
+        <div class="hero-slide active"><img alt="BCC campus" src="assets/hero/hero-1.png" /></div>
+        <div class="hero-slide"><img alt="BCC campus" src="assets/hero/hero-2.png" /></div>
+        <div class="hero-slide"><img alt="BCC campus" src="assets/hero/hero-3.png" /></div>
+        <div class="hero-slide"><img alt="BCC campus" src="assets/hero/hero-4.png" /></div>
       </div>
-
-
-
-
-      <div class="school-name">
-
-        <h1>
-          BRILLIANT
-        </h1>
-
-        <h2>
-          COACHING CENTER
-        </h2>
-
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="eyebrow">WELCOME TO</div>
+        <div class="hero-name"><img alt="Brilliant Coaching Centre" src="assets/coaching-name.png" /></div>
+        <div class="location"><i aria-hidden="true" class="fa-solid fa-location-dot"></i><span>Kairi Birpur,
+            Kochadhaman, Kishanganj (Bihar)</span></div>
+        <div class="gold-line"></div>
+        <p class="hero-tagline">Where Dreams Meet Discipline.</p>
+        <p class="hero-description">Empowering students with quality education,<br class="desktop-only" /> dedicated
+          teachers and a culture of excellence<br class="desktop-only" /> since 2009.</p>
       </div>
-
+      <div aria-label="Carousel controls" class="carousel-dots">
+        <button aria-label="Slide 1" class="dot active" data-slide="0"></button>
+        <button aria-label="Slide 2" class="dot" data-slide="1"></button>
+        <button aria-label="Slide 3" class="dot" data-slide="2"></button>
+        <button aria-label="Slide 4" class="dot" data-slide="3"></button>
+      </div>
     </section>
-
-
-
-    <!-- =================================================
-             LOGIN CARD
-             ================================================= -->
-
-    <section class="login-section">
-
-      <div class="login-card">
-
-
-        <!-- Glass shine -->
-
-        <div class="glass-shine"></div>
-
-
-        <!-- =================================================
-                     CARD HEADER
-                     ================================================= -->
-
-        <div class="login-header">
-
-          <div class="login-icon">
-
-            <i class="fa-solid fa-graduation-cap"></i>
-
-          </div>
-
-          <div>
-
-            <h2>
-              Welcome back
-            </h2>
-
-            <p>
-              BCCian
-            </p>
-
-          </div>
-
+    <section class="highlights" id="home-highlights">
+      <article>
+        <div class="feature-icon"><i aria-hidden="true" class="fa-solid fa-graduation-cap"></i></div>
+        <div>
+          <h3>Experienced Faculty</h3>
+          <p>Learn from the best, grow with the best.</p>
         </div>
-
-
-
-        <!-- =================================================
-                     PORTAL STATUS
-                     ================================================= -->
-
-        <div class="portal-status student-mode" id="portalStatus">
-
-          <span class="status-dot"></span>
-
-          <div class="status-text">
-
-            <span>
-              Portal Status
-            </span>
-
-            <strong id="portalName">
-              Student Portal
-            </strong>
-
-          </div>
-
-          <i class="fa-solid fa-circle-check" id="statusIcon"></i>
-
+      </article>
+      <article>
+        <div class="feature-icon"><i aria-hidden="true" class="fa-solid fa-book-open"></i></div>
+        <div>
+          <h3>Academic Excellence</h3>
+          <p>Structured learning, regular assessment &amp; proven results.</p>
         </div>
-
-
-
-        <!-- =================================================
-                     LOGIN FORM
-                     ================================================= -->
-
-        <form id="loginForm" autocomplete="on" novalidate>
-
-
-          <!-- ID -->
-
-          <div class="input-group">
-
-            <label for="userId">
-
-              <i class="fa-regular fa-id-card"></i>
-
-              <span id="idLabel">
-                Student ID
-              </span>
-
-            </label>
-
-
-            <div class="input-box">
-
-              <i class="fa-solid fa-user"></i>
-
-              <input type="text" id="userId" name="userId" placeholder="Enter ID" autocomplete="username">
-
-            </div>
-
-
-            <small class="error" id="idError"></small>
-
-          </div>
-
-
-
-          <!-- PASSWORD -->
-
-          <div class="input-group">
-
-            <label for="password">
-
-              <i class="fa-solid fa-lock"></i>
-
-              <span id="passwordLabel">
-                Password
-              </span>
-
-            </label>
-
-
-            <div class="input-box">
-
-              <i class="fa-solid fa-key"></i>
-
-              <input type="password" id="password" name="password" placeholder="Enter Password"
-                autocomplete="current-password">
-
-
-              <button type="button" class="password-toggle" id="passwordToggle" aria-label="Show password">
-
-                <i class="fa-regular fa-eye"></i>
-
-              </button>
-
-            </div>
-
-
-            <small class="error" id="passwordError"></small>
-
-          </div>
-
-
-
-          <!-- =================================================
-                         LOGIN BUTTON
-                         ================================================= -->
-
-          <button type="submit" class="login-button" id="loginButton">
-
-            <span class="button-text">
-              Login
-            </span>
-
-            <i class="fa-solid fa-arrow-right"></i>
-
-            <span class="loader"></span>
-
-          </button>
-
-        </form>
-
-
-
-        <!-- =================================================
-                     PORTAL SELECTOR
-                     ================================================= -->
-
-        <div class="portal-selector">
-
-          <span class="selector-label">
-            Login as
-          </span>
-
-
-          <div class="portal-buttons">
-
-
-            <button type="button" class="portal-button active" id="studentButton">
-
-              <i class="fa-solid fa-user-graduate"></i>
-
-              <span>
-                Student
-              </span>
-
-            </button>
-
-
-            <button type="button" class="portal-button" id="teacherButton">
-
-              <i class="fa-solid fa-chalkboard-user"></i>
-
-              <span>
-                Teacher
-              </span>
-
-            </button>
-
-          </div>
-
+      </article>
+      <article>
+        <div class="feature-icon"><i aria-hidden="true" class="fa-solid fa-users"></i></div>
+        <div>
+          <h3>Student Support</h3>
+          <p>Every student matters, every dream counts.</p>
         </div>
-
-
-
-        <!-- =================================================
-                     MESSAGE
-                     ================================================= -->
-
-        <div class="login-message" id="loginMessage"></div>
-
-
-
-        <!-- =================================================
-                     SECURITY
-                     ================================================= -->
-
-        <div class="security">
-
-          <i class="fa-solid fa-shield-halved"></i>
-
-          <span>
-            Secure School Portal
-          </span>
-
+      </article>
+      <article>
+        <div class="feature-icon"><i aria-hidden="true" class="fa-solid fa-laptop"></i></div>
+        <div>
+          <h3>Digital Campus</h3>
+          <p>Access your academic information anytime, anywhere.</p>
         </div>
-
-      </div>
-
-
-      <p class="copyright">
-        © 2009 Brilliant Coaching Center. All Rights Reserved.
-      </p>
-
+      </article>
     </section>
-
+    <section class="people-section" id="home-people">
+      <div class="leadership">
+        <div class="section-title"><span></span>
+          <h2>OUR LEADERSHIP</h2>
+        </div>
+        <div class="leader-grid">
+          <article class="leader-card">
+            <img alt="Rehan Sir" src="images/rehan-sir.png" />
+            <div class="leader-info">
+              <h3>Rehan Sir</h3><b>Director</b>
+              <p>“Our goal is not simply to prepare students for examinations, but to build the discipline, confidence
+                and knowledge they need for their future.”</p>
+              <img alt="Director signature" class="signature" src="assets/director-signature.png" />
+            </div>
+          </article>
+          <article class="leader-card">
+            <img alt="Zaki Sir" src="images/zaki-sir.png" />
+            <div class="leader-info">
+              <h3>Zaki Sir</h3><b>Principal</b>
+              <p>“Discipline, hard work and the right guidance can turn every dream into reality.”</p>
+              <img alt="Principal signature" class="signature principal" src="assets/principal-signature.png" />
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="faculty" id="home-faculty">
+        <div class="section-title"><span></span>
+          <h2>OUR FACULTY</h2>
+        </div>
+        <div class="faculty-row">
+          <article class="faculty-card"><img alt="Muntazir Sir" src="images/muntazir-sir.png" /><strong>Muntazir
+              Sir</strong><small>Faculty</small></article>
+          <article class="faculty-card"><img alt="Imran Sir" src="images/imran-sir.png" /><strong>Imran
+              Sir</strong><small>Faculty</small></article>
+          <article class="faculty-card"><img alt="Faiz Sir" src="images/faiz-sir.png" /><strong>Faiz
+              Sir</strong><small>Faculty</small></article>
+          <article class="faculty-card"><img alt="Zaki Sir" src="images/zaki-sir.png" /><strong>Zaki
+              Sir</strong><small>Faculty</small></article>
+          <article class="faculty-card"><img alt="More Faculty" src="images/more-faculty.png" /><strong>More
+              Faculty</strong><small>View On Portal</small></article>
+        </div>
+        <div class="faculty-row more-faculty-list" hidden="" id="more-faculty-list">
+          <article class="faculty-card"><img alt="Tazalli Miss" src="images/tazalli-miss.png" /><strong>Tazalli
+              Miss</strong><small>Faculty</small></article>
+          <article class="faculty-card"><img alt="Mansabi Miss" src="images/mansabi-miss.png" /><strong>Mansabi
+              Miss</strong><small>Faculty</small></article>
+        </div>
+      </div>
+    </section>
   </main>
 
+  <!-- =====================================================
+       SCROLLABLE PUBLIC SECTIONS
+       The original Home layout above is intentionally untouched.
+       ===================================================== -->
+  <div class="public-sections">
+    <section id="about" class="public-section about-section section-anchor">
+      <div class="section-heading compact-heading">
+        <span class="heading-kicker">WHO WE ARE</span>
+        <h2>About Us</h2>
+        <p>Quality education, disciplined learning and confident students — the BCC way.</p>
+      </div>
+      <div class="about-layout">
+        <article class="about-main-card">
+          <div class="about-icon"><i class="fa-solid fa-building-columns"></i></div>
+          <div>
+            <h3>Brilliant Coaching Centre</h3>
+            <p>Brilliant Coaching Centre, Kairi Birpur is committed to providing a focused and supportive learning
+              environment from <strong>LKG to Class 12</strong>.</p>
+            <p>BCC combines experienced faculty, structured academics, smart learning and regular guidance to help
+              students build strong foundations and prepare confidently for their future.</p>
+            <div class="about-pills"><span>LKG–12th</span><span>All Subjects</span><span>AMU Preparation</span><span>JMI
+                Preparation</span></div>
+          </div>
+        </article>
+        <div class="about-value-grid">
+          <article><i class="fa-solid fa-bullseye"></i>
+            <div>
+              <h3>Our Mission</h3>
+              <p>Make quality learning accessible and meaningful for every student.</p>
+            </div>
+          </article>
+          <article><i class="fa-solid fa-eye"></i>
+            <div>
+              <h3>Our Vision</h3>
+              <p>Build capable, disciplined and confident learners for tomorrow.</p>
+            </div>
+          </article>
+          <article><i class="fa-solid fa-people-group"></i>
+            <div>
+              <h3>Our Community</h3>
+              <p>Teachers, students and families working together for progress.</p>
+            </div>
+          </article>
+          <article><i class="fa-solid fa-medal"></i>
+            <div>
+              <h3>Our Promise</h3>
+              <p>Guidance, consistency and a positive environment for learning.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="stats-strip">
+        <div><strong>LKG–12</strong><span>Classes</span></div>
+        <div><strong>AMU</strong><span>Entrance Support</span></div>
+        <div><strong>JMI</strong><span>Entrance Support</span></div>
+        <div><strong>Smart</strong><span>Learning</span></div>
+      </div>
+    </section>
 
-  <!-- JavaScript -->
+    <section id="faculty" class="public-section faculty-section section-anchor">
+      <div class="section-heading compact-heading">
+        <span class="heading-kicker">OUR TEACHING STARS</span>
+        <h2>Our Faculty</h2>
+        <p>Experienced teachers guiding students with knowledge, discipline and care.</p>
+      </div>
+      <div class="faculty-public-grid">
+        <article class="faculty-public-card director-faculty-card">
+          <div class="faculty-photo"><img src="images/rehan-sir.png" alt="Mr. Rehan Quasmi"></div>
+          <div class="faculty-body">
+            <h3>Mr. Rehan Quasmi</h3><small>Director of BCC</small><span><i class="fa-solid fa-book"></i> Physics,
+              Chemistry, Mathematics, Biology</span><span><i class="fa-solid fa-school"></i> Classes 9–10</span>
+          </div>
+        </article>
+        <article class="faculty-public-card">
+          <div class="faculty-photo"><img src="images/zaki-sir.png" alt="Mr. Zaki Quasmi"></div>
+          <div class="faculty-body">
+            <h3>Mr. Zaki Quasmi</h3><small>Principal of BCC</small><span><i class="fa-solid fa-book"></i> Social
+              Sciences</span><span><i class="fa-solid fa-school"></i> Classes 8–10</span>
+          </div>
+        </article>
+        <article class="faculty-public-card">
+          <div class="faculty-photo"><img src="images/muntazir-sir.png" alt="Mr. Muntazir Akram"></div>
+          <div class="faculty-body">
+            <h3>Mr. Muntazir Akram</h3><small>Teacher of BCC</small><span><i class="fa-solid fa-book"></i>
+              Urdu</span><span><i class="fa-solid fa-school"></i> Classes 1–10</span>
+          </div>
+        </article>
+        <article class="faculty-public-card">
+          <div class="faculty-photo"><img src="images/imran-sir.png" alt="Mr. Imran Quasmi"></div>
+          <div class="faculty-body">
+            <h3>Mr. Imran Quasmi</h3><small>Teacher of BCC</small><span><i class="fa-solid fa-book"></i> All
+              Subjects</span><span><i class="fa-solid fa-school"></i> Classes 1–8</span>
+          </div>
+        </article>
+        <article class="faculty-public-card">
+          <div class="faculty-photo"><img src="images/faiz-sir.png" alt="Mr. Faiz Anjum"></div>
+          <div class="faculty-body">
+            <h3>Mr. Faiz Anjum</h3><small>Teacher of BCC</small><span><i class="fa-solid fa-book"></i> All
+              Subjects</span><span><i class="fa-solid fa-school"></i> Classes 1–7</span>
+          </div>
+        </article>
+        <article class="faculty-public-card">
+          <div class="faculty-photo"><img src="images/tazalli-miss.png" alt="Miss Tazalli Perween"></div>
+          <div class="faculty-body">
+            <h3>Miss Tazalli Perween</h3><small>Teacher of BCC</small><span><i class="fa-solid fa-book"></i> All
+              Subjects</span><span><i class="fa-solid fa-school"></i> Classes 1–7</span>
+          </div>
+        </article>
+        <article class="faculty-public-card">
+          <div class="faculty-photo"><img src="images/mansabi-miss.png" alt="Miss Mansabi Perween"></div>
+          <div class="faculty-body">
+            <h3>Miss Mansabi Perween</h3><small>Teacher of BCC</small><span><i class="fa-solid fa-book"></i> All
+              Subjects</span><span><i class="fa-solid fa-school"></i> Classes 1–7</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="facilities" class="public-section facilities-section section-anchor">
+      <div class="section-heading compact-heading"><span class="heading-kicker">LEARN • GROW • ACHIEVE</span>
+        <h2>Facilities</h2>
+        <p>Facilities and activities designed to support academic and personal growth.</p>
+      </div>
+      <div class="facility-grid">
+
+        <article>
+          <i class="fa-solid fa-star"></i>
+          <h3>Quality Education</h3>
+          <p>Focused teaching, assessment and guidance for strong academic foundations.</p>
+        </article>
+
+        <article><i class="fa-solid fa-chalkboard-user"></i>
+          <h3>Smart Class</h3>
+          <p>Digital smart-board teaching for more visual and engaging lessons.</p>
+        </article>
+
+        <article><i class="fa-solid fa-book-open-reader"></i>
+          <h3>Academic Support</h3>
+          <p>Support from LKG to 12th with subject and entrance-exam preparation.</p>
+        </article>
+
+        <article><i class="fa-solid fa-house"></i>
+          <h3>Boys Hostel</h3>
+          <p>A supportive hostel facility for students staying near the centre.</p>
+        </article>
+
+
+        <article><i class="fa-solid fa-award"></i>
+          <h3>Prize Distribution</h3>
+          <p>Students are recognised and encouraged for academic achievements.</p>
+        </article>
+        <article><i class="fa-solid fa-microphone-lines"></i>
+          <h3>Motivational Sessions</h3>
+          <p>Occasion-based sessions that encourage confidence, discipline and ambition.</p>
+        </article>
+
+      </div>
+      <div class="facility-photo-row">
+
+        <figure><img src="assets/smart-class.jpg" alt="BCC Smart Class">
+          <figcaption>Smart Class</figcaption>
+        </figure>
+
+        <figure><img src="assets/boys-hostel2.jpg" alt="BCC hostel">
+          <figcaption>Student Facilities</figcaption>
+        </figure>
+
+        <figure><img src="assets/boys-hostel-main.jpg" alt="BCC boys hostel">
+          <figcaption>Boys Hostel</figcaption>
+        </figure>
+
+
+      </div>
+    </section>
+
+    <section id="results" class="public-section results-section section-anchor">
+      <div class="section-heading compact-heading"><span class="heading-kicker">OUR ACHIEVERS</span>
+        <h2>Results &amp; Achievements</h2>
+        <p>Celebrating students who have achieved outstanding academic results.</p>
+      </div>
+      <div class="result-panel">
+        <div class="result-title">
+          <div><span>OUR ACHIEVERS</span>
+            <h3>Top 10 Toppers of Matric</h3>
+          </div><i class="fa-solid fa-medal"></i>
+        </div>
+        <div class="topper-grid" id="matricToppers"></div>
+      </div>
+      <div class="result-panel">
+        <div class="result-title">
+          <div><span>OUR ACHIEVERS</span>
+            <h3>Top 10 Toppers of Intermediate</h3>
+          </div><i class="fa-solid fa-medal"></i>
+        </div>
+        <div class="topper-grid" id="interToppers"></div>
+      </div>
+    </section>
+
+    <section id="contact" class="public-section contact-section section-anchor">
+      <div class="section-heading compact-heading"><span class="heading-kicker">GET IN TOUCH</span>
+        <h2>Contact BCC</h2>
+        <p>Reach Brilliant Coaching Centre for admissions, information and enquiries.</p>
+      </div>
+      <div class="contact-grid">
+        <a class="contact-card disable-mobile" href="tel:+916200707201"><i class="fa-solid fa-phone"></i>
+          <div><small>Phone</small><strong>+91 6200707201</strong></div>
+        </a>
+        <a class="contact-card disable-mobile" href="tel:+917808115153"><i class="fa-solid fa-phone"></i>
+          <div><small>Phone</small><strong>+91 7808115153</strong></div>
+        </a>
+        <a class="contact-card disable-mobile" href="tel:+918986571696"><i class="fa-solid fa-phone"></i>
+          <div><small>Phone</small><strong>+91 8986571696</strong></div>
+        </a>
+        <a class="contact-card disable-mobile" href="mailto:brilliantcoachingceentre.kne@gmail.com"><i
+            class="fa-solid fa-envelope"></i>
+          <div><small>Email</small><strong>brilliantcoachingcentre.kne@gmail.com</strong></div>
+        </a>
+        <a class="contact-card disable-mobile" target="_blank" rel="noopener"
+          href="https://www.instagram.com/b_c_c_official/"><i class="fa-brands fa-instagram"></i>
+          <div><small>Instagram</small><strong>@b_c_c_official</strong></div>
+        </a>
+        <a class="contact-card disable-mobile" target="_blank" rel="noopener" href="https://www.facebook.com/BCCKNE/"><i
+            class="fa-brands fa-facebook-f"></i>
+          <div><small>Facebook</small><strong>@BCCKNE</strong></div>
+        </a>
+        <a class="contact-card disable-mobile" target="_blank" rel="noopener"
+          href="https://www.youtube.com/@BCC_Birpur_official"><i class="fa-brands fa-youtube"></i>
+          <div><small>YouTube</small><strong>@BCC_Birpur_official</strong></div>
+        </a>
+        <div class="contact-card"><i class="fa-solid fa-location-dot"></i>
+          <div><small>Address</small><strong>Kairi Birpur Chowk, Post – Bishunpur, Kishanganj, Bihar 855115</strong>
+          </div>
+        </div>
+      </div>
+      <!-- SUB FOOTER: separate from the original main footer -->
+      <div class="contact-sub-footer">
+        <a href="tel:+916200707201" aria-label="Call BCC"><i class="fa-solid fa-phone"></i></a>
+        <a href="mailto:brilliantcoachingceentre.kne@gmail.com" aria-label="Email BCC"><i
+            class="fa-solid fa-envelope"></i></a>
+        <a href="https://www.instagram.com/b_c_c_official/" target="_blank" rel="noopener" aria-label="BCC Instagram"><i
+            class="fa-brands fa-instagram"></i></a>
+        <a href="https://www.facebook.com/BCCKNE/" target="_blank" rel="noopener" aria-label="BCC Facebook">
+          <i class="fa-brands fa-facebook"></i></a>
+        <a href="https://www.youtube.com/@BCC_Birpur_official" target="_blank" rel="noopener"
+          aria-label="BCC YouTube"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+    </section>
+  </div>
+  <footer id="mainFooter">
+    <div class="footer-left">
+      <div class="footer-cap"><i aria-hidden="true" class="fa-solid fa-graduation-cap"></i></div>
+      <div>
+        <h3>Ready to Begin Your Journey?</h3>
+        <p>Join BCC and take the first step towards a brighter future.</p>
+      </div>
+    </div>
+    <a class="portal-btn2 footer-btn" data-open-login="true" href="#login-modal">Enter BCC Portal</a>
+    <img alt="Better Education Brighter Future" class="footer-slogan" src="assets/bottom-right-text.png" />
+  </footer>
+  <div aria-hidden="true" class="login-modal" id="loginModal">
+    <div class="login-modal-position" id="loginModalPosition">
+      <section aria-label="BCC Login" class="login-section">
+        <div class="login-card">
+          <!-- Glass shine -->
+          <div class="glass-shine">
+          </div>
+          <!-- =================================================
+                     CARD HEADER
+                     ================================================= -->
+          <div class="login-header">
+            <button type="button" class="login-style-toggle" id="loginStyleToggle" aria-label="Switch login card style"
+              aria-pressed="false" title="Switch login card style">
+              <i class="fa-solid fa-glasses"></i>
+            </button>
+            <div class="login-icon">
+              <i class="fa-solid fa-graduation-cap">
+              </i>
+            </div>
+            <div>
+              <h2>
+                Welcome back
+              </h2>
+              <p>
+                BCCian
+              </p>
+            </div>
+          </div>
+          <!-- =================================================
+                     PORTAL STATUS
+                     ================================================= -->
+          <div class="portal-status student-mode" id="portalStatus">
+            <span class="status-dot">
+            </span>
+            <div class="status-text">
+              <span>
+                Portal Status
+              </span>
+              <strong id="portalName">
+                Student Portal
+              </strong>
+            </div>
+            <i class="fa-solid fa-circle-check" id="statusIcon">
+            </i>
+          </div>
+          <!-- =================================================
+                     LOGIN FORM
+                     ================================================= -->
+          <form autocomplete="off" id="loginForm" novalidate="">
+            <!-- ID -->
+            <div class="input-group">
+              <label for="userId">
+                <i class="fa-regular fa-id-card">
+                </i>
+                <span id="idLabel">
+                  Student ID
+                </span>
+              </label>
+              <div class="input-box">
+                <i class="fa-solid fa-user">
+                </i>
+                <input autocomplete="username" id="userId" name="userId" placeholder="Enter ID" type="text" readonly />
+              </div>
+              <small class="error" id="idError">
+              </small>
+            </div>
+            <!-- PASSWORD -->
+            <div class="input-group">
+              <label for="password">
+                <i class="fa-solid fa-lock">
+                </i>
+                <span id="passwordLabel">
+                  Password
+                </span>
+              </label>
+              <div class="input-box">
+                <i class="fa-solid fa-key">
+                </i>
+                <input autocomplete="current-password" id="password" name="password" placeholder="Enter Password"
+                  type="password" readonly />
+                <button aria-label="Show password" class="password-toggle" id="passwordToggle" type="button">
+                  <i class="fa-regular fa-eye">
+                  </i>
+                </button>
+              </div>
+              <small class="error" id="passwordError">
+              </small>
+            </div>
+            <!-- =================================================
+                         LOGIN BUTTON
+                         ================================================= -->
+            <button class="login-button" id="loginButton" type="submit">
+              <span class="button-text">
+                Login
+              </span>
+              <i class="fa-solid fa-arrow-right">
+              </i>
+              <span class="loader">
+              </span>
+            </button>
+          </form>
+          <!-- =================================================
+                     PORTAL SELECTOR
+                     ================================================= -->
+          <div class="portal-selector">
+            <span class="selector-label">
+              Login as
+            </span>
+            <div class="portal-buttons">
+              <button class="portal-button active" id="studentButton" type="button">
+                <i class="fa-solid fa-user-graduate">
+                </i>
+                <span>
+                  Student
+                </span>
+              </button>
+              <button class="portal-button" id="teacherButton" type="button">
+                <i class="fa-solid fa-chalkboard-user">
+                </i>
+                <span>
+                  Teacher
+                </span>
+              </button>
+            </div>
+          </div>
+          <!-- =================================================
+                     MESSAGE
+                     ================================================= -->
+          <div class="login-message" id="loginMessage">
+          </div>
+          <!-- =================================================
+                     SECURITY
+                     ================================================= -->
+          <div class="security">
+            <i class="fa-solid fa-shield-halved">
+            </i>
+            <span>
+              Secure Coaching Portal <!-- Secure School Portal-->
+            </span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
   <script src="script.js"></script>
-  <!-- JavaScript -->
-  <script src="common.js"></script>
-
 </body>
 
 </html>
