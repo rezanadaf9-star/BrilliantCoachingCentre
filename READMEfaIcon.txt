@@ -1,24 +1,31 @@
-BCC Favicon & App Icon Pack
-============================
+BCC ICON PACK — V2
 
-Use these files in the same folder as your HTML page:
+RULE:
+1. NORMAL BROWSER FAVICONS -> CIRCULAR BCC LOGO
+   - favicon.ico
+   - favicon-16x16.png
+   - favicon-32x32.png
+   - favicon-48x48.png
 
-favicon.ico
-favicon-16x16.png
-favicon-32x32.png
-favicon-48x48.png
-apple-touch-icon.png
-site.webmanifest
+2. INSTALLED WEB APP / PHONE / SAFARI APP ICON -> SHIELD/SQUARE APP ICON
+   - apple-touch-icon.png
+   - android-chrome-192x192.png
+   - android-chrome-512x512.png
+   - app-icon.png
 
-Additional assets:
-android-chrome-192x192.png
-android-chrome-512x512.png
-app-icon.png
-brand-logo.png
-browserconfig.xml
+3. NORMAL BRANDING -> CIRCULAR LOGO
+   - logo.png
 
-The shield-style app icon is used for browser/PWA/app icons because it remains
-recognizable at small sizes. The circular BCC logo is preserved as brand-logo.png
-for headers, login pages, splash screens, and larger branding.
+4. Safari pinned tab -> separate safari-pinned-tab.svg
 
-Your existing favicon HTML can be used unchanged.
+Use the user's existing favicon HTML unchanged:
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#fff000">
+
+If you also want Safari pinned tabs:
+<link rel="mask-icon" href="safari-pinned-tab.svg" color="#1b1464">
