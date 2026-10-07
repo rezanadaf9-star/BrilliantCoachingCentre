@@ -4860,3 +4860,114 @@ textarea:focus-visible {
     border: none !important;
     box-shadow: none !important;
 }
+
+
+/* =========================================================
+   RESPONSIVE NAVIGATION, FULLSCREEN LAYER + MOBILE KEYBOARD
+   Appended overrides: preserves existing desktop styling.
+   ========================================================= */
+.mobile-sidebar-toggle { display:none; }
+.sidebar-backdrop { display:none; }
+
+/* The AI window is the topmost layer in fullscreen. The page chrome
+   is hidden while it is active and automatically restored on exit. */
+.ai-tutor-window.fullscreen {
+  z-index: 2147483000 !important;
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: none !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+}
+body.ai-tutor-fullscreen .sidebar,
+body.ai-tutor-fullscreen .top-header,
+body.ai-tutor-fullscreen .learning-mode-switcher,
+body.ai-tutor-fullscreen .page-footer,
+body.ai-tutor-fullscreen .mobile-sidebar-toggle,
+body.ai-tutor-fullscreen .sidebar-backdrop { display:none !important; }
+body.ai-tutor-fullscreen .dashboard-container,
+body.ai-tutor-fullscreen .main-content { width:100% !important; height:100dvh !important; min-height:0 !important; padding:0 !important; margin:0 !important; }
+
+/* Keyboard-aware composer: visualViewport JS updates --keyboard-inset. */
+.ai-tutor-window { --keyboard-inset: 0px; }
+.ai-tutor-window.keyboard-open .ai-chat-input-area {
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: var(--keyboard-inset, 0px) !important;
+  z-index: 2147483001 !important;
+  width: 100% !important;
+  padding: 8px max(12px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left)) !important;
+  background: #101827 !important;
+  box-shadow: 0 -8px 24px rgba(0,0,0,.22) !important;
+}
+.ai-tutor-window.keyboard-open .ai-input-hint,
+.ai-tutor-window.keyboard-open .ai-window-footer { display:none !important; }
+.ai-tutor-window.keyboard-open .chat-input-wrapper { margin:0 auto !important; }
+.ai-tutor-window.keyboard-open .ai-chat-body { padding-bottom:100px !important; }
+
+@media (max-width: 900px) {
+  .dashboard-container { position:relative; overflow:hidden; }
+  .main-content { width:100%; min-width:0; padding:16px !important; }
+  .top-header { margin:-16px -16px 14px !important; padding:12px 14px !important; min-height:70px; height:auto !important; gap:10px; }
+  .mobile-sidebar-toggle { display:inline-flex; align-items:center; justify-content:center; flex:0 0 38px; width:38px; height:38px; border:0; border-radius:10px; background:#1b1464; color:#ffe600; font-size:17px; cursor:pointer; }
+  .page-heading { flex:1; min-width:0; }
+  .page-heading h1 { font-size:clamp(17px,3vw,23px); }
+  .page-heading p { font-size:10px; }
+  .header-actions { flex-shrink:0; }
+  .sidebar { position:fixed !important; top:0 !important; bottom:0 !important; left:0 !important; height:100dvh !important; width:min(300px,85vw) !important; max-width:85vw; z-index:2147482000 !important; transform:translateX(-105%); transition:transform .25s ease; overflow-y:auto !important; }
+  body.sidebar-open .sidebar { transform:translateX(0); }
+  .sidebar-backdrop { display:block; position:fixed; inset:0; z-index:2147481999; border:0; background:rgba(5,8,25,.55); opacity:0; visibility:hidden; pointer-events:none; transition:opacity .2s ease; }
+  body.sidebar-open .sidebar-backdrop { opacity:1; visibility:visible; pointer-events:auto; }
+  .learning-mode-switcher { margin:0 auto 12px !important; }
+  .mode-switch-group { max-width:100%; flex-wrap:wrap; justify-content:center; }
+  .ai-tutor-window { width:100% !important; margin:0 !important; flex:1 1 auto; min-height:320px; border-radius:16px; }
+  .page-footer { padding:10px 0; font-size:9px; }
+}
+@media (max-width: 600px) {
+  html, body { height:100%; min-height:100%; }
+  .dashboard-container { height:100dvh !important; min-height:0 !important; }
+  .main-content { height:100dvh !important; min-height:0 !important; padding:10px !important; }
+  .top-header { margin:-10px -10px 10px !important; padding:9px 10px !important; gap:8px; }
+  .mobile-sidebar-toggle { width:34px; height:34px; flex-basis:34px; }
+  .page-heading small { font-size:8px; }
+  .page-heading h1 { font-size:17px; }
+  .page-heading p { display:none; }
+  .notification-btn { width:30px; height:30px; }
+  .profile-mini { padding:4px 7px !important; }
+  .profile-mini img { width:26px; height:26px; }
+  .profile-mini span { font-size:9px; }
+  .mode-switch-group { width:100%; gap:3px; padding:4px; }
+  .mode-switch { flex:1 1 auto; padding:8px 5px; font-size:9px; gap:4px; }
+  .ai-page-label { font-size:8px; }
+  .ai-chat-header { min-height:52px; padding:7px 9px; }
+  .ai-chat-title { gap:6px; }
+  .ai-chat-logo img { width:30px; height:30px; }
+  .ai-tutor-window .company-name { max-width:calc(100vw - 190px); }
+  .ai-tutor-window .company-name > strong { font-size:10px; }
+  .ai-tutor-window .company-name .ai-online-status { font-size:7px; }
+  .ai-model-selector { margin-right:34px; }
+  .model-selector-button { min-width:0; max-width:120px; padding:5px 6px; font-size:9px; }
+  .ai-fullscreen-button { right:7px; }
+  .ai-chat-body { padding:12px 10px; }
+  .ai-welcome-state h2 { font-size:18px; }
+  .ai-welcome-state p { font-size:11px; }
+  .suggested-prompts { gap:5px; flex-wrap:wrap; justify-content:center; }
+  .suggested-prompt { font-size:9px; padding:7px 8px; }
+  .ai-chat-input-area { padding:8px 9px !important; }
+  .chat-input-wrapper { gap:5px; padding:7px !important; }
+  #chatInput { font-size:16px !important; min-height:34px; }
+  .input-action-button { width:28px; min-width:28px; }
+  .send-message-button { width:34px; min-width:34px; height:34px; }
+  .ai-input-hint, .ai-window-footer, .page-footer { font-size:8px; }
+}
+@media (max-width: 360px) {
+  .profile-mini span { display:none; }
+  .mode-switch { font-size:8px; }
+  .mode-switch i { display:none; }
+  .ai-tutor-window .company-name .ai-online-status { display:none; }
+  .ai-model-selector { margin-right:32px; }
+}

@@ -3185,10 +3185,12 @@ const fullscreenButton = document.getElementById("aiFullscreenButton");
 if (fullscreenButton && aiTutorWindow) {
   fullscreenButton.addEventListener("click", () => {
     aiTutorWindow.classList.toggle("fullscreen");
+    const isFullscreen = aiTutorWindow.classList.contains("fullscreen");
+    document.body.classList.toggle("ai-tutor-fullscreen", isFullscreen);
 
     const icon = fullscreenButton.querySelector("i");
 
-    if (aiTutorWindow.classList.contains("fullscreen")) {
+    if (isFullscreen) {
       icon.classList.remove("fa-expand");
       icon.classList.add("fa-compress");
 
@@ -3244,3 +3246,93 @@ if (fullscreenButton && aiTutorWindow) {
     requestAnimationFrame(syncMyelinBrandWidth);
   });
 }
+
+
+/* =========================================================
+   MOBILE SIDEBAR + VIRTUAL KEYBOARD AWARE COMPOSER
+   Uses VisualViewport where supported (iOS/Android browsers).
+   ========================================================= */
+(() => {
+  const sidebarToggle = document.getElementById('mobileSidebarToggle');
+  const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+  const windowEl = document.querySelector('.ai-tutor-window');
+  const composer = document.getElementById('textInputArea');
+  const input = document.getElementById('chatInput');
+
+  function closeSidebar() {
+    document.body.classList.remove('sidebar-open');
+    if (sidebarToggle) {
+      sidebarToggle.setAttribute('aria-expanded', 'false');
+      sidebarToggle.setAttribute('aria-label', 'Open navigation');
+      sidebarToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    }
+  }
+  if (sidebarToggle) sidebarToggle.addEventListener('click', () => {
+    const open = document.body.classList.toggle('sidebar-open');
+    sidebarToggle.setAttribute('aria-expanded', String(open));
+    sidebarToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    sidebarToggle.innerHTML = open ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+  });
+  if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeSidebar);
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      closeSidebar();
+      if (windowEl && windowEl.classList.contains('fullscreen')) {
+        windowEl.classList.remove('fullscreen');
+        document.body.classList.remove('ai-tutor-fullscreen');
+        const icon = document.querySelector('#aiFullscreenButton i');
+        if (icon) { icon.classList.remove('fa-compress'); icon.classList.add('fa-expand'); }
+        const button = document.getElementById('aiFullscreenButton');
+        if (button) { button.title = 'Fullscreen'; button.setAttribute('aria-label', 'Open AI Tutor fullscreen'); }
+      }
+    }
+  });
+
+  if (!windowEl || !composer || !input) return;
+  let keyboardOpen = false;
+  const mobileQuery = window.matchMedia('(max-width: 900px)');
+
+  function updateKeyboardLayout() {
+    const vv = window.visualViewport;
+    const viewportHeight = vv ? vv.height : window.innerHeight;
+    const viewportOffset = vv ? vv.offsetTop : 0;
+    const keyboardHeight = Math.max(0, window.innerHeight - viewportHeight - viewportOffset);
+    const focused = document.activeElement === input;
+    const isOpen = mobileQuery.matches && focused && keyboardHeight > 100;
+    keyboardOpen = isOpen;
+    windowEl.classList.toggle('keyboard-open', isOpen);
+    windowEl.style.setProperty('--keyboard-inset', `${keyboardHeight}px`);
+    if (isOpen) {
+      requestAnimationFrame(() => {
+        const body = document.getElementById('aiChatBody');
+        if (body) body.scrollTop = body.scrollHeight;
+      });
+    }
+  }
+  input.addEventListener('focus', () => {
+    // Let the browser begin opening its native keyboard before measuring.
+    setTimeout(updateKeyboardLayout, 60);
+    setTimeout(updateKeyboardLayout, 250);
+    setTimeout(updateKeyboardLayout, 500);
+  });
+  input.addEventListener('blur', () => {
+    keyboardOpen = false;
+    windowEl.classList.remove('keyboard-open');
+    windowEl.style.setProperty('--keyboard-inset', '0px');
+  });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', updateKeyboardLayout);
+    window.visualViewport.addEventListener('scroll', updateKeyboardLayout);
+  }
+  window.addEventListener('resize', updateKeyboardLayout);
+  window.addEventListener('orientationchange', () => setTimeout(updateKeyboardLayout, 250));
+  document.addEventListener('focusin', event => { if (event.target === input) updateKeyboardLayout(); });
+  document.addEventListener('focusout', event => {
+    if (event.target === input) setTimeout(() => {
+      if (document.activeElement !== input) {
+        windowEl.classList.remove('keyboard-open');
+        windowEl.style.setProperty('--keyboard-inset', '0px');
+      }
+    }, 80);
+  });
+})();
