@@ -989,62 +989,64 @@ footer:after {
    DARK GLASS
    ========================================================= */
 
-.login-card {
-
+/* =========================================================
+   LIQUID GLASS LOGIN CARD — matched to the first ZIP modal
+   Solid mode below intentionally keeps its original styling.
+   ========================================================= */
+ .login-card {
   position: relative;
-
   width: 100%;
-
   padding: 20px 34px;
-
   overflow: hidden;
-
   border-radius: 28px;
-
-  background:
-    linear-gradient(135deg,
-      rgba(255, 255, 255, 0.105),
-      rgba(27, 20, 100, 0.18),
-      rgba(255, 255, 255, 0.055));
-
-  border:
-    1px solid rgba(255, 255, 255, 0.22);
-
+  color: #fff;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.105),
+    rgba(27, 20, 100, 0.18),
+    rgba(255, 255, 255, 0.055));
+  /* Keep this border identical at rest and on hover */
+  border: 1px solid rgba(255, 255, 255, 0.705);
   box-shadow:
-
-    0 30px 80px rgba(0, 0, 0, 0.58),
-
+    0 30px 80px rgba(0, 0, 0, 0.48),
     0 0 55px rgba(27, 20, 100, 0.15),
-
     inset 0 1px 0 rgba(255, 255, 255, 0.20),
-
     inset 0 -1px 0 rgba(255, 255, 255, 0.04);
-
-  backdrop-filter:
-    blur(25px) saturate(145%);
-
-  -webkit-backdrop-filter:
-    blur(25px) saturate(145%);
-
-  transition: 0.35s ease;
+  backdrop-filter: blur(25px) saturate(145%);
+  -webkit-backdrop-filter: blur(25px) saturate(145%);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-.login-card:hover {
-  border-color: transparent;
+/* Centered drag handle; adjusts contrast for the solid card too */
+.login-card::after {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  top: 9px;
+  left: 50%;
+  width: 40px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
 
+.login-card:not(.solid-mode):hover {
+  /* Gentle inner glow, with exactly the same border as the resting state */
+  border-color: rgba(255, 255, 255, 0.705);
   box-shadow:
-    /* Your original dark drop shadows */
-    0 35px 90px rgba(0, 0, 0, 0.40),
-
-    /* NEW: Soft, wide outer white ambient glow */
-    0 0 30px 5px rgba(255, 255, 255, 0.25),
-    0 0 60px 10px rgba(255, 255, 255, 0.10),
-
-    /* NEW: Intense inner edge glow */
-    inset 0 0 15px 1px rgba(255, 255, 255, 0.60),
-    inset 0 1px 0 rgba(255, 255, 255, 0.50);
+    0 30px 80px rgba(0, 0, 0, 0.48),
+    0 0 55px rgba(27, 20, 100, 0.15),
+    inset 0 0 18px rgba(255, 255, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04);
 }
 
+.login-card.solid-mode::after {
+  background: rgba(27, 20, 100, 0.42);
+  box-shadow: none;
+}
 
 /* =========================================================
    GLASS SHINE
@@ -3322,185 +3324,158 @@ body {
   border-radius: 4px;
 }
 
-/* Solid mode: compact, high-contrast BCC card inspired by the
-   previously designed solid login treatment. */
+/* Solid mode: premium midnight-navy BCC card. Only the card shell
+   receives the animated perimeter; buttons and inner controls stay unchanged. */
 .login-card.solid-mode {
+  isolation: isolate;
   max-width: 475px;
   padding: 34px 36px 30px;
   border-radius: 28px;
-  background: #fff9a6;
-  border: 1px solid rgba(27, 20, 100, .12);
-  box-shadow: 0 25px 70px rgba(20, 20, 50, .28);
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(0, 126, 255, .30), transparent 42%),
+    radial-gradient(ellipse at 100% 100%, rgba(60, 48, 255, .30), transparent 44%),
+    linear-gradient(145deg, #061632 0%, #082653 52%, #10134d 100%);
+  border: 1px solid rgba(55, 139, 255, .92);
+  box-shadow:
+    0 24px 70px rgba(0, 8, 28, .58),
+    0 0 22px rgba(0, 104, 255, .58),
+    0 0 48px rgba(0, 72, 255, .25),
+    inset 0 1px 0 rgba(255, 255, 255, .22),
+    inset 0 -1px 0 rgba(35, 109, 255, .32);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  color: #1b1464;
+  color: #f7faff;
 }
+
+/* Animated blue/cyan/yellow perimeter; inner card content remains untouched. */
+.login-card.solid-mode::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(from 0deg,
+    #ffe54f 0deg, #ffe54f 35deg,
+    #16d9ff 85deg, #187bff 145deg,
+    #695cff 205deg, #168cff 270deg,
+    #ffe54f 330deg, #ffe54f 360deg);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: solidCardBorderSpin 6s linear infinite;
+}
+
+@keyframes solidCardBorderSpin { to { transform: rotate(360deg); } }
 
 .login-card.solid-mode:hover {
-  border-color: rgba(27, 20, 100, .18);
-  box-shadow: 0 28px 78px rgba(20, 20, 50, .30);
+  border-color: rgba(55, 139, 255, .92);
+  box-shadow:
+    0 27px 78px rgba(0, 8, 28, .62),
+    0 0 28px rgba(0, 120, 255, .68),
+    0 0 58px rgba(0, 72, 255, .32),
+    inset 0 0 26px rgba(48, 126, 255, .10),
+    inset 0 1px 0 rgba(255, 255, 255, .22),
+    inset 0 -1px 0 rgba(35, 109, 255, .32);
 }
 
-.login-card.solid-mode .glass-shine {
-  display: none;
+@media (prefers-reduced-motion: reduce) {
+  .login-card.solid-mode::before { animation: none; }
 }
 
-.login-card.solid-mode .login-style-toggle {
-  color: #1b1464;
-}
-
+.login-card.solid-mode .glass-shine { display: none; }
+.login-card.solid-mode .login-style-toggle { color: #ffe34d; }
 .login-card.solid-mode .login-style-toggle:hover,
-.login-card.solid-mode .login-style-toggle:focus-visible {
-  color: #ffe600;
-}
-
-.login-card.solid-mode .login-header {
-  padding-right: 34px;
-}
+.login-card.solid-mode .login-style-toggle:focus-visible { color: #ffffff; }
+.login-card.solid-mode .login-header { padding-right: 34px; }
 
 .login-card.solid-mode .login-icon {
-  width: 58px;
-  height: 58px;
-  border-radius: 16px;
-  color: #1b1464;
-  background: linear-gradient(145deg, #ffe600, #fcf37a);
-  border: 1px solid rgba(255, 250, 230, 0.312);
-  box-shadow: 0 10px 25px rgba(27, 20, 100, .15), inset 0 1px 0 rgba(255, 255, 255, .65);
+  width: 58px; height: 58px; border-radius: 50%;
+  color: #092453;
+  background: linear-gradient(145deg, #fff36a 0%, #ffd52e 58%, #f4b91d 100%);
+  border: 2px solid rgba(255, 239, 102, .95);
+  box-shadow: 0 0 18px rgba(255, 220, 42, .34), inset 0 1px 0 rgba(255,255,255,.8);
 }
-
 .login-card.solid-mode .login-header h2 {
-  color: #1b1464;
-  text-shadow: none;
+  color: #ffffff;
+  text-shadow: 0 2px 18px rgba(55, 133, 255, .24);
 }
-
-.login-card.solid-mode .login-header p {
-  color: rgba(27, 20, 100, .68);
-  text-shadow: none;
-}
+.login-card.solid-mode .login-header p { color: rgba(232, 241, 255, .86); text-shadow: none; }
 
 .login-card.solid-mode .portal-status {
-  background: #ffffff;
-  border: 1px solid rgba(27, 20, 100, .10);
-  box-shadow: none;
+  background: linear-gradient(110deg, rgba(42, 85, 139, .58), rgba(38, 65, 127, .64));
+  border: 1px solid rgba(135, 180, 255, .42);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 6px 18px rgba(0,0,0,.12);
 }
-
-.login-card.solid-mode .status-text span {
-  color: rgba(27, 20, 100, .55);
-}
-
+.login-card.solid-mode .status-text span { color: rgba(220, 233, 255, .72); }
 .login-card.solid-mode .status-text strong,
-.login-card.solid-mode #statusIcon {
-  color: #3eb760;
-}
-
-
+.login-card.solid-mode #statusIcon { color: #ffe33f; }
 .login-card.solid-mode.teacher-mode .status-text strong,
-.login-card.solid-mode.teacher-mode #statusIcon {
-  color: #ffe600;
-}
+.login-card.solid-mode.teacher-mode #statusIcon { color: #ffe33f; }
 
-.login-card.solid-mode .input-group label {
-  color: #1b1464;
-}
-
-.login-card.solid-mode .input-group label i {
-  color: #1b1464;
-}
-
+.login-card.solid-mode .input-group label,
+.login-card.solid-mode .input-group label i { color: #eaf2ff; }
 .login-card.solid-mode .input-box input {
   height: 56px;
-  background: #ffffff;
-  color: rgb(27, 20, 100);
-  border: 1px solid rgba(27, 20, 100, .14);
-  box-shadow: 0 3px 10px rgba(27, 20, 100, .06);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  background: linear-gradient(110deg, rgba(20, 49, 91, .90), rgba(17, 39, 89, .92));
+  color: #ffffff;
+  border: 1px solid rgba(111, 160, 235, .68);
+  border-radius: 15px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 4px 14px rgba(0,0,0,.14);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  caret-color: #ffe33f;
 }
-
-.login-card.solid-mode .input-box input::placeholder {
-  color: rgba(27, 20, 100, .46);
-}
-
+.login-card.solid-mode .input-box input::placeholder { color: rgba(220, 233, 255, .78); }
 .login-card.solid-mode .input-box input:focus {
-  background: #ffffff;
-  border-color: rgba(27, 20, 100, .30);
-  box-shadow: 0 0 0 3px rgba(27, 20, 100, .07);
+  background: linear-gradient(110deg, rgba(24, 57, 105, .98), rgba(21, 45, 101, .98));
+  border-color: #6ea8ff;
+  box-shadow: 0 0 0 3px rgba(39, 125, 255, .20), 0 0 18px rgba(22, 115, 255, .15);
 }
-
-.login-card.solid-mode .input-box>i {
-  color: rgba(27, 20, 100, .46);
-}
-
-.login-card.solid-mode .password-toggle {
-  color: rgba(27, 20, 100, .55);
-}
-
-.login-card.solid-mode .password-toggle:hover {
-  color: #1b1464;
-  background: rgba(27, 20, 100, .06);
-}
+.login-card.solid-mode .input-box>i { color: #d4e4ff; }
+.login-card.solid-mode .password-toggle { color: #d8e7ff; }
+.login-card.solid-mode .password-toggle:hover { color: #ffe33f; background: rgba(255,255,255,.08); }
 
 .login-card.solid-mode .login-button {
   height: 55px;
-  color: #fff9a6;
-  background: linear-gradient(135deg, #1b1464, #261c83);
-  border: 1px solid rgba(27, 20, 100, .10);
-  box-shadow: 0 12px 25px rgba(27, 20, 100, .22);
+  color: #071b42;
+  background: linear-gradient(110deg, #ffe84d 0%, #ffda30 58%, #ffc928 100%);
+  border: 1px solid rgba(255, 245, 153, .9);
+  border-radius: 17px;
+  box-shadow: 0 8px 24px rgba(255, 202, 35, .22), inset 0 1px 0 rgba(255,255,255,.62);
 }
-
 .login-card.solid-mode .login-button:hover {
-  background: linear-gradient(135deg, #261c83, #1b1464);
-  box-shadow: 0 17px 30px rgba(27, 20, 100, .26);
+  color: #061632;
+  background: linear-gradient(110deg, #fff16a, #ffdc35 58%, #ffd02c);
+  box-shadow: 0 10px 28px rgba(255, 202, 35, .34), 0 0 18px rgba(255, 222, 52, .16), inset 0 1px 0 rgba(255,255,255,.7);
 }
-
-.login-card.solid-mode .loader {
-  border-color: rgba(255, 249, 166, .28);
-  border-top-color: #fff9a6;
-}
-
-.login-card.solid-mode .portal-selector .selector-label {
-  color: rgba(27, 20, 100, .55);
-}
-
+.login-card.solid-mode .loader { border-color: rgba(8, 27, 66, .22); border-top-color: #081b42; }
+.login-card.solid-mode .portal-selector .selector-label { color: rgba(220, 233, 255, .70); }
 .login-card.solid-mode .portal-button {
-  background: #ffffff;
-  color: rgba(27, 20, 100, .72);
-  border: 1px solid rgba(27, 20, 100, .12);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  background: rgba(12, 34, 72, .72);
+  color: #e4edff;
+  border: 1px solid rgba(111, 160, 235, .58);
+  border-radius: 14px;
+  backdrop-filter: none; -webkit-backdrop-filter: none;
 }
-
 .login-card.solid-mode .portal-button:hover {
-  background: #f8f5cf;
-  border-color: rgba(27, 20, 100, .20);
-  color: #1b1464;
+  background: rgba(31, 67, 120, .90);
+  border-color: rgba(143, 190, 255, .84);
+  color: #ffffff;
 }
-
 .login-card.solid-mode .portal-button.active {
-  background: #1b1464;
-  color: #fff9a6;
-  border-color: #1b1464;
-  box-shadow: 0 8px 20px rgba(27, 20, 100, .18);
+  background: linear-gradient(110deg, rgba(18, 52, 103, .98), rgba(20, 45, 94, .98));
+  color: #ffe33f;
+  border: 1px solid #ffdf27;
+  box-shadow: 0 0 0 1px rgba(255, 223, 39, .12), 0 0 18px rgba(255, 218, 38, .13), inset 0 1px 0 rgba(255,255,255,.08);
 }
-
-.login-card.solid-mode .login-message {
-  color: #1b1464;
-}
-
-.login-card.solid-mode .login-message.success {
-  color: #21813c;
-}
-
-.login-card.solid-mode .login-message.error {
-  color: #b42318;
-}
-
-.login-card.solid-mode .security {
-  color: rgba(27, 20, 100, .58);
-}
-
-.login-card.solid-mode .security i {
-  color: #21813c;
+.login-card.solid-mode .login-message { color: #edf4ff; }
+.login-card.solid-mode .login-message.success { color: #62e7a0; }
+.login-card.solid-mode .login-message.error { color: #ff9292; }
+.login-card.solid-mode .security { color: rgba(221, 234, 255, .82); }
+.login-card.solid-mode .security i { 
+  color: #5ee7a0; 
 }
 
 @media (max-width: 600px) {
@@ -3553,4 +3528,305 @@ body {
     cursor: default;
     /* Removes link hand cursor */
   }
+}
+
+/* =========================================================
+   SOLID CARD: MATCH THE GLASS CARD'S SURFACE ONLY
+   The glass-mode card remains unchanged. Existing content and
+   interactions are preserved; the primary button stays yellow.
+   ========================================================= */
+.login-card.solid-mode {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.105),
+    rgba(27, 20, 100, 0.18),
+    rgba(255, 255, 255, 0.055));
+  border: 1px solid rgba(255, 255, 255, 0.705);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.48),
+    0 0 55px rgba(27, 20, 100, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.20),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(25px) saturate(145%);
+  -webkit-backdrop-filter: blur(25px) saturate(145%);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.login-card.solid-mode:hover {
+  border-color: rgba(255, 255, 255, 0.705);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.48),
+    0 0 55px rgba(27, 20, 100, 0.15),
+    inset 0 0 18px rgba(255, 255, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Same centered drag handle position and appearance as glass mode */
+.login-card.solid-mode::after {
+  top: 9px;
+  left: 50%;
+  width: 40px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  transform: translateX(-50%);
+}
+
+/* Keep the primary action yellow in solid mode */
+.login-card.solid-mode .login-button {
+  color: #071b42;
+  background: linear-gradient(110deg, #ffe84d 0%, #ffda30 58%, #ffc928 100%);
+  border: 1px solid rgba(255, 245, 153, 0.9);
+  box-shadow: 0 8px 24px rgba(255, 202, 35, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+.login-card.solid-mode .login-button:hover {
+  color: #061632;
+  background: linear-gradient(110deg, #fff16a, #ffdc35 58%, #ffd02c);
+  box-shadow: 0 10px 28px rgba(255, 202, 35, 0.34), 0 0 18px rgba(255, 222, 52, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+
+/* =========================================================
+   SOLID CARD: STATIC PALE-YELLOW + BCC BLUE/GOLD THEME
+   Glass mode is intentionally untouched.
+   ========================================================= */
+.login-card.solid-mode {
+  background: #fff6cf !important;
+  color: #172b4d !important;
+  border: 1.5px solid #d7ad24 !important;
+  box-shadow: 0 18px 42px rgba(31, 43, 65, .22),
+              0 0 0 4px rgba(255, 218, 91, .14),
+              inset 0 1px 0 rgba(255,255,255,.92) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+/* Remove the rotating animated border/background from solid mode only. */
+.login-card.solid-mode::before {
+  display: none !important;
+  animation: none !important;
+  background: none !important;
+}
+.login-card.solid-mode:hover {
+  border-color: #d7ad24 !important;
+  box-shadow: 0 20px 46px rgba(31, 43, 65, .24),
+              0 0 0 4px rgba(255, 218, 91, .16),
+              inset 0 1px 0 rgba(255,255,255,.95) !important;
+}
+/* Keep the centered drag handle in the same position as glass mode. */
+.login-card.solid-mode::after {
+  top: 9px !important;
+  left: 50% !important;
+  width: 40px !important;
+  height: 4px !important;
+  border-radius: 999px !important;
+  background: #b38b18 !important;
+  box-shadow: none !important;
+  transform: translateX(-50%) !important;
+}
+.login-card.solid-mode .glass-shine { display: none !important; }
+.login-card.solid-mode .login-style-toggle { color: #8a6810 !important; }
+.login-card.solid-mode .login-style-toggle:hover,
+.login-card.solid-mode .login-style-toggle:focus-visible { color: #174ea6 !important; }
+.login-card.solid-mode .login-header h2 { color: #142b50 !important; text-shadow: none !important; }
+.login-card.solid-mode .login-header p { color: #4b5e78 !important; }
+.login-card.solid-mode .input-group label,
+.login-card.solid-mode .input-group label i { color: #263e60 !important; }
+.login-card.solid-mode .portal-status {
+  background: #fffdf4 !important;
+  border: 1px solid #e2d39a !important;
+  box-shadow: inset 0 1px 0 #fff !important;
+}
+.login-card.solid-mode .status-text span { color: #69758a !important; }
+.login-card.solid-mode .input-box input {
+  background: #fffdf6 !important;
+  color: #172b4d !important;
+  border: 1px solid #c9d3e2 !important;
+  box-shadow: inset 0 1px 2px rgba(23,43,77,.04) !important;
+  caret-color: #174ea6 !important;
+}
+.login-card.solid-mode .input-box input::placeholder { color: #78869a !important; }
+.login-card.solid-mode .input-box input:focus {
+  background: #ffffff !important;
+  border-color: #3478d4 !important;
+  box-shadow: 0 0 0 3px rgba(52,120,212,.15) !important;
+}
+.login-card.solid-mode .input-box > i,
+.login-card.solid-mode .password-toggle { color: #526986 !important; }
+.login-card.solid-mode .password-toggle:hover { color: #174ea6 !important; background: rgba(23,78,166,.07) !important; }
+/* Main action remains dark golden yellow with navy text. */
+.login-card.solid-mode .login-button {
+  color: #172b4d !important;
+  background: #f2c230 !important;
+  border: 1px solid #d7a91a !important;
+  box-shadow: 0 5px 12px rgba(174,128,13,.18), inset 0 1px 0 rgba(255,255,255,.5) !important;
+}
+.login-card.solid-mode .login-button:hover {
+  color: #142b50 !important;
+  background: #eab51b !important;
+  box-shadow: 0 7px 16px rgba(174,128,13,.23) !important;
+}
+/* Portal choices: blue for Student, dark gold for Teacher. */
+.login-card.solid-mode .portal-button {
+  background: #edf4ff !important;
+  color: #174ea6 !important;
+  border: 1px solid #9bb9e6 !important;
+  box-shadow: none !important;
+}
+.login-card.solid-mode .portal-button:hover {
+  background: #e0ecff !important;
+  color: #123d82 !important;
+  border-color: #6e9bdb !important;
+}
+.login-card.solid-mode .portal-button.active {
+  background: #174ea6 !important;
+  color: #ffffff !important;
+  border: 1px solid #174ea6 !important;
+  box-shadow: 0 3px 9px rgba(23,78,166,.18) !important;
+}
+.login-card.solid-mode .portal-button.active i,
+.login-card.solid-mode .portal-button.active svg { color: inherit !important; }
+.login-card.solid-mode .login-message { color: #263e60 !important; }
+.login-card.solid-mode .login-message.success { color: #16834a !important; }
+.login-card.solid-mode .login-message.error { color: #b42318 !important; }
+.login-card.solid-mode .security { color: #536781 !important; }
+.login-card.solid-mode .security i { color: #16834a !important; }
+/* Teacher status = yellow; Student status = green. */
+.login-card.solid-mode.teacher-mode .status-text strong,
+.login-card.solid-mode.teacher-mode #statusIcon,
+.login-card.solid-mode.teacher-mode .status-dot { color: #a87500 !important; }
+.login-card.solid-mode.teacher-mode .status-dot { background: #e5b51b !important; }
+.login-card.solid-mode.teacher-mode .portal-status { background: #fff5c7 !important; border-color: #e5c65d !important; }
+.login-card.solid-mode:not(.teacher-mode) .status-text strong,
+.login-card.solid-mode:not(.teacher-mode) #statusIcon,
+.login-card.solid-mode:not(.teacher-mode) .status-dot { color: #16834a !important; }
+.login-card.solid-mode:not(.teacher-mode) .status-dot { background: #20a464 !important; }
+.login-card.solid-mode:not(.teacher-mode) .portal-status { background: #e9f8ef !important; border-color: #9ed8b5 !important; }
+
+/* =========================================================
+   SOLID CARD REFINEMENT — NAVY GRADIENT + GLASS-MODE DIMENSIONS
+   Glass mode remains unchanged. Solid mode uses the same card
+   spacing and proportions as the glass card at every breakpoint.
+   ========================================================= */
+.login-card.solid-mode {
+  background: #fff9a6 !important;
+  color: #102448 !important;
+  box-shadow: 0 18px 44px rgba(12, 28, 58, 0.22),
+              0 0 0 1px rgba(255, 255, 255, 0.72),
+              inset 0 1px 0 rgba(255, 255, 255, 0.95),
+              inset 0 -1px 0 rgba(178, 137, 31, 0.12) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 20px 34px !important;
+  border-radius: 28px !important;
+  transition: box-shadow .3s ease, border-color .3s ease !important;
+}
+.login-card.solid-mode:hover {
+  box-shadow: 0 20px 48px rgba(12, 28, 58, 0.24),
+              0 0 0 1px rgba(255, 255, 255, 0.72),
+              inset 0 1px 0 rgba(255, 255, 255, 0.98) !important;
+}
+.login-card.solid-mode::after {
+  top: 9px !important; left: 50% !important;
+  width: 40px !important; height: 4px !important;
+  border-radius: 999px !important;
+  background: #a9872d !important;
+  box-shadow: none !important;
+  transform: translateX(-50%) !important;
+}
+/* Deep navy gradients replace blue accents; buttons remain yellow/navy. */
+.login-card.solid-mode .login-style-toggle,
+.login-card.solid-mode .login-style-toggle:hover,
+.login-card.solid-mode .login-style-toggle:focus-visible,
+.login-card.solid-mode .input-box input:focus,
+.login-card.solid-mode .password-toggle:hover {
+  color: #102448 !important;
+}
+.login-card.solid-mode .input-box input:focus {
+  color: #344b70;
+  border-color: #243f70 !important;
+  box-shadow: 0 0 0 3px rgba(24, 49, 91, .13) !important;
+}
+.login-card.solid-mode .input-box > i,
+.login-card.solid-mode .password-toggle { color: #344b70 !important; }
+.login-card.solid-mode .portal-button {
+  background: linear-gradient(135deg, #f7f9fd 0%, #e7edf7 100%) !important;
+  color: #172e55 !important;
+  border: 1px solid #a9b6cc !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9) !important;
+}
+.login-card.solid-mode .portal-button:hover {
+  background: linear-gradient(135deg, #edf2fa 0%, #dbe4f2 100%) !important;
+  color: #102448 !important;
+  border-color: #647a9d !important;
+}
+.login-card.solid-mode .portal-button.active {
+  background: linear-gradient(135deg, #263f6b 0%, #102448 100%) !important;
+  color: #fff !important;
+  border: 1px solid #102448 !important;
+  box-shadow: 0 4px 10px rgba(16,36,72,.2), inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+.login-card.solid-mode .login-button {
+  color: #fff !important;
+  background: linear-gradient(135deg, #263f6b 0%, #102448 100%) !important;
+  border: 1px solid #102448 !important;
+  box-shadow: 0 4px 10px rgba(16,36,72,.2), inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+.login-card.solid-mode .login-button:hover {
+  color: #fff !important;
+  background: linear-gradient(135deg, #263f6b 0%, #102448 100%) !important;
+  box-shadow: 0 4px 10px rgba(16,36,72,.2), inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+/* Match the glass card's responsive padding/radius instead of shrinking solid mode. */
+@media (max-width: 820px) {
+  .login-card.solid-mode { padding: 27px 21px !important; border-radius: 24px !important; }
+}
+@media (max-width: 420px) {
+  .login-card.solid-mode { padding: 23px 17px !important; border-radius: 21px !important; }
+}
+
+
+css
+/* Fix browser autofill text visibility in the solid login card */
+.login-card.solid-mode .input-box input:-webkit-autofill,
+.login-card.solid-mode .input-box input:-webkit-autofill:hover,
+.login-card.solid-mode .input-box input:-webkit-autofill:focus,
+.login-card.solid-mode .input-box input:-webkit-autofill:active {
+  -webkit-text-fill-color: #102448 !important;
+  caret-color: #102448 !important;
+  transition: background-color 999999s ease-in-out 0s !important;
+  box-shadow: 0 0 0 1000px #fff9a6 inset !important;
+}
+
+/* Keep placeholder and typed text readable */
+.login-card.solid-mode .input-box input {
+  color: #102448 !important;
+  caret-color: #102448 !important;
+}
+
+.login-card.solid-mode .input-box input::placeholder {
+  color: #64748b !important;
+  opacity: 1;
+}
+
+.login-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: none;
+    border: none;
+}
+
+.login-icon img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+.login-card.solid-mode .login-icon  {
+  border-radius: 16px;
+
 }

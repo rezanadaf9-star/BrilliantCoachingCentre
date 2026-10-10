@@ -2222,6 +2222,31 @@
     });
   }
 
+  function enterQuizMode() {
+    document.body.classList.add("quiz-active-mode");
+    document.documentElement.classList.add("quiz-active-mode");
+
+    // Best-effort landscape lock for phones/tablets. Browsers may reject
+    // this unless the page is running in fullscreen/PWA mode, so CSS below
+    // still provides the landscape layout when the browser cannot lock it.
+    if (window.matchMedia("(max-width: 1100px)").matches &&
+        screen.orientation &&
+        typeof screen.orientation.lock === "function") {
+      screen.orientation.lock("landscape").catch(() => {});
+    }
+  }
+
+  function exitQuizMode() {
+    document.body.classList.remove("quiz-active-mode");
+    document.documentElement.classList.remove("quiz-active-mode");
+
+    if (screen.orientation && typeof screen.orientation.unlock === "function") {
+      try {
+        screen.orientation.unlock();
+      } catch (_) {}
+    }
+  }
+
   function startQuiz(quiz) {
     if (!quiz || !Array.isArray(quiz.questions) || !quiz.questions.length) {
       showNoQuiz();
@@ -2270,6 +2295,7 @@
     $("positiveMarksValue").textContent = formatMarks(state.quiz.marksPerQuestion);
     $("negativeMarksValue").textContent = formatMarks(state.quiz.negativeMarks);
 
+    enterQuizMode();
     $("quizRunner").classList.add("show");
     $("quizRunner").setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
@@ -2607,6 +2633,7 @@
 
     $("quizRunner").classList.remove("show");
     $("quizRunner").setAttribute("aria-hidden", "true");
+    exitQuizMode();
     $("quizResultScreen").classList.add("show");
     $("quizResultScreen").setAttribute("aria-hidden", "false");
     document.body.style.overflow = "auto";

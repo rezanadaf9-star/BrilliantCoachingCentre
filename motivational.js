@@ -116,20 +116,43 @@ function closeMeeting() {
     meetingStatus.textContent = "Not joined";
 
     if (meetingWindow.classList.contains("ptm-fullscreen")) {
-        meetingWindow.classList.remove("ptm-fullscreen");
-        document.body.style.overflow = "";
+        setMeetingFullscreen(false);
         fullscreenBtn.innerHTML = '<i class="fa-solid fa-expand"></i>';
         fullscreenBtn.title = "Full screen";
     }
 }
 
+function setMeetingFullscreen(active) {
+    const sidebar = document.querySelector(".sidebar");
+
+    meetingWindow.classList.toggle("ptm-fullscreen", active);
+    document.body.classList.toggle("bcc-meeting-fullscreen", active);
+    document.body.style.overflow = active ? "hidden" : "";
+
+    // The sidebar belongs to the dashboard layout, so explicitly remove it
+    // from the fullscreen stacking context instead of relying only on z-index.
+    if (sidebar) {
+        if (active) {
+            if (!sidebar.dataset.bccPreviousDisplay) {
+                sidebar.dataset.bccPreviousDisplay = sidebar.style.display || "";
+            }
+            sidebar.style.display = "none";
+            sidebar.style.pointerEvents = "none";
+        } else {
+            sidebar.style.display = sidebar.dataset.bccPreviousDisplay || "";
+            sidebar.style.pointerEvents = "";
+            delete sidebar.dataset.bccPreviousDisplay;
+        }
+    }
+}
+
 function toggleFullscreen() {
-    meetingWindow.classList.toggle("ptm-fullscreen");
-    document.body.style.overflow = meetingWindow.classList.contains("ptm-fullscreen") ? "hidden" : "";
-    fullscreenBtn.innerHTML = meetingWindow.classList.contains("ptm-fullscreen")
+    const active = !meetingWindow.classList.contains("ptm-fullscreen");
+    setMeetingFullscreen(active);
+    fullscreenBtn.innerHTML = active
         ? '<i class="fa-solid fa-compress"></i>'
         : '<i class="fa-solid fa-expand"></i>';
-    fullscreenBtn.title = meetingWindow.classList.contains("ptm-fullscreen") ? "Exit full screen" : "Full screen";
+    fullscreenBtn.title = active ? "Exit full screen" : "Full screen";
 }
 
 joinBtn.addEventListener("click", joinSession);

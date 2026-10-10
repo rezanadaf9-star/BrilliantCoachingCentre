@@ -172,7 +172,7 @@ modelOptions.forEach(function (option) {
     const modelWords = selectedModel.trim().split(/\s+/);
 
     selectedModelIcon.textContent =
-      modelWords[1]?.charAt(0).toUpperCase() || "N";
+      modelWords[1]?.charAt(0).toUpperCase() || "S";
 
     modelOptions.forEach(function (item) {
       item.classList.remove("selected");
@@ -323,71 +323,180 @@ function addUserMessage(message) {
    ADD AI MESSAGE WITH TYPEWRITER ANIMATION
    ========================================================= */
 
-function addAIMessageWithAnimation(fullHTML, onComplete) {
-  // Prepare Hindi spans before the typewriter starts so there is no
-  // font/weight jump when the animation finishes.
+/* =========================================================
+   MATHJAX — RENDER CENTERED DISPLAY EQUATIONS
+   Loads MathJax once and typesets equations after AI typing.
+   ========================================================= */
+function ensureMathJaxLoaded() {
+  if (window.MathJax && window.MathJax.typesetPromise) {
+    return Promise.resolve();
+  }
+
+  if (window.__myelinMathJaxPromise) {
+    return window.__myelinMathJaxPromise;
+  }
+
+  // MathJax must be configured before its script is loaded.
+  window.MathJax = {
+    tex: {
+      inlineMath: [["\\(", "\\)"]],
+      displayMath: [["\\[", "\\]"]]
+    },
+    chtml: { scale: 1 },
+    options: {
+      skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+    },
+    startup: { typeset: false }
+  };
+
+  window.__myelinMathJaxPromise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.id = "MathJax-script";
+    script.async = true;
+    script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+    script.onload = () => resolve();
+    script.onerror = () => {
+      window.__myelinMathJaxPromise = null;
+      reject(new Error("MathJax could not be loaded."));
+    };
+    document.head.appendChild(script);
+  });
+
+  return window.__myelinMathJaxPromise;
+}
+
+function renderMathInElement(element) {
+  if (!element) return;
+
+  ensureMathJaxLoaded()
+    .then(() => window.MathJax.typesetPromise([element]))
+    .catch((error) => console.error("MathJax rendering error:", error));
+}
+
+function addAIMessageWithAnimation(fullHTML, onComplete, useMathJax = false) {
+  const startedAt = Date.now();
+
+  // Every response starts with the same THINKING animation.
+  const thinkingRow = document.createElement("div");
+  thinkingRow.className = "myelin-thinking-row";
+  thinkingRow.innerHTML = `
+    <div class="myelin-thinking-avatar"><img src="images/ai-company.png" alt="Myelin AI"></div>
+    <div class="myelin-thinking-word" aria-label="Thinking">
+      ${"Thinking".split("").map((letter, i) => `<span style="--thinking-index:${i}">${letter}</span>`).join("")}
+    </div>`;
+  chatMessages.appendChild(thinkingRow);
+  scrollChatToBottom();
+
+  // Prepare the response away from the visible chat so nothing flashes.
   const preparedResponse = document.createElement("div");
   preparedResponse.innerHTML = fullHTML;
   applyHindiFont(preparedResponse);
-  fullHTML = preparedResponse.innerHTML;
 
   const messageElement = document.createElement("div");
-
   messageElement.className = "chat-message ai";
-
   messageElement.innerHTML = `
-        <div class="message-avatar">
-            <img src="images/ai-company.png" alt="Myelin AI">
-        </div>
-        <div class="message-content"></div>
-    `;
-
-  chatMessages.appendChild(messageElement);
+    <div class="message-avatar"><img src="images/ai-company.png" alt="Myelin AI"></div>
+    <div class="message-content"></div>`;
   const contentContainer = messageElement.querySelector(".message-content");
 
-  // Speed configuration (fast)
-  const typingSpeedMs = 1;
+  const waitForThinking = new Promise(resolve => {
+    const remaining = Math.max(0, 1500 - (Date.now() - startedAt));
+    setTimeout(resolve, remaining);
+  });
 
-  let index = 0;
+  // MathJax is deliberately used ONLY for the two explicitly supported
+  // MathJax questions. All other responses use the normal typewriter path.
+  const formattingReady = useMathJax
+    ? ensureMathJaxLoaded().then(() => window.MathJax.typesetPromise([preparedResponse]))
+    : Promise.resolve();
 
-  function typeNextChar() {
-    if (index < fullHTML.length) {
-      // Handle full HTML tags directly so code isn't typed character-by-character
-      if (fullHTML[index] === "<") {
-        const closeIndex = fullHTML.indexOf(">", index);
-        if (closeIndex !== -1) {
-          index = closeIndex + 1;
-        } else {
-          index++;
+  Promise.all([waitForThinking, formattingReady])
+    .catch(error => {
+      console.error("Response preparation error:", error);
+    })
+    .then(async () => {
+      thinkingRow.remove();
+      chatMessages.appendChild(messageElement);
+
+      const blocks = Array.from(preparedResponse.childNodes).filter(node =>
+        node.nodeType !== Node.TEXT_NODE || node.textContent.trim()
+      );
+      const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+      async function animateTextNodes(root) {
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+          acceptNode(node) {
+            if (!node.nodeValue || !node.nodeValue.length) {
+              return NodeFilter.FILTER_REJECT;
+            }
+
+            let parent = node.parentElement;
+
+            while (parent && parent !== root) {
+              if (parent.matches("mjx-container, script, style, .MathJax")) {
+                return NodeFilter.FILTER_REJECT;
+              }
+              parent = parent.parentElement;
+            }
+
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        });
+
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+
+        for (const textNode of nodes) {
+          const fullText = textNode.nodeValue;
+          textNode.nodeValue = "";
+
+          for (let i = 0; i < fullText.length; i++) {
+            textNode.nodeValue += fullText[i];
+            scrollChatToBottom();
+            await delay(5);
+          }
         }
-      } else {
-        index++;
       }
 
-      contentContainer.innerHTML = fullHTML.slice(0, index);
-      scrollChatToBottom();
+      for (const originalBlock of blocks) {
+        let block;
 
-      setTimeout(typeNextChar, typingSpeedMs);
-    } else {
-      // The response is already font-prepared; do not reformat it here.
-      contentContainer.innerHTML = fullHTML;
-      scrollChatToBottom();
-      if (typeof onComplete === "function") {
-        onComplete();
+        if (originalBlock.nodeType === Node.TEXT_NODE) {
+          block = document.createTextNode(originalBlock.nodeValue);
+        } else {
+          block = originalBlock.cloneNode(true);
+        }
+
+        if (block.nodeType === Node.TEXT_NODE) {
+          const value = block.nodeValue;
+          block.nodeValue = "";
+          contentContainer.appendChild(block);
+
+          for (const ch of value) {
+            block.nodeValue += ch;
+            scrollChatToBottom();
+            await delay(3);
+          }
+        } else {
+          contentContainer.appendChild(block);
+          await animateTextNodes(block);
+        }
+
+        scrollChatToBottom();
       }
-    }
-  }
 
-  typeNextChar();
+      applyHindiFont(contentContainer);
+      scrollChatToBottom();
+
+      if (typeof onComplete === "function") onComplete();
+    });
 }
 
 /* =========================================================
    TYPING INDICATOR (DISABLED/REMOVED AS REQUESTED)
    ========================================================= */
 
-function showTypingIndicator() {
-  // Bypassed: User requested no typing indicator
-}
+function showTypingIndicator() { /* Per-message THINKING animation is used instead. */ }
 
 function hideTypingIndicator() {
   if (aiTypingIndicator) {
@@ -398,6 +507,31 @@ function hideTypingIndicator() {
 /* =========================================================
    DEMO RESPONSE ENGINE
    ========================================================= */
+
+function normalizeQuestion(text) {
+  return text
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function isExactQuestion(message, variants) {
+  const normalized = normalizeQuestion(message);
+  return variants.some(variant => normalized === normalizeQuestion(variant));
+}
+
+function isMathJaxQuestion(message) {
+  return isExactQuestion(message, [
+    "what is newton's third law",
+    "explain newton's third law",
+    "explain newton's third law of motion",
+    "explain quadratic equation step by step",
+    "dwighat samikaran ko samjhao",
+    "x^2-5x+6",
+    "x²-5x+6",
+    "x^2 - 5x + 6"
+  ]);
+}
 
 function generateDemoResponse(userMessage) {
   const message = userMessage.toLowerCase();
@@ -1148,7 +1282,7 @@ function generateDemoResponse(userMessage) {
     message.length < 45 && (
       message.includes("physics") ||
       message.includes("force") ||
-      message.includes("motion")
+      message.includes("what is motion")
     )
   ) {
     return `
@@ -2986,6 +3120,847 @@ if (
     `;
   }
 
+  if (isExactQuestion(message, [
+    "Bihar Board Class 10 ke liye agle 3 mahine ka revision plan",
+    "class 10th Bihar Board examination revision plan for next three months",
+    "3 months study plan to get 90% + in 10th BSEB",
+    "Bihar Board 10th ke liye 90% marks kaise laayein",
+    "class 10 ka 3 month study plan",
+    "bihar board class 10 revision plan",
+    "class 10th ka revision plan batao",
+    "90% marks lane ke liye study plan"
+  ])) {
+    return `
+      <h2>Bihar Board Class 10: 3 Mahine ka Revision Plan 🎯</h2>
+
+      <p><strong>Target: 90%+ Marks | Hindi Medium Students ke liye</strong></p>
+
+      <p>
+        Agar tum Bihar Board Class 10 ki taiyari kar rahe ho aur agle
+        3 mahine mein 90% se zyada marks lana chahte ho, toh tumhe ek
+        proper study plan follow karna hoga.
+      </p>
+
+      <p>
+        Sirf kitab padhne se achhe marks nahi aate. Tumhe concepts
+        samajhne, questions solve karne, baar-baar revision karne aur
+        model papers ki practice karne ki zarurat hai.
+      </p>
+
+      <p>Chalo, samajhte hain ki agle 90 din kaise plan karne hain.</p>
+
+      <h3>1. Pehle Apna Target Samjho 🎯</h3>
+
+      <p>Agar tumhare exam ka total 500 marks hai, toh:</p>
+
+      <ul>
+        <li>90% = 450 marks</li>
+        <li>92% = 460 marks</li>
+        <li>95% = 475 marks</li>
+      </ul>
+
+      <p>
+        Isliye practice tests mein 460–475 marks lane ka target rakho,
+        taaki final examination mein bhi 90%+ score karne ka achha
+        chance rahe.
+      </p>
+
+      <p>
+        <em>
+          Note: Apne examination ke applicable total marks aur
+          subject-wise assessment rules ko zaroor check karna.
+        </em>
+      </p>
+
+      <h3>2. Teen Mahine ka Complete Study Plan 📚</h3>
+
+      <h4>Month 1: Syllabus Revision aur Concepts Strong Karna</h4>
+
+      <p>
+        Pehle mahine ka main target hai ki tum apne syllabus ke chapters
+        ko achhe se samajh lo aur unki pehli revision complete karo.
+      </p>
+
+      <p><strong>Mathematics:</strong></p>
+      <ul>
+        <li>Har din formulas revise karo.</li>
+        <li>Textbook ke solved examples aur exercises solve karo.</li>
+        <li>
+          Algebra (बीजगणित), Geometry (ज्यामिति),
+          Trigonometry (त्रिकोणमिति), Statistics (सांख्यिकी)
+          aur syllabus ke doosre chapters ki practice karo.
+        </li>
+      </ul>
+
+      <p><strong>Science:</strong></p>
+      <ul>
+        <li>Physics mein formulas aur numericals par focus karo.</li>
+        <li>Chemistry mein chemical reactions, equations aur important concepts samjho.</li>
+        <li>Biology mein diagrams, definitions aur biological processes revise karo.</li>
+      </ul>
+
+      <p><strong>Social Science:</strong></p>
+      <ul>
+        <li>History mein events, causes aur consequences samjho.</li>
+        <li>Geography mein resources, agriculture, industries aur maps ki practice karo.</li>
+        <li>Civics aur Economics mein important concepts, definitions aur differences revise karo.</li>
+      </ul>
+
+      <p><strong>Hindi aur Urdu:</strong></p>
+      <ul>
+        <li>Prose, poetry, grammar aur writing section ki taiyari karo.</li>
+        <li>Important questions ke answers likhkar practice karo.</li>
+      </ul>
+
+      <p><strong>English (Optional):</strong></p>
+      <ul>
+        <li>Basic grammar, textbook chapters aur writing formats par kaam karo.</li>
+      </ul>
+
+      <p>
+        <strong>Month 1 ka target:</strong>
+        Syllabus ka pehla revision complete karna aur weak chapters ki list banana.
+      </p>
+
+      <h4>Month 2: Question Practice aur Second Revision</h4>
+
+      <p>
+        Doosre mahine mein sirf padhne ke bajaye questions solve karne
+        par zyada focus karo.
+      </p>
+
+      <ul>
+        <li>Mathematics mein roz 15–25 questions solve karne ki koshish karo.</li>
+        <li>Science mein MCQs, short answers, long answers aur numericals practise karo.</li>
+        <li>Social Science mein chapter-wise questions aur point-wise answers likho.</li>
+        <li>Hindi aur Urdu mein grammar, literature aur writing questions ki practice karo.</li>
+        <li>English mein comprehension, grammar aur writing formats revise karo.</li>
+        <li>Previous-year questions aur available official model papers solve karo.</li>
+      </ul>
+
+      <p>
+        Har hafte kam se kam ek timed subject test do. Test ke baad
+        apni mistakes ko analyse karo.
+      </p>
+
+      <p>
+        <strong>Month 2 ka target:</strong>
+        Questions solve karne ki speed badhana, concepts ko yaad rakhna
+        aur answer-writing improve karna.
+      </p>
+
+      <h4>Month 3: Mock Tests aur Final Revision</h4>
+
+      <p>Aakhri mahina examination practice ke liye sabse important hai.</p>
+
+      <p><strong>Week 9:</strong></p>
+      <ul>
+        <li>Maths aur Science ke full-length papers solve karo.</li>
+        <li>Apne weak chapters ko dobara revise karo.</li>
+      </ul>
+
+      <p><strong>Week 10:</strong></p>
+      <ul>
+        <li>Social Science ke model papers solve karo.</li>
+        <li>History, Geography, Civics aur Economics ke important topics revise karo.</li>
+      </ul>
+
+      <p><strong>Week 11:</strong></p>
+      <ul>
+        <li>Hindi aur Urdu ke complete papers practise karo.</li>
+        <li>English ke grammar aur writing section ki revision karo.</li>
+        <li>Exam ke time limit ke andar paper complete karne ki practice karo.</li>
+      </ul>
+
+      <p><strong>Week 12:</strong></p>
+      <ul>
+        <li>Sabhi subjects ke formulas, definitions, diagrams, dates aur important points revise karo.</li>
+        <li>Apni mistake notebook dobara dekho.</li>
+        <li>Naye bade topics shuru karne ke bajaye pehle se padhe hue topics ko strong karo.</li>
+        <li>Puri neend lo aur examination se pehle apna routine stable rakho.</li>
+      </ul>
+
+      <p>
+        <strong>Month 3 ka target:</strong>
+        Exam mein speed, accuracy aur confidence ke saath paper solve karna.
+      </p>
+
+      <h3>3. Roz ka Study Timetable 🕒</h3>
+
+      <p>
+        Agar tum school bhi jaate ho, toh apni suvidha ke hisaab se
+        timetable adjust kar sakte ho.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Samay</th>
+            <th>Subject / Activity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>6:00–7:30 AM</td><td>Mathematics</td></tr>
+          <tr><td>7:30–8:00 AM</td><td>Break aur breakfast</td></tr>
+          <tr><td>4:00–5:00 PM</td><td>Science</td></tr>
+          <tr><td>5:00–5:30 PM</td><td>Break</td></tr>
+          <tr><td>5:30–6:15 PM</td><td>Social Science</td></tr>
+          <tr><td>6:15–7:00 PM</td><td>Hindi</td></tr>
+          <tr><td>7:00–7:45 PM</td><td>Urdu</td></tr>
+          <tr><td>8:00–8:30 PM</td><td>English (Optional)</td></tr>
+          <tr><td>8:30–9:00 PM</td><td>MCQs, revision aur self-test</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        Yeh ek sample timetable hai. Agar tumhare paas kam samay hai,
+        toh subjects ko alternate days par rotate kar sakte ho. Roz har
+        subject padhna zaroori nahi hai, lekin kisi bhi subject ko kai
+        din tak poori tarah ignore mat karna.
+      </p>
+
+      <h3>4. Har Subject ko Padhne ka Sahi Tarika 📖</h3>
+
+      <h4>Mathematics</h4>
+      <ol>
+        <li>Formula samjho aur yaad karo.</li>
+        <li>Solved example dekho.</li>
+        <li>Bina solution dekhe khud question solve karo.</li>
+        <li>Galat questions ko dobara solve karo.</li>
+      </ol>
+
+      <p>
+        <strong>Example:</strong>
+        Agar tum Quadratic Equations padh rahe ho, toh pehle formula
+        samjho, phir 10 questions solve karo aur agle din galat
+        questions ko phir se attempt karo.
+      </p>
+
+      <h4>Science</h4>
+      <ul>
+        <li><strong>Physics:</strong> Formulas, units, numericals aur diagrams.</li>
+        <li><strong>Chemistry:</strong> Chemical equations, reactions, properties aur definitions.</li>
+        <li><strong>Biology:</strong> Life processes, diagrams, functions aur important differences.</li>
+      </ul>
+
+      <p>
+        Har chapter padhne ke baad kitab band karke khud se questions
+        poochho. Isse pata chalega ki tumhe sach mein kitna yaad hai.
+      </p>
+
+      <h4>Social Science</h4>
+      <ul>
+        <li><strong>History:</strong> Events, causes, consequences aur important dates.</li>
+        <li><strong>Geography:</strong> Resources, agriculture, industries, maps aur environmental topics.</li>
+        <li><strong>Civics:</strong> Democracy, political institutions, power sharing aur syllabus ke relevant concepts.</li>
+        <li><strong>Economics:</strong> Development, sectors of the economy, money, credit aur relevant textbook topics.</li>
+      </ul>
+
+      <p>
+        Answers ko chhote, clear aur numbered points mein likhne ki
+        practice karo.
+      </p>
+
+      <h4>Hindi aur Urdu</h4>
+      <ul>
+        <li>Literature ke chapters aur poems revise karo.</li>
+        <li>Grammar ke questions daily practise karo.</li>
+        <li>Writing section ke formats seekho.</li>
+        <li>Answers ko saaf aur readable handwriting mein likho.</li>
+        <li>Sirf answers ratne ke bajaye unka meaning bhi samjho.</li>
+      </ul>
+
+      <h4>English (Optional)</h4>
+      <ul>
+        <li>Basic grammar aur vocabulary improve karo.</li>
+        <li>Textbook ke chapters aur poems revise karo.</li>
+        <li>Comprehension aur writing questions solve karo.</li>
+        <li>Har hafte ek chhota English test do.</li>
+      </ul>
+
+      <p>
+        English optional hai, lekin agar tumhare examination mein iska
+        score final result ko affect karta hai, toh ise poori tarah
+        ignore mat karna.
+      </p>
+
+      <h3>5. Revision ka 4-Step Formula 🧠</h3>
+
+      <p><strong>Step 1: Samjho</strong> — 30–40 minute textbook aur concepts par kaam karo.</p>
+
+      <p><strong>Step 2: Yaad Karo</strong> — Kitab band karke important points likho.</p>
+
+      <p><strong>Step 3: Questions Solve Karo</strong> — 20–30 minute written practice karo.</p>
+
+      <p><strong>Step 4: Dobara Revise Karo</strong> — Agle din, ek hafte baad aur phir final revision ke samay chapter test karo.</p>
+
+      <p>
+        Yaad rakho: Answer ko dekhkar pehchan lena aur bina dekhe
+        sahi answer likh pana dono alag cheezein hain.
+      </p>
+
+      <h3>6. 90%+ Marks ke Liye 5 Rules ✅</h3>
+
+      <ol>
+        <li>Har din apna study target complete karne ki koshish karo.</li>
+        <li>Textbook aur official model papers ko priority do.</li>
+        <li>Har hafte apni mistakes analyse karo.</li>
+        <li>Mobile aur social media ka unnecessary use kam karo.</li>
+        <li>Padhai ke saath proper sleep aur short breaks bhi lo.</li>
+      </ol>
+
+      <p>
+        Har Sunday apna test lo aur marks note karo. Agar Maths mein
+        60/100 aa rahe hain, toh sirf aur zyada ghante padhne ke bajaye
+        dekho ki marks kahan kat rahe hain: formulas, calculations,
+        concepts ya time management.
+      </p>
+
+      <h3>7. Aaj Se Kya Shuru Karna Hai? 📝</h3>
+
+      <p>
+        Aaj hi ek notebook banao aur usmein sabhi subjects ke chapters
+        ki list likho.
+      </p>
+
+      <p>Har chapter ke saamne teen columns banao:</p>
+
+      <ul>
+        <li><strong>Not Started:</strong> Abhi padhna baaki hai.</li>
+        <li><strong>Revision Needed:</strong> Ek baar padh liya hai, lekin practice baaki hai.</li>
+        <li><strong>Strong:</strong> Questions bina madad ke solve kar sakte ho.</li>
+      </ul>
+
+      <p>Har hafte is list ko update karo.</p>
+
+      <p>
+        Sabse important baat: 90%+ marks ka koi guaranteed shortcut
+        nahi hai. Lekin agar tum agle 3 mahine consistently padhte ho,
+        written practice karte ho aur apni mistakes sudharte ho, toh
+        apne score ko kaafi improve kar sakte ho.
+      </p>
+
+      <p>
+        <strong>
+          Ab mujhe batao: tumhara syllabus kitna complete hai aur abhi
+          tests mein lagbhag kitne marks aa rahe hain?
+        </strong>
+        Main uske hisaab se tumhare liye aur bhi personalised study
+        plan bana sakta hoon.
+      </p>
+    `;
+  }
+
+  if (
+    message.includes("explain quadratic equation step by step") ||
+    message.includes("dwighat samikaran ko samjhao") ||
+    message.includes("x^2-5x+6") ||
+    message.includes("x²-5x+6") ||
+    message.includes("x^2 - 5x + 6")
+  ) {
+    return `
+      <p>Hi Meezan! 😊 Aaj hum <strong>Quadratic Equation (Dwighat Samikaran)</strong> ko bilkul aasan bhasha mein samjhenge.</p>
+
+      <p>Tension mat lo! Hum ek example ko step by step solve karenge, jisse tum exam mein bhi isi tarah ke questions kar sako.</p>
+
+      <h3>1. Quadratic Equation (द्विघात समीकरण) kya hota hai?</h3>
+
+      <p>Aisa equation jisme variable <em>x</em> ki sabse badi power 2 hoti hai, use Quadratic Equation kehte hain.</p>
+
+      <p>Iska standard form hota hai:</p>
+
+      <div class="math-block">
+        \\[
+        ax^2 + bx + c = 0, \\qquad a \\ne 0
+        \\]
+      </div>
+
+      <p>Yahan <em>a</em>, <em>b</em>, aur <em>c</em> numbers hain, aur <em>x</em> variable hai.</p>
+
+      <h3>2. Chalo ek example solve karte hain</h3>
+
+      <p><strong>Question:</strong> \\(x^2 - 5x + 6 = 0\\) ko solve karo.</p>
+
+      <p>Humein <em>x</em> ki aisi values nikalni hain jisse equation zero ke barabar ho jaaye.</p>
+
+      <h4>Step 1: Equation ko dekho</h4>
+
+      <div class="math-block">
+        \\[
+        x^2 - 5x + 6 = 0
+        \\]
+      </div>
+
+      <p>Humein aise do numbers chahiye:</p>
+
+      <ul>
+        <li>Jinka <strong>product (guna)</strong> +6 ho.</li>
+        <li>Jinka <strong>sum (jod)</strong> -5 ho.</li>
+      </ul>
+
+      <h4>Step 2: Numbers find karo</h4>
+
+      <p>Socho, kaun se do numbers ka guna 6 aur jod -5 hai?</p>
+
+      <div class="math-block">
+        \\[
+        (-2) \\times (-3) = +6
+        \\]
+        \\[
+        (-2) + (-3) = -5
+        \\]
+      </div>
+
+      <p>Bahut badhiya! Dono numbers hain <strong>-2 aur -3</strong>.</p>
+
+      <h4>Step 3: Factorisation karo</h4>
+
+      <p>Ab equation ko factors mein likhenge:</p>
+
+      <div class="math-block">
+        \\[
+        (x - 2)(x - 3) = 0
+        \\]
+      </div>
+
+      <h4>Step 4: Dono factors ko zero ke barabar rakho</h4>
+
+      <p>Jab do factors ka product zero ho, toh kam se kam ek factor zero hoga.</p>
+
+      <p>Isliye,</p>
+
+      <div class="math-block">
+        \\[
+        x - 2 = 0 \\quad \\Rightarrow \\quad x = 2
+        \\]
+      </div>
+
+      <p>Aur,</p>
+
+      <div class="math-block">
+        \\[
+        x - 3 = 0 \\quad \\Rightarrow \\quad x = 3
+        \\]
+      </div>
+
+      <h3>3. Final Answer ✅</h3>
+
+      <p>Equation ke dono roots hain:</p>
+
+      <div class="math-block">
+        \\[
+        \\boxed{x = 2 \\text{ ya } x = 3}
+        \\]
+      </div>
+
+      <h3>4. Exam Trick 🧠</h3>
+
+      <p>Factorisation method mein do numbers dhoondho jinka:</p>
+
+      <ul>
+        <li><strong>Product =</strong> constant term \\(c\\)</li>
+        <li><strong>Sum =</strong> coefficient of \\(x\\), yaani \\(b\\)</li>
+      </ul>
+
+      <p><strong>Dhyan rahe:</strong> Signs ka khaas dhyan dena. Do negative numbers ka product positive hota hai, lekin unka sum negative hota hai.</p>
+
+      <h3>5. Ab tumhari baari! ✍️</h3>
+
+      <p>Bina solution dekhe is question ko try karo:</p>
+
+      <div class="math-block">
+        \\[
+        x^2 - 7x + 12 = 0
+        \\]
+      </div>
+
+      <p><strong>Iske roots kya honge?</strong> Socho, aise do numbers kaun se hain jinka product 12 aur sum -7 hai?</p>
+    `;
+  }
+
+  if (
+    message.includes("what is newton's third law") ||
+    message.includes("explain newton's third law") ||
+    message.includes("explain newton's third law of motion")
+  ) {
+    return `
+      <h3>Newton ka Third Law of Motion</h3>
+
+        <p>
+            Newton ke Third Law ke anusaar, har kriya ke barabar
+            aur vipreet disha mein pratikriya hoti hai.
+        </p>
+
+        <h4>1. Iska matlab kya hai?</h4>
+
+        <p>
+            Jab ek vastu doosri vastu par force lagati hai,
+            toh doosri vastu bhi pehli vastu par utna hi force
+            lagati hai, lekin opposite direction mein.
+            Ye dono forces ek hi vastu par nahi, balki alag-alag
+            vastuon par lagte hain.
+        </p>
+
+        <h4>2. Mathematical Equation</h4>
+
+        <div class="math-equation">
+            <p>\\[
+                F_{A \\rightarrow B} = -F_{B \\rightarrow A}
+            \\]</p>
+        </div>
+
+        <p><strong>Equation mein:</strong></p>
+
+        <ul>
+            <li>
+                <strong>F</strong> ka matlab hai force ya bal.
+            </li>
+            <li>
+                <strong>A → B</strong> ka matlab hai A dwara B par
+                lagaya gaya force.
+            </li>
+            <li>
+                <strong>B → A</strong> ka matlab hai B dwara A par
+                lagaya gaya force.
+            </li>
+            <li>
+                <strong>Minus (-) sign</strong> batata hai ki dono
+                forces ki directions opposite hain.
+            </li>
+        </ul>
+
+        <h4>3. Numerical Example</h4>
+
+        <p>
+            Maan lo, ek ladka deewar ko 20 N ke force se dhakka
+            deta hai. Toh deewar ladke par kitna force lagayegi?
+        </p>
+
+        <p><strong>Given:</strong></p>
+        <ul>
+            <li>Ladke dwara deewar par force = +20 N</li>
+        </ul>
+
+        <p><strong>Formula:</strong></p>
+
+        <div class="math-equation">
+            \\[
+                F_{\\text{deewar on ladka}}
+                = -F_{\\text{ladka on deewar}}
+            \\]
+        </div>
+
+        <p><strong>Values put karne par:</strong></p>
+
+        <div class="math-equation">
+            \\[
+                F_{\\text{deewar on ladka}} = -20\\,N
+            \\]
+        </div>
+
+        <p><strong>Answer:</strong></p>
+
+        <p>
+            Deewar ladke par 20 N ka force lagayegi,
+            jo ladke ke lagaye gaye force ki opposite direction
+            mein hoga.
+        </p>
+
+        <h4>4. Important Concept</h4>
+
+        <p>
+            Dono forces magnitude mein equal hote hain, lekin
+            directions opposite hoti hain. Ye ek-doosre ko cancel
+            nahi karte, kyunki ye alag-alag objects par act karte hain.
+        </p>
+
+        <h4>5. Exam ke liye yaad rakhein</h4>
+
+        <p>
+            <strong>
+                Action = Reaction in magnitude, but opposite in direction.
+            </strong>
+        </p>
+
+        <p>
+            Dhyan dein: Action aur reaction ek saath hote hain
+            aur hamesha alag-alag vastuon par lagte hain.
+        </p>
+
+
+        <h4>6. Real-Life Example: Wall ko Push Karna</h4>
+
+        <p>
+            Maan lo tum full attitude mein wall ko "hat jao" bolkar
+            zor se push karte ho. 😎
+        </p>
+
+        <p>
+            Tum wall par force laga rahe ho, lekin wall bhi tumhare
+            haath par <strong>same amount ka force opposite direction
+            mein</strong> laga rahi hai.
+        </p>
+
+        <p>
+            Isi wajah se tumhara haath dard kar sakta hai. 😅
+        </p>
+
+        <p>
+            Ab ek important baat: wall move nahi hui, iska matlab ye
+            bilkul nahi hai ki wall ne tum par force nahi lagaya.
+        </p>
+
+        <p>
+            Wall ne force lagaya, bas wall ka mass aur ground se uska
+            support itna zyada hai ki woh visibly move nahi karti hai.
+        </p>
+
+        <h4>7. Real-Life Example: Rocket Kaise Udta Hai? 🚀</h4>
+
+        <p>
+            Rocket ka udna Newton's Third Law ka ek
+            <strong>jabardast example</strong> hai.
+        </p>
+
+        <p>
+            Rocket engine hot gases ko bahut high speed se
+            <strong>neeche ki taraf</strong> throw karta hai.
+        </p>
+
+        <p>
+            Matlab rocket se gases <strong>down</strong> jaati hain,
+            aur gases rocket par <strong>opposite direction mein
+            force</strong> lagati hain.
+        </p>
+
+        <p>
+            Is reaction force ki wajah se rocket
+            <strong>upar ki taraf accelerate</strong> karta hai.
+        </p>
+
+        <p>
+            Simple language mein:
+        </p>
+
+        <p style="text-align:center;">
+            <strong>
+                Rocket gases ko neeche kick karta hai,<br>
+                gases rocket ko upar kick karti hain.
+            </strong>
+        </p>
+
+        <p>
+            Basically, rocket gas se kehta hai:
+            <strong>"Tum neeche jao."</strong>
+            Aur gas rocket se kehti hai:
+            <strong>"Theek hai, tum bhi upar jao!"</strong> 😄
+        </p>
+    `;
+  }
+
+
+
+  if (
+    message.includes("give me practice questions for 10th as pyqs") ||
+    message.includes("give me practice questions for class 10") ||
+    message.includes("give me pyqs for class 10") ||
+    message.includes("class 10 bihar board pyq") ||
+    message.includes("class 10 bseb pyq") ||
+    message.includes("bihar board 10th important questions") ||
+    message.includes("bihar board class 10 practice questions") ||
+    message.includes("10th ke pyq do") ||
+    message.includes("class 10 ke important questions do") ||
+    message.includes("matric ke vvi questions") ||
+    message.includes("most repeated questions of class 10") ||
+    message.includes("class 10 question bank") ||
+    message.includes("give me all subject pyqs") ||
+    message.includes("all six subjects pyq") ||
+    message.includes("all subjects practice questions")
+  ) {
+    return `
+      <h2>📚 Bihar Board Class 10 — PYQ Practice Set</h2>
+      <p><b>All six subjects • Chapter-wise important questions</b></p>
+      <p>Ye questions board-exam practice ke liye hain. Inki exact year-wise repetition independently verify nahi ki gayi hai.</p>
+
+      <hr>
+      <h2>📐 1. Mathematics (गणित)</h2>
+
+      <h3>Real Numbers (वास्तविक संख्याएँ)</h3>
+      <ol>
+        <li>Euclid's division algorithm ka use karke 135 aur 225 ka HCF gyaat kijiye.</li>
+        <li>Siddh kijiye ki √2 ek aparimey sankhya hai.</li>
+        <li>Abhaajya gunankhand vidhi se HCF aur LCM gyaat kijiye.</li>
+      </ol>
+
+      <h3>Quadratic Equations (द्विघात समीकरण)</h3>
+      <ol>
+        <li>Quadratic formula ka use karke x² − 5x + 6 = 0 ko solve kijiye.</li>
+        <li>Discriminant D = b² − 4ac ke aadhar par moolon ki prakriti bataiye.</li>
+      </ol>
+
+      <h3>Arithmetic Progressions (समांतर श्रेणियाँ)</h3>
+      <ol>
+        <li>AP 3, 7, 11, 15, ... ka 20vaan pad gyaat kijiye.</li>
+        <li>AP ke pratham n padon ke yog ka formula likhiye aur prayog kijiye.</li>
+      </ol>
+
+      <h3>Trigonometry (त्रिकोणमिति)</h3>
+      <ol>
+        <li>Siddh kijiye: sin²θ + cos²θ = 1.</li>
+        <li>Yadi tan θ = 3/4 hai, to sin θ aur cos θ gyaat kijiye.</li>
+        <li>Ek tower ki height aur usse doori par aadharit height-distance prashn hal kijiye.</li>
+      </ol>
+
+      <h3>Statistics (सांख्यिकी)</h3>
+      <ol>
+        <li>Diye gaye data ka mean, median aur mode gyaat kijiye.</li>
+      </ol>
+
+      <h3>Circles and Mensuration (वृत्त एवं क्षेत्रमिति)</h3>
+      <ol>
+        <li>7 cm trijya wale vratt ka kshetrafal gyaat kijiye. (π = 22/7)</li>
+        <li>Gole, belan ya shanku ka aayatan aur prishthiya kshetrafal gyaat kijiye.</li>
+        <li>Vritt ki sparsh rekha se sambandhit pramey likhiye.</li>
+      </ol>
+
+      <h3>Coordinate Geometry (निर्देशांक ज्यामिति)</h3>
+      <ol>
+        <li>Do binduon ke beech ki doori ka formula likhiye aur prayog kijiye.</li>
+        <li>Vibhajan sutra ka use karke kisi bindu ke nirdeshank gyaat kijiye.</li>
+      </ol>
+
+      <hr>
+      <h2>🔬 2. Science (विज्ञान)</h2>
+
+      <h3>Chemistry (रसायन विज्ञान)</h3>
+      <ol>
+        <li>Sanyojan aur viyojan abhikriya mein antar udaharan sahit bataiye.</li>
+        <li>Ushmaakshepi aur ushmaashoshi abhikriya kya hain?</li>
+        <li>Santulit rasayanik samikaran kya hai? Ise santulit karna kyon zaroori hai?</li>
+        <li>Sanaksharan (corrosion) aur vikritgandhita (rancidity) kya hain?</li>
+        <li>Plaster of Paris banane ki vidhi, gun aur upyog likhiye.</li>
+        <li>Virinjak churn (bleaching powder) ka rasayanik naam, sutra aur upyog likhiye.</li>
+        <li>pH scale kya hai? Dainik jeevan mein iska kya mahatva hai?</li>
+        <li>Baking soda ka rasayanik naam, banane ki vidhi aur upyog likhiye.</li>
+        <li>Dhatu aur adhatu ke bhautik evam rasayanik gunon mein antar likhiye.</li>
+        <li>Ayaneek yogikon ke saamanya gun bataiye.</li>
+        <li>Khanij, ayask aur gangue mein antar bataiye.</li>
+        <li>Sabunikaran (saponification) kya hai?</li>
+        <li>Sajatiya shreni (homologous series) kya hai? Iski visheshtayein likhiye.</li>
+        <li>Ethanol aur ethanoic acid mein antar spasht kijiye.</li>
+      </ol>
+
+      <h3>Physics (भौतिकी)</h3>
+      <ol>
+        <li>Prakash ke paravartan ke niyam likhiye.</li>
+        <li>Avatal darpan ke teen upyog likhiye.</li>
+        <li>Uttal lens ko abhisaari lens kyon kaha jaata hai?</li>
+        <li>Snell ka apavartan niyam likhiye.</li>
+        <li>Goleeya darpan ke liye f = R/2 sambandh ko samjhaiye.</li>
+        <li>Nikat-drishtidosh aur door-drishtidosh kya hain? Inka nivaran kaise hota hai?</li>
+        <li>Taare kyon timtimate hain?</li>
+        <li>Shwet prakash ka varna-vikshepan kya hai?</li>
+        <li>Ohm ka niyam likhiye aur iska ganitiya vyंजक bataiye.</li>
+        <li>Shrenikram aur parshvakram mein pratirodhon ke samatulya pratirodh ka sutra likhiye.</li>
+        <li>Vidyut shakti kya hai? Iska SI matrak bataiye.</li>
+        <li>Fleming ka vaam-hast niyam likhiye.</li>
+        <li>Vidyut-chumbakiya prerana kya hai?</li>
+        <li>Laghu path (short circuit) aur atibharan (overloading) kya hain?</li>
+      </ol>
+
+      <h3>Biology (जीव विज्ञान)</h3>
+      <ol>
+        <li>Prakash sanshleshan kya hai? Iski rasayanik samikaran likhiye.</li>
+        <li>Dhamani aur shira mein antar spasht kijiye.</li>
+        <li>Manushya ke pachan tantra ka naamankit chitra banakar varnan kijiye.</li>
+        <li>Vayveey aur avayveey shwasan mein antar bataiye.</li>
+        <li>Prativedi kriya (reflex action) aur prativedi chaap kya hain?</li>
+        <li>Do paadap hormones ke naam aur karya likhiye.</li>
+        <li>Alैंगik aur laingik janan mein antar bataiye.</li>
+        <li>Paragan kya hai? Swa-paragan aur par-paragan mein antar likhiye.</li>
+        <li>Mendel ke ek-sankari aur dvi-sankari cross ke niyamon ko samjhaiye.</li>
+        <li>Samjaat aur samvrit angon mein antar udaharan sahit likhiye.</li>
+        <li>Aahaar shrinkhala kya hai? Ek udaharan dijiye.</li>
+        <li>Ozone parat ka hraas kaise ho raha hai? Iske prabhav likhiye.</li>
+      </ol>
+
+      <hr>
+      <h2>🌍 3. Social Science (सामाजिक विज्ञान)</h2>
+
+      <h3>History (इतिहास)</h3>
+      <ol>
+        <li>Italy ke ekikaran mein Mazzini, Cavour aur Garibaldi ka kya yogdan tha?</li>
+        <li>1905 ki Russia ki Bloody Sunday ghatna kya thi?</li>
+        <li>Ho Chi Minh Marg kya tha aur Vietnam yuddh mein iska kya mahatva tha?</li>
+        <li>Audhyogik kranti sarvapratham kahan aarambh hui aur iska kya prabhav pada?</li>
+        <li>Rowlatt Act kya tha? Bharatiyon ne iska virodh kyon kiya?</li>
+      </ol>
+
+      <h3>Geography (भूगोल)</h3>
+      <ol>
+        <li>Naveekarniya aur anaveekarniya sansadhanon mein antar spasht kijiye.</li>
+        <li>Bharat mein jal sankat ke pramukh karan kya hain?</li>
+        <li>Rabi aur Kharif faslon mein antar likhiye aur do-do udaharan dijiye.</li>
+        <li>Bahuddeshiya nadi ghaati pariyojanaon ko aadhunik Bharat ka mandir kyon kaha jaata hai?</li>
+        <li>Baadh aur sookhe ke pramukh karan evam bachav ke upay likhiye.</li>
+      </ol>
+
+      <h3>Civics (राजनीति विज्ञान)</h3>
+      <ol>
+        <li>Rajnitik dal ko loktantra ka praan kyon kaha jaata hai?</li>
+        <li>Bharatiya rajneeti mein jaativad aur parivarvad kis prakar prabhavit karte hain?</li>
+        <li>Dal-badal kanoon kya hai?</li>
+        <li>Kshetriyata ki bhavna loktantra ke liye kaise hanikarak ho sakti hai?</li>
+        <li>Suchna ka Adhikar Adhiniyam 2005 ke uddeshya kya hain?</li>
+      </ol>
+
+      <h3>Economics (अर्थशास्त्र)</h3>
+      <ol>
+        <li>Rashtriya aay ki ganana kaise ki jaati hai? Iski pramukh kathinaiyan kya hain?</li>
+        <li>Money kya hai? Iske mukhya karya likhiye.</li>
+        <li>Vaishvikaran kya hai? Iske sakaratmak aur nakaratmak prabhav likhiye.</li>
+        <li>Tritiyak ya seva kshetra ka vartaman samay mein kya mahatva hai?</li>
+        <li>Upbhokta ke adhikar kaun-kaun se hain? ISI aur Agmark ka arth bataiye.</li>
+      </ol>
+
+      <hr>
+      <h2>📖 4. Hindi (हिंदी)</h2>
+      <ol>
+        <li>Apne pathyakram ke kisi ek pramukh gadya-paath ka saar likhiye.</li>
+        <li>Kisi kavita ka bhaavarth apne shabdon mein likhiye.</li>
+        <li>Sandhi ki paribhasha likhkar udaharan dijiye.</li>
+        <li>Samas kise kehte hain? Iske prakar udaharan sahit bataiye.</li>
+        <li>Shiksha ke mahatva par anuchhed likhiye.</li>
+        <li>Apne pradhanadhyapak ko avakash ke liye aavedan-patra likhiye.</li>
+      </ol>
+
+      <hr>
+      <h2>📝 5. English</h2>
+      <ol>
+        <li>Change into indirect speech: He said, "I am busy."</li>
+        <li>Fill in the blank: She ___ to school every day. (go/goes)</li>
+        <li>Change into passive voice: The teacher praised the student.</li>
+        <li>Write an application to your Headmaster requesting leave.</li>
+        <li>Write a paragraph on the importance of education.</li>
+        <li>Write a short essay on environmental protection.</li>
+      </ol>
+
+      <hr>
+      <h2>🖋️ 6. Urdu (اردو)</h2>
+      <ol>
+        <li>Apne syllabus ke kisi ek aham sabaq ka khulasa likhiye.</li>
+        <li>Ghazal kise kehte hain? Iski do khasusiyat likhiye.</li>
+        <li>Radif aur qafiya ki tareef misaal ke saath kijiye.</li>
+        <li>Apne principal ko chhutti ke liye darkhwast likhiye.</li>
+        <li>Taleem ki ahmiyat par ek mazmoon likhiye.</li>
+      </ol>
+
+      <hr>
+      <p><b>Exam tip:</b> Pehle textbook ke chapter-wise questions practice karein, phir Bihar Board ke original previous-year papers se questions aur year/set verify karein.</p>
+    `;
+  }
+
+
 
   // WHO RUNS / MANAGES BRILLIANT COACHING CENTER?
   if (
@@ -3042,7 +4017,406 @@ if (
     `;
   }
 
-  if (message.includes("revision") || message.includes("study plan")) {
+  
+/* =========================================================
+   CAREER OPTIONS AFTER CLASS 10
+   Myelin AI | Popular Career Goals First
+   ========================================================= */
+
+if (
+  message.includes("career options after class 10") ||
+  message.includes("career after 10th") ||
+  message.includes("10th ke baad career") ||
+  message.includes("10th ke baad kya kare") ||
+  message.includes("class 10 ke baad kya kare") ||
+  message.includes("career guidance after 10th") ||
+  message.includes("10th ke baad options") ||
+  message.includes("career options after 10th")
+) {
+  return `
+  <div class="career-lesson">
+
+    <h2>🎯 Class 10 ke Baad Kya Karein?</h2>
+
+    <p>
+      Hello Meezan! 😊 Agar tum Class 10 complete kar rahe ho,
+      toh tumhare mind mein bhi ye questions honge:
+      IIT kaise jaayein? Doctor kaise banein? UPSC kya hai?
+      CA kaise banein? NDA join kaise karein?
+    </p>
+
+    <p>
+      Chalo, sabse pehle popular career goals ko samajhte hain.
+      Phir hum dekhenge ki Class 10 ke baad kaunsi stream ya
+      course choose karna useful ho sakta hai.
+    </p>
+
+    <p>
+      <b>Important:</b> Class 10 ke baad in careers ke liye
+      preparation shuru kar sakte ho, lekin inmein se
+      zyadaatar careers ke liye Class 11–12, entrance exams,
+      professional courses ya further qualifications ki
+      zaroorat hoti hai.
+    </p>
+
+    <hr>
+
+    <h3>1️⃣ IIT — Engineer ya Software Engineer banna</h3>
+
+    <p>
+      IIT ka full form Indian Institute of Technology hai.
+      IITs engineering, technology aur related fields mein
+      higher education provide karte hain.
+    </p>
+
+    <h4>Class 10 ke baad kya karna hoga?</h4>
+
+    <ol>
+      <li>Class 11–12 mein Science with PCM choose karna ek common route hai.</li>
+      <li>Physics, Chemistry aur Mathematics ki concepts strong karo.</li>
+      <li>JEE Main aur JEE Advanced ke eligibility rules samjho.</li>
+      <li>Required examinations qualify karke admission process follow karo.</li>
+    </ol>
+
+    <h4>IIT ke baad possible career options</h4>
+
+    <ul>
+      <li>Software Development Engineer (SDE)</li>
+      <li>AI / Machine Learning Engineer</li>
+      <li>Electrical, Mechanical ya Civil Engineer</li>
+      <li>Researcher</li>
+      <li>Entrepreneur / Startup Founder</li>
+    </ul>
+
+    <p>
+      <b>Yaad rakho:</b> IIT jaana aur software engineer banna
+      alag cheezein hain. Software engineer banne ke liye
+      IIT hi ekmatra route nahi hai. Other recognised colleges,
+      degrees aur skill-based pathways bhi available hain.
+    </p>
+
+    <hr>
+
+    <h3>2️⃣ NEET / AIIMS — Doctor banna</h3>
+
+    <p>
+      Agar tum patients ki help karna, human body samajhna
+      aur medical science padhna chahte ho, toh medical
+      career explore kar sakte ho.
+    </p>
+
+    <p>
+      AIIMS ka full form All India Institute of Medical
+      Sciences hai. AIIMS institutions mein medical education
+      aur healthcare se related programmes hote hain.
+      MBBS admission ke liye applicable NEET-UG route
+      follow kiya jaata hai.
+    </p>
+
+    <h4>Class 10 ke baad common route</h4>
+
+    <ol>
+      <li>Class 11–12 mein Physics, Chemistry aur Biology wale subjects choose karo.</li>
+      <li>PCB ke saath required subject aur eligibility rules check karo.</li>
+      <li>NEET-UG ki preparation karo.</li>
+      <li>Required eligibility, exam, counselling aur seat-allocation process complete karo.</li>
+      <li>MBBS complete karne ke baad applicable internship aur registration requirements follow karo.</li>
+    </ol>
+
+    <h4>Medical aur allied-health pathways</h4>
+
+    <ul>
+      <li>Doctor — MBBS aur required registration ke through</li>
+      <li>Dentist — BDS pathway</li>
+      <li>Veterinarian — veterinary qualification ke through</li>
+      <li>Pharmacy professional — approved pharmacy course ke through</li>
+      <li>Physiotherapy aur allied-health careers — relevant course aur eligibility ke through</li>
+    </ul>
+
+    <p>
+      <b>Important:</b> MBBS, BDS, veterinary aur allied-health
+      courses ki admission requirements ek jaisi nahi hoti.
+      Har course ke current official rules check karo.
+    </p>
+
+    <hr>
+
+    <h3>3️⃣ UPSC — IAS, IPS aur Civil Services</h3>
+
+    <p>
+      UPSC ka full form Union Public Service Commission hai.
+      Ye multiple examinations conduct karta hai, jinmein
+      Civil Services Examination bhi shamil hai.
+    </p>
+
+    <p>
+      IAS aur IPS jaise services mein jaana chahte ho,
+      toh Civil Services ek possible pathway hai.
+    </p>
+
+    <h4>Class 10 ke baad kya karo?</h4>
+
+    <ol>
+      <li>Class 11–12 mein apni interest ke according stream choose karo.</li>
+      <li>History, Geography, Polity, Economics aur current affairs ko gradually samjho.</li>
+      <li>Reading comprehension, writing aur analytical thinking improve karo.</li>
+      <li>Graduation complete karo aur future mein applicable UPSC eligibility meet karo.</li>
+      <li>Required conditions meet karne par Civil Services Examination de sakte ho.</li>
+    </ol>
+
+    <p>
+      <b>Yaad rakho:</b> UPSC Civil Services ke liye
+      Class 11 mein koi ek compulsory stream nahi hai.
+      Required educational qualification aur age conditions
+      examination ke official rules se verify karni chahiye.
+    </p>
+
+    <hr>
+
+    <h3>4️⃣ NDA — Defence Officer banna</h3>
+
+    <p>
+      Agar tum Indian Armed Forces mein officer banne ka goal
+      rakhte ho, toh NDA ek popular route hai.
+      NDA ka full form National Defence Academy hai.
+    </p>
+
+    <h4>Class 10 ke baad common preparation route</h4>
+
+    <ol>
+      <li>Class 11–12 complete karo.</li>
+      <li>Army, Navy aur Air Force ke educational requirements ko samjho.</li>
+      <li>Applicable NDA examination eligibility check karo.</li>
+      <li>Written examination, SSB selection aur medical standards jaise stages ke liye prepare karo.</li>
+    </ol>
+
+    <p>
+      Army Wing ke educational requirements aur Air Force
+      ya Naval Wings ke subject requirements different
+      ho sakte hain. Mathematics aur Physics ki requirements
+      ko current official notification se verify karo.
+    </p>
+
+    <p>
+      Defence careers mein academics ke saath discipline,
+      teamwork, responsible decision-making aur physical
+      fitness bhi important hote hain.
+    </p>
+
+    <hr>
+
+    <h3>5️⃣ CA — Chartered Accountant banna</h3>
+
+    <p>
+      Agar tumhe accounts, finance, taxation, auditing aur
+      business mein interest hai, toh CA ek professional
+      career option hai.
+    </p>
+
+    <h4>Class 10 ke baad route</h4>
+
+    <ol>
+      <li>Class 11–12 mein Commerce consider kar sakte ho.</li>
+      <li>Accountancy, Economics aur business concepts samjho.</li>
+      <li>Class 12 aur applicable eligibility ke according CA course registration aur examination route follow karo.</li>
+      <li>Required examinations, practical training aur other professional requirements complete karo.</li>
+    </ol>
+
+    <p>
+      Commerce CA ke liye useful choice ho sakta hai, lekin
+      eligibility rules meet karne wale students doosre
+      streams se bhi applicable route explore kar sakte hain.
+      Current details ICAI se check karna.
+    </p>
+
+    <hr>
+
+    <h3>6️⃣ CS aur CMA — Business aur Finance ke doosre options</h3>
+
+    <p>
+      CA ke alawa professional qualifications ke aur bhi
+      options hain.
+    </p>
+
+    <ul>
+      <li>
+        <b>CS — Company Secretary:</b> Company law, corporate
+        governance aur compliance se related professional role.
+      </li>
+      <li>
+        <b>CMA — Cost and Management Accountant:</b> Costing,
+        management accounting aur financial planning se
+        related professional role.
+      </li>
+    </ul>
+
+    <p>
+      Dono ke registration, examinations aur training ke
+      specific rules hote hain. Official professional
+      institutes se latest requirements check karo.
+    </p>
+
+    <hr>
+
+    <h3>7️⃣ JEE ke alawa Computer Science aur AI/ML</h3>
+
+    <p>
+      Agar tumhara dream coding, apps, websites, AI ya
+      machine learning mein kaam karna hai, toh tumhe
+      sirf ek college ya ek entrance exam tak limited
+      rehne ki zaroorat nahi hai.
+    </p>
+
+    <h4>Possible route</h4>
+
+    <ol>
+      <li>Mathematics aur logical thinking strong karo.</li>
+      <li>Class 11–12 mein relevant subjects aur college eligibility ko consider karo.</li>
+      <li>Suitable degree programmes aur recognised colleges research karo.</li>
+      <li>Programming, data structures, algorithms aur real projects par kaam karo.</li>
+      <li>Internships aur portfolio ke through practical experience build karo.</li>
+    </ol>
+
+    <p>
+      Possible careers mein Software Developer, Web Developer,
+      App Developer, Data Analyst aur AI/ML Engineer shamil
+      ho sakte hain. Har role ke liye required skills aur
+      educational expectations different ho sakte hain.
+    </p>
+
+    <hr>
+
+    <h3>8️⃣ CLAT / Law — Lawyer banna</h3>
+
+    <p>
+      Agar tumhe arguments, Constitution, social issues,
+      reading aur logical reasoning pasand hain, toh law
+      ek option ho sakta hai.
+    </p>
+
+    <ol>
+      <li>Class 11–12 mein apni interest ke according stream choose karo.</li>
+      <li>Reading, comprehension aur reasoning improve karo.</li>
+      <li>Eligible hone par relevant law entrance examinations explore karo.</li>
+      <li>Recognised institution se required law degree complete karo.</li>
+      <li>Legal practice ke liye applicable enrolment aur qualification rules follow karo.</li>
+    </ol>
+
+    <p>
+      CLAT participating National Law Universities ke
+      relevant programmes ke admissions se associated hai.
+      Har law college ka admission route same nahi hota.
+    </p>
+
+    <hr>
+
+    <h3>9️⃣ CUET aur University Degrees</h3>
+
+    <p>
+      Agar tum kisi particular professional exam ki jagah
+      graduation ke through apna career build karna chahte ho,
+      toh university degree bhi ek important route hai.
+    </p>
+
+    <ul>
+      <li>B.Sc. — Science-related fields</li>
+      <li>B.Com. — Commerce, accounts aur finance</li>
+      <li>B.A. — Humanities, languages aur social sciences</li>
+      <li>BCA — Computer applications, subject to college eligibility</li>
+      <li>BBA — Business and management</li>
+      <li>Other specialised undergraduate degrees</li>
+    </ul>
+
+    <p>
+      CUET kuch participating universities aur programmes
+      ke admissions mein use hota hai. Har university aur
+      course ke subject combinations aur eligibility rules
+      alag ho sakte hain.
+    </p>
+
+    <hr>
+
+    <h3>🔟 Polytechnic, ITI aur Skill-Based Careers</h3>
+
+    <p>
+      Har student ko traditional Class 11–12 plus graduation
+      route hi choose karna zaroori nahi hai. Technical aur
+      vocational pathways bhi explore kiye ja sakte hain.
+    </p>
+
+    <ul>
+      <li>
+        <b>Polytechnic:</b> Civil, Mechanical, Electrical,
+        Computer aur other diploma branches.
+      </li>
+      <li>
+        <b>ITI:</b> Electrician, Fitter, COPA aur other
+        trade-based programmes.
+      </li>
+      <li>
+        <b>Creative skills:</b> Graphic Design, Animation,
+        Photography aur Video Editing.
+      </li>
+      <li>
+        <b>Digital skills:</b> Web Development, Programming
+        aur Digital Design.
+      </li>
+    </ul>
+
+    <p>
+      Admission se pehle recognition, course duration,
+      total fees, practical training aur future study
+      opportunities verify karna zaroori hai.
+    </p>
+
+    <hr>
+
+    <h3>🌟 Ab apni interest ke according options compare karo</h3>
+
+    <ul>
+      <li><b>Engineering aur technology:</b> PCM, JEE aur relevant degree pathways.</li>
+      <li><b>Medical field:</b> PCB aur applicable medical entrance routes.</li>
+      <li><b>Government administration:</b> Graduation aur applicable civil-services examinations.</li>
+      <li><b>Defence:</b> NDA eligibility aur selection process.</li>
+      <li><b>Finance aur accounts:</b> Commerce aur CA, CS ya CMA jaise options.</li>
+      <li><b>Law:</b> Class 12 ke baad eligible law-degree pathways.</li>
+      <li><b>Coding aur AI:</b> Relevant education, programming aur projects.</li>
+      <li><b>Hands-on technical skills:</b> Polytechnic, ITI aur recognised vocational programmes.</li>
+    </ul>
+
+    <h3>❤️ Teacher ki final advice</h3>
+
+    <p>
+      Student, IIT, AIIMS, UPSC, NDA aur CA popular goals
+      hain, lekin tumhara goal sirf popular hone ki wajah
+      se choose nahi hona chahiye.
+    </p>
+
+    <p>
+      Apni interest, strengths, available resources aur
+      long-term goals ko samjho. Parents, teachers aur
+      career counsellor se discussion karo. Ek hi career
+      successful life ka only route nahi hai.
+    </p>
+
+    <p>
+      <b>Ab khud se poochho:</b> Mujhe kis type ka kaam
+      karna pasand hai — technology, medicine, government
+      service, defence, business, law ya creative work?
+      Isi answer se tumhari career exploration shuru hoti hai.
+    </p>
+
+  </div>
+  `;
+}
+
+
+  if (
+    isExactQuestion(message, [
+      "revision",
+      "study plan"
+    ])
+  ) {
     return `
             <p>Here's a simple study structure:</p>
             <ol>
@@ -3084,11 +4458,13 @@ function sendMessage() {
   isTyping = true;
 
   const responseHTML = generateDemoResponse(message);
+  const useMathJax = isMathJaxQuestion(message);
 
-  // Directly start typing response letter-by-letter without typing indicator
+  // All questions show THINKING first, then use the normal typewriter.
+  // MathJax is enabled only for the explicitly supported questions.
   addAIMessageWithAnimation(responseHTML, function () {
     isTyping = false;
-  });
+  }, useMathJax);
 }
 
 /* =========================================================

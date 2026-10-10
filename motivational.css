@@ -409,6 +409,27 @@ button {
     transform: none;
 }
 
+
+/* Live-session fullscreen: use the whole viewport and keep the dashboard
+   sidebar underneath/hidden while the meeting is expanded. */
+#motivationalMeetingWindow.ptm-fullscreen {
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100vh !important;
+    height:100dvh !important;
+    max-width:none !important;
+    max-height:none !important;
+    margin:0 !important;
+    border-radius:0 !important;
+    z-index:99999 !important;
+}
+
+body:has(#motivationalMeetingWindow.ptm-fullscreen) .sidebar {
+    visibility:hidden !important;
+    pointer-events:none !important;
+}
+
 .meeting-window {
     height: 490px;
     background: #11111b;

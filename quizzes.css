@@ -747,3 +747,512 @@
     z-index: 2000 !important;
   }
 }
+
+/* =========================================================
+   ACTIVE QUIZ MODE — FULLSCREEN QUIZ, NO DASHBOARD CHROME
+   ---------------------------------------------------------
+   The normal dashboard sidebar/header must never sit above
+   the active quiz. The quiz runner owns the entire viewport.
+   ========================================================= */
+
+html.quiz-active-mode,
+body.quiz-active-mode {
+    width: 100%;
+    height: 100%;
+    overflow: hidden !important;
+}
+
+body.quiz-active-mode .dashboard-container {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+body.quiz-active-mode .dashboard-container > .sidebar,
+body.quiz-active-mode .dashboard-container > .main-content > .top-header {
+    display: none !important;
+}
+
+body.quiz-active-mode .main-content {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body.quiz-active-mode .quiz-runner {
+    z-index: 5000 !important;
+    inset: 0 !important;
+}
+
+/* Desktop/tablet: keep the existing desktop two-column quiz format. */
+@media (min-width: 801px) {
+    body.quiz-active-mode .quiz-runner-body {
+        flex-direction: row !important;
+    }
+
+    body.quiz-active-mode .quiz-question-area {
+        min-width: 0;
+        flex: 1 1 auto;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    body.quiz-active-mode .question-sidebar {
+        width: 275px;
+        max-height: none;
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex: 0 0 275px;
+        box-sizing: border-box;
+    }
+
+    body.quiz-active-mode .question-palette {
+        overflow: visible;
+    }
+
+    body.quiz-active-mode .submit-quiz-button {
+        margin-top: auto;
+        flex-shrink: 0;
+    }
+}
+
+/* =========================================================
+   PHONE + TABLET LANDSCAPE QUIZ
+   ---------------------------------------------------------
+   The quiz itself stays in the desktop-style two-column
+   arrangement: question/options on the left, question
+   palette + fixed submit area on the right.
+   ========================================================= */
+
+@media (max-width: 800px) and (orientation: landscape) {
+    body.quiz-active-mode .quiz-runner {
+        width: 100vw;
+        height: 100dvh;
+        min-height: 0;
+    }
+
+    body.quiz-active-mode .quiz-runner-body {
+        flex-direction: row !important;
+        width: 100%;
+        min-height: 0;
+        height: 100%;
+    }
+
+    body.quiz-active-mode .quiz-question-area {
+        flex: 1 1 auto;
+        min-width: 0;
+        min-height: 0;
+        padding: 14px 16px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    body.quiz-active-mode .question-sidebar {
+        width: clamp(170px, 30vw, 245px) !important;
+        height: 100%;
+        max-height: none !important;
+        flex: 0 0 clamp(170px, 30vw, 245px) !important;
+        padding: 12px;
+        border-left: 1px solid #1b14641a;
+        border-top: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        box-sizing: border-box;
+    }
+
+    body.quiz-active-mode .question-sidebar-header {
+        margin-bottom: 9px;
+    }
+
+    body.quiz-active-mode .question-sidebar-header h3 {
+        font-size: clamp(11px, 2vw, 14px);
+    }
+
+    body.quiz-active-mode .question-sidebar-header span {
+        font-size: clamp(7px, 1.4vw, 9px);
+    }
+
+    body.quiz-active-mode .question-palette {
+        grid-template-columns: repeat(5, minmax(25px, 1fr)) !important;
+        gap: 6px;
+        min-height: 0;
+    }
+
+    body.quiz-active-mode .question-number-button {
+        min-width: 0;
+        width: 100%;
+        font-size: clamp(8px, 1.5vw, 10px);
+        border-radius: 7px;
+    }
+
+    body.quiz-active-mode .question-legend {
+        margin-top: 12px;
+        padding-top: 10px;
+        gap: 6px;
+        font-size: clamp(7px, 1.35vw, 9px);
+    }
+
+    body.quiz-active-mode .legend-box {
+        width: 11px;
+        height: 11px;
+    }
+
+    body.quiz-active-mode .submit-quiz-button {
+        position: sticky;
+        bottom: 0;
+        z-index: 3;
+        margin-top: auto;
+        flex-shrink: 0;
+        padding: clamp(8px, 1.7vw, 12px) 10px;
+        font-size: clamp(8px, 1.5vw, 11px);
+        box-shadow: 0 -8px 16px #ffffff;
+    }
+
+    body.quiz-active-mode .question-meta {
+        margin-bottom: 9px;
+        font-size: clamp(8px, 1.5vw, 11px);
+    }
+
+    body.quiz-active-mode .question-card {
+        width: 100%;
+        max-width: none;
+        padding: clamp(14px, 2.3vw, 24px);
+        box-sizing: border-box;
+    }
+
+    body.quiz-active-mode .question-card h2 {
+        font-size: clamp(13px, 2vw, 18px);
+        line-height: 1.5;
+    }
+
+    body.quiz-active-mode .options-list {
+        gap: 8px;
+        margin-top: 15px;
+    }
+
+    body.quiz-active-mode .quiz-option {
+        padding: clamp(9px, 1.8vw, 13px);
+        gap: 9px;
+        font-size: clamp(9px, 1.55vw, 12px);
+        line-height: 1.45;
+    }
+
+    body.quiz-active-mode .quiz-option-letter {
+        width: clamp(22px, 3.2vw, 27px);
+        height: clamp(22px, 3.2vw, 27px);
+        font-size: clamp(8px, 1.35vw, 10px);
+    }
+
+    body.quiz-active-mode .question-navigation {
+        max-width: none;
+        margin-top: 10px;
+        gap: 8px;
+    }
+
+    body.quiz-active-mode .question-nav-button {
+        padding: clamp(8px, 1.5vw, 11px) clamp(10px, 2vw, 16px);
+        font-size: clamp(8px, 1.4vw, 11px);
+    }
+
+    body.quiz-active-mode .quiz-runner-header {
+        min-height: 52px;
+        padding: 7px 12px;
+        gap: 10px;
+    }
+
+    body.quiz-active-mode .quiz-runner-brand img {
+        width: 34px;
+        height: 34px;
+    }
+
+    body.quiz-active-mode .quiz-runner-brand h2 {
+        font-size: 11px;
+    }
+
+    body.quiz-active-mode .quiz-runner-brand span {
+        font-size: 6px;
+    }
+
+    body.quiz-active-mode .quiz-timer-box,
+    body.quiz-active-mode .question-total-box {
+        min-width: 58px;
+        padding: 5px 7px;
+    }
+
+    body.quiz-active-mode .quiz-timer-box strong,
+    body.quiz-active-mode .question-total-box strong {
+        font-size: 11px;
+    }
+
+    body.quiz-active-mode .quiz-timer-box span,
+    body.quiz-active-mode .question-total-box span {
+        font-size: 6px;
+    }
+}
+
+/* Very small landscape phones: give the question panel more room. */
+@media (max-width: 600px) and (orientation: landscape) {
+    body.quiz-active-mode .question-sidebar {
+        width: 32vw !important;
+        flex-basis: 32vw !important;
+        padding: 9px;
+    }
+
+    body.quiz-active-mode .question-palette {
+        grid-template-columns: repeat(4, minmax(24px, 1fr)) !important;
+        gap: 5px;
+    }
+
+    body.quiz-active-mode .quiz-runner-header {
+        min-height: 46px;
+        padding: 5px 9px;
+    }
+
+    body.quiz-active-mode .quiz-runner-brand {
+        display: none;
+    }
+
+    body.quiz-active-mode .quiz-runner-info {
+        margin-left: auto;
+    }
+
+    body.quiz-active-mode .quiz-question-area {
+        padding: 10px 12px;
+    }
+}
+
+/* If the browser refuses programmatic orientation locking, make
+   portrait mode an explicit rotate-device state rather than
+   collapsing the desktop quiz into a vertical stack. */
+@media (max-width: 800px) and (orientation: portrait) {
+    body.quiz-active-mode .quiz-runner-body {
+        display: none !important;
+    }
+
+    body.quiz-active-mode .quiz-runner::before {
+        content: "Please rotate your device to landscape to start the quiz";
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+        background: #fff;
+        color: var(--primary);
+        text-align: center;
+        font-size: 16px;
+        font-weight: 700;
+    }
+}
+
+/* =========================================================
+   ACTIVE QUIZ — FIXED FULL-WIDTH HEADER + BODY OFFSET
+   The global dashboard CSS has a generic `header` rule which
+   previously pushed this quiz header to the right by the
+   dashboard sidebar width. The active quiz header must always
+   own the full viewport.
+   ========================================================= */
+
+body.quiz-active-mode .quiz-runner {
+    --quiz-header-height: 80px;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box;
+}
+
+body.quiz-active-mode .quiz-runner-header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    height: var(--quiz-header-height) !important;
+    min-height: var(--quiz-header-height) !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    z-index: 20 !important;
+}
+
+/* Start the quiz content exactly below the fixed quiz header. */
+body.quiz-active-mode .quiz-runner-body {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding-top: var(--quiz-header-height) !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+
+/* Question numbers remain independently scrollable; the submit
+   button stays visible at the bottom of the right panel. */
+body.quiz-active-mode .question-sidebar {
+    min-height: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+body.quiz-active-mode .question-palette {
+    min-height: 0 !important;
+    flex: 1 1 auto !important;
+    align-content: start !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding-right: 3px;
+    scrollbar-width: thin;
+}
+
+body.quiz-active-mode .question-legend {
+    flex-shrink: 0 !important;
+}
+
+body.quiz-active-mode .submit-quiz-button {
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 5 !important;
+    flex-shrink: 0 !important;
+    margin-top: 12px !important;
+    box-shadow: 0 -8px 18px #ffffff !important;
+}
+
+/* Landscape phones/tablets use the same desktop-style layout,
+   with a smaller fixed header and a scrollable question palette. */
+@media (max-width: 800px) and (orientation: landscape) {
+    body.quiz-active-mode .quiz-runner {
+        --quiz-header-height: 52px;
+        width: 100vw !important;
+        height: 100dvh !important;
+    }
+
+    body.quiz-active-mode .quiz-runner-header {
+        height: var(--quiz-header-height) !important;
+        min-height: var(--quiz-header-height) !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100vw !important;
+        padding: 7px 12px !important;
+    }
+
+    body.quiz-active-mode .quiz-runner-body {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 100% !important;
+        padding-top: var(--quiz-header-height) !important;
+    }
+
+    body.quiz-active-mode .question-sidebar {
+        height: 100% !important;
+        max-height: none !important;
+        overflow: hidden !important;
+    }
+
+    body.quiz-active-mode .question-palette {
+        overflow-y: auto !important;
+        flex: 1 1 auto !important;
+    }
+
+    body.quiz-active-mode .submit-quiz-button {
+        position: sticky !important;
+        bottom: 0 !important;
+        margin-top: 10px !important;
+        flex-shrink: 0 !important;
+    }
+}
+
+@media (max-width: 600px) and (orientation: landscape) {
+    body.quiz-active-mode .quiz-runner {
+        --quiz-header-height: 46px;
+    }
+
+    body.quiz-active-mode .quiz-runner-header {
+        height: var(--quiz-header-height) !important;
+        min-height: var(--quiz-header-height) !important;
+        padding: 5px 9px !important;
+    }
+
+    body.quiz-active-mode .quiz-runner-body {
+        padding-top: var(--quiz-header-height) !important;
+    }
+}
+
+/* =========================================================
+   QUESTION PALETTE — KEEP HOVER/CURRENT BORDERS FULLY INSIDE
+   The palette is a scroll container. The number buttons have a
+   hover translate and the current state uses an outer shadow;
+   without a small internal breathing space those effects can be
+   clipped at the top/left/right edges of the palette.
+   ========================================================= */
+body.quiz-active-mode .question-palette {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 4px 4px 6px !important;
+    margin: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    align-content: start !important;
+}
+
+body.quiz-active-mode .question-number-button {
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Keep the grid from becoming wider than its actual scroll box. */
+@media (min-width: 801px) {
+    body.quiz-active-mode .question-palette {
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 800px) and (orientation: landscape) {
+    body.quiz-active-mode .question-palette {
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        padding: 4px 4px 6px !important;
+    }
+}
+
+@media (max-width: 600px) and (orientation: landscape) {
+    body.quiz-active-mode .question-palette {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        padding: 4px 4px 6px !important;
+    }
+}
+
+/* =========================================================
+   ACTIVE QUIZ — REMOVE HEADER SHADOW OVER QUESTION SIDEBAR
+   Keep the header clean where it meets the right-side question
+   palette, while retaining the subtle separation over the main
+   question area.
+   ========================================================= */
+body.quiz-active-mode .quiz-runner-header {
+    box-shadow: none !important;
+}
+
+body.quiz-active-mode .quiz-question-area {
+    position: relative;
+}
+
+body.quiz-active-mode .quiz-question-area::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 18px;
+    pointer-events: none;
+    z-index: 2;
+    box-shadow: inset 0 8px 14px -14px #00000035;
+}

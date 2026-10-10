@@ -1,0 +1,26 @@
+
+/* Live meeting fullscreen override. The sidebar is explicitly hidden so it
+   cannot remain above the meeting because of dashboard stacking contexts. */
+body.bcc-meeting-fullscreen .sidebar {
+    display: none !important;
+    pointer-events: none !important;
+}
+
+#motivationalMeetingWindow.ptm-fullscreen,
+#super15MeetingWindow.ptm-fullscreen {
+    position: fixed !important;
+    inset: 0 !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-width: 100vw !important;
+    min-height: 100dvh !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    z-index: 2147483647 !important;
+}

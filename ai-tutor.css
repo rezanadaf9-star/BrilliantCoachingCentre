@@ -4971,3 +4971,213 @@ body.ai-tutor-fullscreen .main-content { width:100% !important; height:100dvh !i
   .ai-tutor-window .company-name .ai-online-status { display:none; }
   .ai-model-selector { margin-right:32px; }
 }
+
+
+
+/* Centered mathematical equations */
+.math-block {
+  display: block;
+  width: 100%;
+  margin: 22px 0;
+  padding: 8px 0;
+  text-align: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  line-height: 1.8;
+}
+
+/* MathJax display equations */
+.math-block mjx-container[display="true"] {
+  display: block !important;
+  max-width: 100%;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+/* Inline equations */
+mjx-container:not([display="true"]) {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+}
+
+/* Keep equations readable on mobile */
+@media (max-width: 768px) {
+  .math-block {
+    margin: 18px 0;
+    padding: 6px 0;
+  }
+}
+
+
+
+
+/* ==========================================
+   MYELIN AI — PROFESSIONAL CAREER GUIDE
+   ========================================== */
+
+.career-lesson {
+  --career-primary: #3448a5;
+  --career-text: #fdfdfd;
+  --career-muted: #68738a;
+  --career-border: #e5e9f2;
+  --career-surface: #f7f8fc;
+
+  color: var(--career-text);
+  font-size: 14px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+.career-lesson h2 {
+  font-size: 23px;
+  line-height: 1.35;
+  letter-spacing: -0.5px;
+  margin: 0 0 10px;
+  font-weight: 750;
+}
+
+.career-lesson h3 {
+  font-size: 18px;
+  line-height: 1.45;
+  margin: 26px 0 10px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.career-lesson h4 {
+  font-size: 14px;
+  margin: 18px 0 7px;
+  font-weight: 700;
+}
+
+.career-lesson p {
+  margin: 9px 0 13px;
+}
+
+.career-lesson ul,
+.career-lesson ol {
+  padding-left: 22px;
+  margin: 8px 0 16px;
+}
+
+.career-lesson li {
+  padding-left: 3px;
+  margin: 5px 0;
+}
+
+.career-lesson li::marker {
+  color: var(--career-primary);
+}
+
+.career-lesson b,
+.career-lesson strong {
+  font-weight: 700;
+}
+
+.career-lesson hr {
+  border: 0;
+  border-top: 1px solid var(--career-border);
+  margin: 23px 0;
+}
+
+.career-lesson h3 + p {
+  margin-top: 5px;
+}
+
+/* Readable tables, if added later */
+.career-lesson table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 13px;
+}
+
+.career-lesson th,
+.career-lesson td {
+  padding: 10px 12px;
+  text-align: left;
+  border: 1px solid var(--career-border);
+}
+
+.career-lesson th {
+  background: var(--career-surface);
+  font-weight: 700;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .career-lesson {
+    font-size: 13.5px;
+    line-height: 1.7;
+  }
+
+  .career-lesson h2 {
+    font-size: 20px;
+  }
+
+  .career-lesson h3 {
+    font-size: 16px;
+    margin-top: 22px;
+  }
+
+  .career-lesson hr {
+    margin: 19px 0;
+  }
+}
+
+/* Clean, borderless THINKING indicator used only while a response is prepared. */
+.myelin-thinking-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 14px;
+  padding: 0;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.myelin-thinking-avatar {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: transparent;
+}
+.myelin-thinking-avatar img { width: 100%; height: 100%; object-fit: contain; }
+.myelin-thinking-word {
+  display: inline-flex;
+  gap: 2px;
+  align-items: center;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 1.7px;
+  line-height: 1.5;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.myelin-thinking-word span {
+  display: inline-block;
+  animation: myelinThinkingJump 850ms ease-in-out infinite;
+  animation-delay: calc(var(--thinking-index) * 95ms);
+}
+@keyframes myelinThinkingJump {
+  0%, 58%, 100% { transform: translateY(0); }
+  28% { transform: translateY(-7px); }
+}
+
+
+.ai-tutor-window .chat-message.ai .message-content {
+    background: none !important;
+    border: none !important;
+}
+
+/* attachment + icon */
+.input-action-button i {
+  width: 40px;
+}

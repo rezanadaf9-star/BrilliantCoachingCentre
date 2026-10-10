@@ -346,11 +346,20 @@
     margin-top:5px;
 }
 
+
+/* Homework viewer must sit above the dashboard sidebar.
+   The sidebar remains in the page, but it is completely covered by the
+   viewer backdrop and cannot receive pointer events while the viewer is open. */
+body.homework-viewer-open .sidebar {
+    z-index:1 !important;
+    pointer-events:none !important;
+}
+
 /* PDF / JPG viewer */
 .homework-viewer-modal {
     position:fixed;
     inset:0;
-    z-index:1000;
+    z-index:3000;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -541,7 +550,7 @@
 .homework-viewer-box.viewer-fullscreen-fallback {
     position:fixed;
     inset:0;
-    z-index:2000;
+    z-index:4000;
     width:100vw;
     height:100vh;
     max-width:none;
