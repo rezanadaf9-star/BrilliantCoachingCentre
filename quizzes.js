@@ -60,8 +60,8 @@
       id: "weekly-demo-001",
       type: "weekly",
       title: "Weekly GK Quiz",
-      startAt: "2026-09-17T09:00:00+05:30",
-      endAt: "2026-09-20T10:00:00+05:30",
+      startAt: "2026-10-09T09:00:00+05:30",
+      endAt: "2026-11-01T10:00:00+05:30",
       durationMinutes: 20,
       marksPerQuestion: 1,
       negativeMarks: 0.25,
@@ -136,6 +136,521 @@
       durationMinutes: 25,
       marksPerQuestion: 1,
       negativeMarks: 0.25,
+      questions: [
+        {
+          id: "science-001",
+          question: "कोशिका का पावरहाउस किस कोशिकांग को कहा जाता है?",
+          options: [
+            "केंद्रक",
+            "राइबोसोम",
+            "माइटोकॉन्ड्रिया",
+            "गॉल्जी तंत्र"
+          ],
+          question_en: "Which organelle is known as the powerhouse of the cell?",
+          options_en: [
+            "Nucleus",
+            "Ribosome",
+            "Mitochondria",
+            "Golgi Apparatus"
+          ],
+          answer: 2,
+          explanation: "Mitochondria produce ATP, which provides usable energy for many cellular activities."
+        },
+
+        {
+          id: "science-002",
+          question: "बल की SI इकाई क्या है?",
+          options: [
+            "जूल",
+            "न्यूटन",
+            "वाट",
+            "पास्कल"
+          ],
+          question_en: "What is the SI unit of force?",
+          options_en: [
+            "Joule",
+            "Newton",
+            "Watt",
+            "Pascal"
+          ],
+          answer: 1,
+          explanation: "The SI unit of force is Newton (N)."
+        },
+
+        {
+          id: "science-003",
+          question: "जल का रासायनिक सूत्र क्या है?",
+          options: [
+            "कार्बन डाइऑक्साइड",
+            "ऑक्सीजन",
+            "H₂O",
+            "हाइड्रोजन"
+          ],
+          question_en: "What is the chemical formula of water?",
+          options_en: [
+            "CO₂",
+            "O₂",
+            "H₂O",
+            "H₂"
+          ],
+          answer: 2,
+          explanation: "One water molecule contains two hydrogen atoms and one oxygen atom."
+        },
+
+        {
+          id: "science-004",
+          question: "प्रकाश संश्लेषण के दौरान पौधे मुख्य रूप से किस गैस का उपयोग करते हैं?",
+          options: [
+            "ऑक्सीजन",
+            "नाइट्रोजन",
+            "कार्बन डाइऑक्साइड",
+            "हाइड्रोजन"
+          ],
+          question_en: "Which gas is mainly used by plants during photosynthesis?",
+          options_en: [
+            "Oxygen",
+            "Nitrogen",
+            "Carbon dioxide",
+            "Hydrogen"
+          ],
+          answer: 2,
+          explanation: "Plants use carbon dioxide, water and sunlight to make food through photosynthesis."
+        },
+
+        {
+          id: "science-005",
+          question: "कौन-सी रक्त कोशिकाएँ संक्रमण से लड़ने में मदद करती हैं?",
+          options: [
+            "लाल रक्त कोशिकाएँ",
+            "श्वेत रक्त कोशिकाएँ",
+            "प्लेटलेट्स",
+            "प्लाज्मा"
+          ],
+          question_en: "Which blood cells help fight infections?",
+          options_en: [
+            "Red Blood Cells",
+            "White Blood Cells",
+            "Platelets",
+            "Plasma"
+          ],
+          answer: 1,
+          explanation: "White blood cells are an important part of the body's immune system."
+        },
+
+        {
+          id: "science-006",
+          question: "पृथ्वी पर गुरुत्वीय त्वरण का लगभग मान कितना है?",
+          options: [
+            "4.9 मीटर/सेकंड²",
+            "9.8 मीटर/सेकंड²",
+            "19.6 मीटर/सेकंड²",
+            "98 मीटर/सेकंड²"
+          ],
+          question_en: "What is the approximate acceleration due to gravity on Earth?",
+          options_en: [
+            "4.9 m/s²",
+            "9.8 m/s²",
+            "19.6 m/s²",
+            "98 m/s²"
+          ],
+          answer: 1,
+          explanation: "The acceleration due to gravity near Earth's surface is approximately 9.8 m/s²."
+        },
+
+        {
+          id: "science-007",
+          question: "पौधे का कौन-सा भाग मिट्टी से अधिकांश जल और खनिजों को अवशोषित करता है?",
+          options: [
+            "तना",
+            "पत्ती",
+            "जड़ के रोम",
+            "फूल"
+          ],
+          question_en: "Which part of a plant absorbs most water and minerals from the soil?",
+          options_en: [
+            "Stem",
+            "Leaf",
+            "Root hairs",
+            "Flower"
+          ],
+          answer: 2,
+          explanation: "Root hairs increase the surface area available for absorbing water and minerals."
+        },
+
+        {
+          id: "science-008",
+          question: "सूर्य के प्रकाश के संपर्क में आने पर त्वचा में मुख्य रूप से कौन-सा विटामिन बनता है?",
+          options: [
+            "विटामिन A",
+            "विटामिन B",
+            "विटामिन C",
+            "विटामिन D"
+          ],
+          question_en: "Which vitamin is mainly produced in the skin through sunlight exposure?",
+          options_en: [
+            "Vitamin A",
+            "Vitamin B",
+            "Vitamin C",
+            "Vitamin D"
+          ],
+          answer: 3,
+          explanation: "UVB radiation from sunlight helps the skin produce vitamin D."
+        },
+
+        {
+          id: "science-009",
+          question: "अधिकांश जीवों में आनुवंशिक जानकारी कौन-सा अणु वहन करता है?",
+          options: [
+            "ATP",
+            "DNA",
+            "ग्लूकोज़",
+            "प्रोटीन"
+          ],
+          question_en: "Which molecule carries genetic information in most living organisms?",
+          options_en: [
+            "ATP",
+            "DNA",
+            "Glucose",
+            "Protein"
+          ],
+          answer: 1,
+          explanation: "DNA stores genetic instructions used by living organisms."
+        },
+
+        {
+          id: "science-010",
+          question: "25°C पर एक उदासीन विलयन का pH कितना होता है?",
+          options: [
+            "0",
+            "5",
+            "7",
+            "14"
+          ],
+          question_en: "What is the pH of a neutral solution at 25°C?",
+          options_en: [
+            "0",
+            "5",
+            "7",
+            "14"
+          ],
+          answer: 2,
+          explanation: "At 25°C, a neutral aqueous solution has a pH of approximately 7."
+        },
+
+        {
+          id: "science-011",
+          question: "कौन-सा नियम कहता है कि प्रत्येक क्रिया की बराबर और विपरीत प्रतिक्रिया होती है?",
+          options: [
+            "न्यूटन का प्रथम नियम",
+            "न्यूटन का द्वितीय नियम",
+            "न्यूटन का तृतीय नियम",
+            "गुरुत्वाकर्षण का नियम"
+          ],
+          question_en: "Which law states that every action has an equal and opposite reaction?",
+          options_en: [
+            "Newton's First Law",
+            "Newton's Second Law",
+            "Newton's Third Law",
+            "Law of Gravitation"
+          ],
+          answer: 2,
+          explanation: "Newton's third law describes action and reaction force pairs."
+        },
+
+        {
+          id: "science-012",
+          question: "कौन-सी संरचना यह नियंत्रित करती है कि कोशिका के अंदर क्या प्रवेश करे और बाहर क्या जाए?",
+          options: [
+            "कोशिका भित्ति",
+            "कोशिका झिल्ली",
+            "केंद्रक",
+            "कोशिकाद्रव्य"
+          ],
+          question_en: "Which structure controls what enters and leaves a cell?",
+          options_en: [
+            "Cell wall",
+            "Cell membrane",
+            "Nucleus",
+            "Cytoplasm"
+          ],
+          answer: 1,
+          explanation: "The cell membrane regulates the movement of substances into and out of the cell."
+        },
+
+        {
+          id: "science-013",
+          question: "हमारे सौरमंडल का सबसे बड़ा ग्रह कौन-सा है?",
+          options: [
+            "पृथ्वी",
+            "शनि",
+            "बृहस्पति",
+            "वरुण"
+          ],
+          question_en: "Which is the largest planet in our Solar System?",
+          options_en: [
+            "Earth",
+            "Saturn",
+            "Jupiter",
+            "Neptune"
+          ],
+          answer: 2,
+          explanation: "Jupiter is the largest planet in the Solar System."
+        },
+
+        {
+          id: "science-014",
+          question: "मानव शरीर का सबसे बड़ा अंग कौन-सा है?",
+          options: [
+            "हृदय",
+            "यकृत",
+            "त्वचा",
+            "मस्तिष्क"
+          ],
+          question_en: "Which is the largest organ of the human body?",
+          options_en: [
+            "Heart",
+            "Liver",
+            "Skin",
+            "Brain"
+          ],
+          answer: 2,
+          explanation: "The skin is the body's largest organ and forms a protective barrier."
+        },
+
+        {
+          id: "science-015",
+          question: "निर्वात में प्रकाश की लगभग गति कितनी होती है?",
+          options: [
+            "3 × 10⁶ मीटर/सेकंड",
+            "3 × 10⁷ मीटर/सेकंड",
+            "3 × 10⁸ मीटर/सेकंड",
+            "3 × 10⁹ मीटर/सेकंड"
+          ],
+          question_en: "What is the approximate speed of light in vacuum?",
+          options_en: [
+            "3 × 10⁶ m/s",
+            "3 × 10⁷ m/s",
+            "3 × 10⁸ m/s",
+            "3 × 10⁹ m/s"
+          ],
+          answer: 2,
+          explanation: "Light travels through vacuum at approximately 3 × 10⁸ metres per second."
+        },
+
+        {
+          id: "science-016",
+          question: "मानव मस्तिष्क का कौन-सा भाग संतुलन और समन्वय को नियंत्रित करता है?",
+          options: [
+            "प्रमस्तिष्क",
+            "अनुमस्तिष्क",
+            "मेडुला",
+            "हाइपोथैलेमस"
+          ],
+          question_en: "Which part of the human brain controls balance and coordination?",
+          options_en: [
+            "Cerebrum",
+            "Cerebellum",
+            "Medulla",
+            "Hypothalamus"
+          ],
+          answer: 1,
+          explanation: "The cerebellum plays an important role in balance, posture and coordination of movements."
+        },
+
+        // NEW SCIENCE QUESTIONS
+
+        {
+          id: "science-017",
+          question: "मनुष्य के शरीर में रक्त को पंप करने वाला अंग कौन-सा है?",
+          options: [
+            "फेफड़े",
+            "हृदय",
+            "गुर्दे",
+            "यकृत"
+          ],
+          question_en: "Which organ pumps blood throughout the human body?",
+          options_en: [
+            "Lungs",
+            "Heart",
+            "Kidneys",
+            "Liver"
+          ],
+          answer: 1,
+          explanation: "The heart pumps blood throughout the body."
+        },
+
+        {
+          id: "science-018",
+          question: "पौधों में भोजन का परिवहन किस ऊतक द्वारा होता है?",
+          options: [
+            "जाइलम",
+            "फ्लोएम",
+            "मेरिस्टेम",
+            "एपिडर्मिस"
+          ],
+          question_en: "Which tissue transports food in plants?",
+          options_en: [
+            "Xylem",
+            "Phloem",
+            "Meristem",
+            "Epidermis"
+          ],
+          answer: 1,
+          explanation: "Phloem transports food produced by leaves to different parts of the plant."
+        },
+
+        {
+          id: "science-019",
+          question: "ध्वनि किस माध्यम में सबसे तेज गति से यात्रा करती है?",
+          options: [
+            "वायु",
+            "जल",
+            "ठोस",
+            "निर्वात"
+          ],
+          question_en: "In which medium does sound travel fastest?",
+          options_en: [
+            "Air",
+            "Water",
+            "Solids",
+            "Vacuum"
+          ],
+          answer: 2,
+          explanation: "Sound generally travels fastest through solids because their particles are closely packed."
+        },
+
+        {
+          id: "science-020",
+          question: "मानव शरीर में ऑक्सीजन का परिवहन मुख्य रूप से किसके द्वारा होता है?",
+          options: [
+            "प्लाज्मा",
+            "हीमोग्लोबिन",
+            "प्लेटलेट्स",
+            "श्वेत रक्त कोशिकाएँ"
+          ],
+          question_en: "What mainly transports oxygen in the human body?",
+          options_en: [
+            "Plasma",
+            "Hemoglobin",
+            "Platelets",
+            "White blood cells"
+          ],
+          answer: 1,
+          explanation: "Hemoglobin in red blood cells binds with oxygen and helps transport it through the body."
+        },
+
+        {
+          id: "science-021",
+          question: "पानी का क्वथनांक सामान्य वायुमंडलीय दाब पर कितना होता है?",
+          options: [
+            "0°C",
+            "50°C",
+            "100°C",
+            "200°C"
+          ],
+          question_en: "What is the boiling point of water at normal atmospheric pressure?",
+          options_en: [
+            "0°C",
+            "50°C",
+            "100°C",
+            "200°C"
+          ],
+          answer: 2,
+          explanation: "Water boils at 100°C at standard atmospheric pressure."
+        },
+
+        {
+          id: "science-022",
+          question: "किस गैस की कमी से पौधों में प्रकाश संश्लेषण की दर कम हो सकती है?",
+          options: [
+            "ऑक्सीजन",
+            "कार्बन डाइऑक्साइड",
+            "नाइट्रोजन",
+            "हीलियम"
+          ],
+          question_en: "A shortage of which gas can reduce the rate of photosynthesis in plants?",
+          options_en: [
+            "Oxygen",
+            "Carbon dioxide",
+            "Nitrogen",
+            "Helium"
+          ],
+          answer: 1,
+          explanation: "Carbon dioxide is a raw material required for photosynthesis."
+        },
+
+        {
+          id: "science-023",
+          question: "विद्युत धारा को मापने के लिए किस यंत्र का उपयोग किया जाता है?",
+          options: [
+            "वोल्टमीटर",
+            "अमीटर",
+            "बैरोमीटर",
+            "थर्मामीटर"
+          ],
+          question_en: "Which instrument is used to measure electric current?",
+          options_en: [
+            "Voltmeter",
+            "Ammeter",
+            "Barometer",
+            "Thermometer"
+          ],
+          answer: 1,
+          explanation: "An ammeter is used to measure electric current in a circuit."
+        },
+
+        {
+          id: "science-024",
+          question: "अम्ल का स्वाद सामान्यतः कैसा होता है?",
+          options: [
+            "मीठा",
+            "कड़वा",
+            "खट्टा",
+            "नमकीन"
+          ],
+          question_en: "What does an acid generally taste like?",
+          options_en: [
+            "Sweet",
+            "Bitter",
+            "Sour",
+            "Salty"
+          ],
+          answer: 2,
+          explanation: "Acids generally have a sour taste, although chemicals should never be tasted in practice."
+        },
+
+        {
+          id: "science-025",
+          question: "सूर्य से पृथ्वी तक ऊर्जा मुख्य रूप से किस रूप में पहुँचती है?",
+          options: [
+            "ध्वनि तरंगों के रूप में",
+            "विद्युतचुंबकीय विकिरण के रूप में",
+            "जल तरंगों के रूप में",
+            "यांत्रिक तरंगों के रूप में"
+          ],
+          question_en: "In what form does energy from the Sun mainly reach Earth?",
+          options_en: [
+            "As sound waves",
+            "As electromagnetic radiation",
+            "As water waves",
+            "As mechanical waves"
+          ],
+          answer: 1,
+          explanation: "Energy from the Sun reaches Earth mainly through electromagnetic radiation, including visible light and infrared radiation."
+        }
+      ]
+    },
+
+
+    {
+      id: "weekly-demo-006",
+      type: "weekly",
+      title: "Weekly Science Quiz Class 10",
+      startAt: "2026-10-09T09:00:00+05:30",
+      endAt: "2026-11-28T10:00:00+05:30",
+      durationMinutes: 25,
+      marksPerQuestion: 1,
+      negativeMarks: 0,
       questions: [
         {
           id: "science-001",

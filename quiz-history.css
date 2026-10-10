@@ -447,3 +447,33 @@
         padding: 18px;
     }
 }
+
+
+/* =========================================================
+   FIX: Quiz analysis modal must cover the dashboard sidebar
+   ========================================================= */
+body:has(#analysisModal.show) .analysis-modal,
+.analysis-modal.show {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 2147483000 !important;
+    isolation: isolate;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto !important;
+}
+
+.analysis-modal.show .analysis-modal-card {
+    position: relative !important;
+    z-index: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* Keep the sidebar and dashboard layers below the open analysis overlay. */
+body:has(#analysisModal.show) .dashboard-container,
+body:has(#analysisModal.show) .sidebar,
+body:has(#analysisModal.show) .main-content,
+body:has(#analysisModal.show) .top-header {
+    z-index: auto !important;
+}
