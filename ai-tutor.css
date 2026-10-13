@@ -5181,3 +5181,38 @@ mjx-container:not([display="true"]) {
 .input-action-button i {
   width: 40px;
 }
+
+/* Align AI response heading with avatar */
+.chat-message.ai .message-content > h1:first-child,
+.chat-message.ai .message-content > h2:first-child,
+.chat-message.ai .message-content > h3:first-child,
+.chat-message.ai .message-content > h4:first-child {
+    margin-top: 8px !important;
+}
+
+/* MYELIN SCIENCE SVG DIAGRAMS — new topic styles only */
+/* Myelin science diagram animations — scoped, responsive */
+.myelin-viz{margin:18px 0;padding:16px;border:1px solid #cbd5e1;border-radius:16px;background:linear-gradient(145deg,#f8fafc,#eaf3ff);color:#16213d;overflow:hidden;font-family:inherit}
+.myelin-viz .viz-title{font-weight:800;text-align:center;margin:0 0 12px;font-size:1rem}
+.myelin-viz svg{display:block;width:100%;height:auto;max-height:320px;margin:auto}
+.myelin-viz svg text{font-family:Arial,sans-serif;font-size:14px;fill:#16213d}
+.myelin-viz .pulse{animation:myelinPulse 2.3s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.myelin-viz .dash{stroke-dasharray:8 7;animation:myelinFlow 1.3s linear infinite}
+.myelin-viz .float{animation:myelinFloat 2.8s ease-in-out infinite}
+.myelin-viz .fade{animation:myelinFade 3s ease-in-out infinite}
+.myelin-viz .key{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;font-size:.85rem;margin-top:10px}
+.myelin-viz .key span{padding:5px 10px;background:white;border-radius:99px;border:1px solid #cbd5e1}
+@keyframes myelinPulse{50%{transform:scale(1.07)}}@keyframes myelinFlow{to{stroke-dashoffset:-30}}@keyframes myelinFloat{50%{transform:translateY(-7px)}}@keyframes myelinFade{50%{opacity:.25}}
+@media(prefers-reduced-motion:reduce){.myelin-viz *{animation:none!important}}
+@media(max-width:480px){.myelin-viz{padding:8px}.myelin-viz svg text{font-size:12px}}
+
+
+/* MYELIN SCIENCE STORYBOARDS — scoped only to the six new answers */
+.science-stage{max-width:760px;margin:18px 0;padding:16px;border:1px solid #a6b8d7;border-radius:18px;background:linear-gradient(155deg,#f6f9ff,#e7f0ff);color:#172554;box-shadow:0 8px 24px #00000016;font-family:Inter,sans-serif}
+.science-stage-title{font-weight:800;font-size:1.02rem;margin-bottom:14px;color:#172554}.science-stage-title small{display:block;font-size:.75rem;font-weight:500;color:#465a7b;margin-top:4px}
+.science-stage .science-rail,.science-stage .science-track{display:flex;align-items:center;justify-content:center;gap:7px;min-width:0;margin:12px 0}.science-stage .science-node{flex:0 1 auto;min-width:0;padding:10px 12px;border:2px solid #c3d3ed;border-radius:12px;background:#fff;text-align:center;color:#152b51;font-size:.92rem;font-weight:800;box-shadow:0 3px 10px #00000010}.science-node small{font-size:.68rem;font-weight:500}.science-stage .green{background:#dcfce7;border-color:#4ade80}.science-stage .amber{background:#fef3c7;border-color:#fbbf24}.science-stage .blue{background:#dbeafe;border-color:#60a5fa}.science-stage .rose{background:#ffe4e6;border-color:#fb7185}
+.science-stage .science-sign{font-size:1.6rem;font-weight:800}.science-stage .science-arrow{text-align:center;font-size:.83rem;color:#305b9a;animation:scienceBounce 1.8s ease-in-out infinite}.science-stage .science-grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.science-stage .science-grid4 .science-node{padding:10px 3px}.science-stage .science-lesson{background:#fff;border-left:4px solid #2563eb;border-radius:8px;padding:10px;margin:14px 0 0!important;font-size:.86rem;line-height:1.6}.science-stage .science-mini{font-size:.78rem;text-align:center;color:#40516e}.science-stage .science-glow{animation:scienceGlow 2.4s ease-in-out infinite}.science-stage .science-rise{animation:scienceRise 3.2s ease-in-out infinite}.science-stage .science-circuit-label{font-weight:800;font-size:.8rem;margin:18px 0 7px;color:#294b82}
+.science-stage .science-wire{height:4px;min-width:14px;flex:1;background:#64748b;position:relative;border-radius:4px}.science-stage .science-wire i{position:absolute;width:8px;height:8px;border-radius:50%;background:#f59e0b;top:-2px;left:0;animation:scienceCharge 1.8s linear infinite}.science-stage .science-wire i:nth-child(2){animation-delay:-.9s}.science-stage .science-branches{flex:3;min-width:0;display:flex;flex-direction:column;gap:12px;border-left:3px solid #64748b;border-right:3px solid #64748b;padding:8px 4px}.science-stage .science-branch{display:flex;align-items:center;gap:3px}.science-stage .science-branch .science-node{min-width:65px}.science-stage .science-track>.science-node{padding:8px 5px;font-size:.78rem}.science-stage .science-bond{font-weight:800;color:#1d4ed8}.science-stage .science-carbon{text-align:center;margin:15px auto;max-width:180px}.science-stage .science-carbon-top{font-weight:800;margin:8px}.science-stage .science-carbon-middle{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:800}.science-stage .science-carbon-core{border:3px solid #3b82f6;border-radius:50%;width:66px;height:66px;display:grid;place-items:center;background:#bfdbfe;font-size:1.8rem;animation:scienceGlow 2s infinite}.science-stage .science-flow{display:flex;align-items:center;flex-direction:column;gap:0}.science-stage .science-flow .science-node{width:min(100%,330px)}.science-stage .science-down{height:28px;width:4px;background:#60a5fa;position:relative}.science-stage .science-down i{position:absolute;width:9px;height:9px;background:#f59e0b;border-radius:50%;left:-3px;animation:scienceDown 1.5s linear infinite}.science-stage .science-loop .science-node{font-size:.74rem;padding:8px 5px}.science-stage .science-eyes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.science-stage .science-eye-panel{background:#fff;border:1px solid #cad5e8;border-radius:12px;padding:8px 5px;text-align:center;font-size:.72rem}.science-stage .science-eye-panel small{display:block;font-size:.68rem;margin-top:8px}.science-stage .science-eye{height:85px;position:relative;border:2px solid #9fb4d3;border-radius:50%;margin:8px 0;background:#e0f2fe}.science-stage .science-lens{position:absolute;left:23%;top:26px;font-size:1.25rem;color:#2563eb}.science-stage .science-ray{position:absolute;left:1%;top:30px;color:#f59e0b;animation:scienceRay 2s ease-in-out infinite}.science-stage .science-retina{position:absolute;left:80%;height:70%;top:15%;width:3px;background:#e11d48;border-radius:4px}.science-stage .science-focus{position:absolute;top:38%;width:13px;height:13px;background:#facc15;border:2px solid #b45309;border-radius:50%;animation:scienceGlow 1.4s infinite}.science-stage .science-focus.on{left:76%}.science-stage .science-focus.before{left:53%}.science-stage .science-focus.after{left:89%}
+@keyframes scienceCharge{from{left:0}to{left:calc(100% - 8px)}}@keyframes scienceDown{from{top:0}to{top:20px}}@keyframes scienceBounce{50%{transform:translateY(5px)}}@keyframes scienceGlow{50%{box-shadow:0 0 0 7px #60a5fa55}}@keyframes scienceRise{50%{transform:translateY(-4px)}}@keyframes scienceRay{50%{transform:translateX(9px)}}
+@media(max-width:560px){.science-stage{padding:10px}.science-stage .science-node{font-size:.75rem;padding:8px 5px}.science-stage .science-eyes{grid-template-columns:1fr}.science-stage .science-eye{max-width:220px;margin:8px auto}.science-stage .science-loop .science-node{font-size:.65rem}.science-stage .science-track>.science-node{font-size:.66rem}}
+@media(prefers-reduced-motion:reduce){.science-stage *{animation:none!important}}
