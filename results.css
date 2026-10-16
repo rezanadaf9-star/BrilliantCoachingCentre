@@ -1580,3 +1580,14 @@ footer {
     z-index: 2000 !important;
   }
 }
+
+
+/* ==========================================
+   REMOVE DECORATIVE HEADER CIRCLES
+   ========================================== */
+
+.results-header::before,
+.results-header::after {
+    content: none !important;
+    display: none !important;
+}

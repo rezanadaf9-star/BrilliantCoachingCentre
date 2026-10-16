@@ -1717,3 +1717,12 @@ body.sidebar-open {
     z-index: 2000 !important;
   }
 }
+/* Public dedication editor */
+.dedication-section .dedication-help{font-size:12px;color:#555;line-height:1.7;margin-bottom:14px}
+.dedication-section label{display:block;font-weight:600;font-size:13px;color:#1b1464;margin-bottom:8px}
+#dedicationText{display:block;width:100%;resize:vertical;border:1px solid #d9d6a2;border-radius:12px;padding:14px;font:inherit;font-size:13px;line-height:1.7;background:#fffdf0;color:#1b1464}
+#dedicationText:focus{outline:2px solid #ffe600;outline-offset:2px}
+.dedication-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap}
+#dedicationCount,#dedicationStatus{font-size:12px;color:#555}
+#saveDedication{background:#1b1464;color:white;border:0;border-radius:10px;padding:12px 17px;font:inherit;font-size:12px;font-weight:600;cursor:pointer}
+#saveDedication:hover{background:#31267e}

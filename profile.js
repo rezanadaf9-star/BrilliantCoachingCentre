@@ -243,3 +243,19 @@ window.addEventListener("resize", () => {
         closeSidebar();
     }
 });
+
+// Save the signed-in student's public dedication locally (frontend demo).
+document.addEventListener('DOMContentLoaded', () => {
+ const field=document.getElementById('dedicationText'), save=document.getElementById('saveDedication'), count=document.getElementById('dedicationCount'), status=document.getElementById('dedicationStatus');
+ if(!field||!window.BCCStudents)return;
+ const student=window.BCCStudents.currentStudent();
+ field.value=window.BCCStudents.getMessage(student.id);
+ const update=()=>count.textContent=`${field.value.length} / 280`;
+ field.addEventListener('input',update);update();
+ save.addEventListener('click',()=>{
+   const value=field.value.trim();
+   if(/(?:\+?\d[\d\s-]{8,}\d)|(?:[\w.+-]+@[\w.-]+\.[A-Za-z]{2,})|(?:https?:\/\/)/i.test(value)){status.textContent='Please remove phone numbers, email addresses and links before saving.';return;}
+   try{window.BCCStudents.saveMessage(student.id,value);status.textContent='Saved on this browser. Your message appears in the class directory here.';}
+   catch(e){status.textContent='Could not save. Check browser storage settings.';}
+ });
+});

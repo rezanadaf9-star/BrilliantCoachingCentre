@@ -323,6 +323,17 @@
 
           </div>
 
+
+          <!-- Public student goal: only this message is shared in the class directory -->
+          <div class="section dedication-section" id="myDedication">
+            <h2><i class="fa-solid fa-bullseye"></i> My Goal & Dedication</h2>
+            <p class="dedication-help">Write a short, positive message about your goal or what motivates you. This message may be visible to classmates. Do not include phone numbers, addresses or other private information.</p>
+            <label for="dedicationText">My dedication message</label>
+            <textarea id="dedicationText" maxlength="280" rows="4" placeholder="My goal is to... I will work towards it by..."></textarea>
+            <div class="dedication-actions"><span id="dedicationCount">0 / 280</span><button type="button" id="saveDedication"><i class="fa-solid fa-floppy-disk"></i> Save Message</button></div>
+            <p id="dedicationStatus" role="status" aria-live="polite"></p>
+          </div>
+
           <!-- Buttons -->
 
           <div class="buttons">
@@ -357,6 +368,7 @@
 
   <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
 
+  <script src="student-directory-data.js"></script>
   <script src="profile.js"></script>
   <script src="common.js"></script>
 

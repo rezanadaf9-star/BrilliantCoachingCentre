@@ -1,0 +1,103 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Class Students | Brilliant Coaching Centre</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"><link rel="stylesheet" href="class-students.css"><link rel="icon" href="favicon.ico"></head><body><div class="container"><aside class="sidebar" id="sidebar">
+
+      <div class="logo">
+
+        <img src="images/logo.png" alt="School Logo">
+
+        <div class="logo-text">
+          <h2>BRILLIANT</h2>
+          <h2>COACHING CENTRE</h2>
+          <p class="school-info">Established in 2009</p>
+          <p class="school-info">Kairi Birpur, Dist- Kishanganj</p>
+          <p class="school-info state">BIHAR</p>
+        </div>
+
+      </div>
+
+      <ul>
+
+        <li onclick="location.href='dashboard.html'">
+          <i class="fa-solid fa-house"></i>
+          Dashboard
+        </li>
+
+        <li onclick="window.location.href='profile.html'">
+          <i class="fa-solid fa-user"></i>
+          Profile
+        </li>
+
+        <li onclick="location.href='marks.html'">
+          <i class="fa-solid fa-chart-column"></i>
+          <span>Academic Performance</span>
+        </li>
+
+        <li onclick="location.href='attendance.html'">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>Attendance</span>
+        </li>
+
+        <li onclick="location.href='fees.html'">
+          <i class="fa-solid fa-indian-rupee-sign"></i>
+          <span>Fees & Payments</span>
+        </li>
+
+        <li onclick="location.href='notices.html'">
+          <i class="fa-solid fa-bell"></i>
+          <span>Announcements</span>
+        </li>
+
+        <li onclick="location.href='timetable.html'">
+          <i class="fa-solid fa-clock"></i>
+          <span>Class Schedule</span>
+        </li>
+
+        <li onclick="location.href='teachers.html'">
+          <i class="fa-solid fa-chalkboard-user"></i>
+          Faculty & Mentors
+        </li>
+
+        <li onclick="location.href='answer-sheet.html'">
+
+          <i class="fa-solid fa-file-pen"></i>
+          Answer Sheets
+
+        </li>
+
+
+        <li onclick="location.href='alumni.html'">
+          <i class="fa-solid fa-user-graduate"></i>
+          Alumni Network
+        </li>
+
+        <li onclick="location.href='results.html'">
+          <i class="fa-solid fa-poll"></i>
+          <span>Board Results</span>
+        </li>
+
+        <li onclick="location.href='settings.html'">
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </li>
+
+        <li class="logout-btn"
+          onclick="localStorage.removeItem('bccStudentSession'); window.location.replace('index.html');"">
+          <i class=" fa-solid fa-right-from-bracket"></i>
+          Logout
+        </li>
+
+      </ul>
+
+
+      <div class="motivation">
+
+        <img src="images/trophy.png">
+
+        <h3>Keep Learning,<br>Keep Growing!</h3>
+
+        <p>
+          You are capable of amazing things!
+        </p>
+
+      </div>
+
+    </aside><main class="main-content"><header class="students-header"><div class="header-left"><button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button><div><h1>Our Class Students</h1><p>Class 10 • Section A • Student achievements & goals</p></div></div><a class="header-profile" href="profile.html"><img src="images/student.jpg" alt=""><span>My Profile</span><i class="fa-solid fa-chevron-right"></i></a></header><section class="intro"><div><span class="eyebrow"><i class="fa-solid fa-users"></i> CLASS DIRECTORY</span><h2>Meet your classmates</h2><p>Explore class performance, celebrate achievements and discover what motivates each student.</p></div><div class="intro-icon"><i class="fa-solid fa-graduation-cap"></i></div></section><section class="summary"><div><span>Students listed</span><strong id="studentCount">—</strong></div><div><span>Highest percentage</span><strong id="highestScore">—</strong></div><div><span>Class</span><strong>X – A</strong></div></section><section class="directory"><div class="directory-head"><div><h2>Class Student List</h2><p>Click a student to view their profile and performance</p></div><div class="directory-actions"><select id="sortStudents" aria-label="Sort students"><option value="rank">Rank: highest first</option><option value="roll">Roll: lowest first</option><option value="name">Name: A to Z</option><option value="percentage">Percentage: highest first</option></select><a href="profile.html#myDedication" class="my-goal"><i class="fa-solid fa-pen"></i> Edit My Goal</a></div></div><div class="table-scroll"><table><thead><tr><th>Rank</th><th>Student</th><th>Roll No.</th><th>Marks</th><th>Percentage</th><th>Profile</th></tr></thead><tbody id="studentRows"></tbody></table></div><p id="emptyStudents" class="empty" hidden>No matching students found.</p></section><footer>© 2009 Brilliant Coaching Centre. All Rights Reserved.</footer></main></div><div id="sidebarOverlay" class="sidebar-overlay"></div><div id="studentModal" class="modal" hidden><div class="modal-backdrop" data-close="true"></div><section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalName"><button class="modal-close" id="closeModal" aria-label="Close profile"><i class="fa-solid fa-xmark"></i></button><div id="modalContent"></div></section></div><script src="student-directory-data.js"></script><script src="class-students.js"></script></body></html>
